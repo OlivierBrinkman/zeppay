@@ -1,0 +1,85 @@
+/*Font import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@600;700;800&display=swap');
+
+
+/*END Font import*/
+
+body { 
+    background: whitesmoke;
+}
+
+.container {
+}
+.padding-none {
+    padding: 0px!important;
+}
+
+.margin-none {
+    margin: 0px!important;
+}
+
+.display-flex {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.display-flex >* {
+    width: 100%;;
+}
+
+.align-left{ 
+    text-align: left;
+}
+
+.form-control:focus, .form-control:active {
+    box-shadow: none;
+    border: 1px solid #5657FE!important;
+}
+
+.form-control {
+    height: 60px;
+    background-color: whitesmoke;
+    border: none;
+    font-size: 18px!important;
+    font-weight: 400!important;;
+    border-radius: 10px;
+}
+
+.form-control.amount { 
+margin-right: 10px!important;
+}
+
+.input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    border-radius: 10px;
+}
+
+.form-control textarea {
+    height: unset;
+}
+
+.textarea .input-group-text, textarea {
+    height: 80px!important;
+}
+.input-group-text.end {
+    width: auto;
+}
+.input-group-text {
+    height: 60px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #000;
+    width: 130px;
+    border-radius: 0px;
+}
+
+#active-list-item {
+    background: #5657FE!important;
+    color: #fff;
+    border-radius: 7px;
+}

@@ -1,0 +1,123 @@
+.auth-page {
+    padding: 30px;
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 5%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        min-height: 400px;;
+    background: #fff;
+    border-radius: 20px;
+
+}
+
+.auth-page h1 {
+    color :#000;
+    font-weight: 700;
+    margin-bottom:  5px!important;;
+    font-family: "Poppins", sans-serif;
+
+}
+
+.auth-page h5 {
+    color : #5657FE;
+    font-weight: 700;
+    margin: 0px;
+    font-size: 18px;;
+    font-family: "Roboto", sans-serif;
+
+}
+
+.auth-page form  {
+    margin-top: 30px;
+}
+
+.auth-page button { 
+    margin-top: 10px;
+}
+.auth-page form label {
+    margin-bottom: 0px;;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;;
+    color: #000;
+    font-weight: 700;
+}
+
+.account-finformation { 
+    margin-top: 30px;
+}
+.confirm-email {    
+    margin-top: 30px;
+    text-align: center;
+}
+
+.login-bottom-link {
+    color: #5657FE;
+    margin: 0 auto;
+    justify-content: center;
+display: flex;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center!important;
+    text-decoration: underline;
+    margin: 0px;
+}
+
+.login-bottom-link:hover {
+    cursor: pointer;
+}
+
+.confirm-email h2{
+    text-align: center!important;
+    color: #5657FE;
+    justify-content: center;
+}
+
+.btn-signup {
+    margin-top: 10px;
+    margin-bottom: 20px!important;
+}
+
+.btn-primary.login {
+    background: #5657FE;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    padding: 15px;
+}
+
+.balances-list {
+}
+
+.balance-item-middle h3 {
+    margin: 0px;
+    font-weight: 800;
+    font-family: "Roboto", sans-serif;
+    color: #000;;
+}
+
+.balance-item {
+    padding: 10px;;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+@media only screen and (max-width: 1000px) {
+
+    .auth-page {
+        width: -webkit-fill-available!important;
+        margin: 10px;
+        box-shadow: none;
+        padding-bottom: 30px!important;
+        border: none;
+        margin-top: 170px!important;
+    }
+
+    .auth-page h1 {
+        margin-left: 0px!important;
+    }
+
+}

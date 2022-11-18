@@ -1,17 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import './Styles/Template.css';
+import App from './Pages/Main';
+import merge from 'lodash.merge';
+import {getDefaultWallets,RainbowKitProvider,darkTheme,Theme} from '@rainbow-me/rainbowkit';
+import {chain,configureChains,createClient,WagmiConfig,} from 'wagmi';
+import { infuraProvider } from 'wagmi/providers/infura'
+import { publicProvider } from 'wagmi/providers/public';
+const { chains, provider } = configureChains([chain.mainnet, chain.arbitrum, chain.optimism, chain.polygon, chain.goerli],[infuraProvider({ apiKey: 'a7a5842cf26343fb99eef41781524c81' })],[publicProvider()]) 
+const { connectors } = getDefaultWallets({appName: 'Zeppay',chains});
+const wagmiClient = createClient({autoConnect: true,connectors,provider});
+const root = ReactDOM.createRoot(document.getElementById("root"));
+document.title = 'Zeppay | Empowering Transactional Freedom'
 root.render(
   <React.StrictMode>
-    <App />
+    {/* <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}> */}
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider theme={darkTheme({
+                accentColor: '#5657FE',
+                accentColorForeground: '#fff',
+                borderRadius: 'large',
+                fontStack: 'system',
+                overlayBlur: 'small',
+              })} showRecentTransactions={false}  chains={chains}>
+          <App />
+        </RainbowKitProvider>
+      </WagmiConfig>
+
+    {/* </MoralisProvider>  */}
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

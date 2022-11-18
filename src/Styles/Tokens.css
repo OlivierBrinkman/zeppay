@@ -1,0 +1,117 @@
+.tokens { 
+    top: 0px;
+    background: #fff;
+    z-index: 99;
+    border-radius: 20px;
+    transition: all 0.5s ease-out;
+    position: absolute;
+    top: 0px;
+    width: 100%;;
+    left: 0px;
+    padding: 30px;
+    padding-bottom: 10px;
+    
+}
+
+.tokens.show {
+   margin-bottom: 0px;
+    transition: all 2s ease-out;
+
+}
+
+.tokens-header { 
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tokens-header-title { 
+    width: 100%;
+
+}
+.tokens-header-title h1 {
+    margin: -3px 0px 0px 0px!important;
+}
+
+.tokens-header-close:hover {
+    cursor: pointer;
+}
+
+.token-list {
+    min-height: 100%;
+    height: 100%;
+    overflow: scroll;
+}
+
+.tokens-list ul { 
+    padding: 0px;
+    margin: 0px;
+    max-height: 350px;
+    overflow: scroll;
+}
+.tokens-list-item b {
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+
+    color: #000
+}
+
+.tokens-list-item {
+    padding: 10px 10px; 
+    font-family: "roboto", sans-serif;
+    color: #333;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    gap: 10px;
+    font-weight: 500;
+    border-radius: 10px;
+    position: relative;
+}
+
+.tokens-list-item.selected {
+    background-color: whitesmoke;
+}
+
+.tokens-list-item-arrow { 
+position: absolute;
+right: 10px;
+top: 22px;
+}
+
+.change-token-link {
+    color: #5657FE;
+    font-family: "Poppins", sans-serif;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-weight: 500;
+    font-size: 16px;;
+}
+
+.tokens-list-item:hover { 
+    background: whitesmoke;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 1000px) {
+
+    .tokens {
+        padding:  0px 10px;
+    }
+
+    .tokens-header a { 
+        margin-left: 0px!important;
+    }
+
+
+    .tokens-header-close img {
+        margin-right: 10px;
+        width: 18px;
+    }
+
+    .tokens-list ul {
+        max-height: unset;
+    }
+}

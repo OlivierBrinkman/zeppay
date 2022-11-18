@@ -1,0 +1,35 @@
+.footer { 
+    background: #5657FE;
+    color: #fff;
+    margin-top: 0px;
+    padding: 50px;
+}
+
+.footer-row {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-col {
+    width: 100%;
+}
+
+.footer-col span {
+    width: 100%;
+}
+.footer h3 { 
+    color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .footer { 
+        padding: 20px;
+        bottom: 0px;
+    }
+    .footer-row { 
+        display: block;
+        
+    }
+}
