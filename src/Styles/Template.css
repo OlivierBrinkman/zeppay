@@ -26,9 +26,6 @@ body {
     width: 100%;
 }
 
-.display-flex >* {
-    width: 100%;;
-}
 
 .align-left{ 
     text-align: left;
@@ -40,7 +37,7 @@ body {
 }
 
 .form-control {
-    height: 60px;
+    height: 70px;
     background-color: whitesmoke;
     border: none;
     font-size: 18px!important;
@@ -61,13 +58,13 @@ margin-right: 10px!important;
 }
 
 .textarea .input-group-text, textarea {
-    height: 80px!important;
+    height: 100px!important;
 }
 .input-group-text.end {
     width: auto;
 }
 .input-group-text {
-    height: 60px;
+    height: 70px;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     background: none;

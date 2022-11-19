@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from "react"
-import {encode as base64_encode} from 'base-64';
+import {encode as base64_encode, base64_decode} from 'base-64';
 import { QRCode } from "react-qrcode-logo";
 import { useNavigate } from "react-router-dom";
 import Moralis  from 'moralis';
@@ -23,6 +23,7 @@ import {requestTransactionSignatureMessage} from "../Helpers/Moralis";
 function Create() {
     const navigate = useNavigate();
     const { address, isDisconnected, isConnected } = useAccount()
+    
     const { chain } = useNetwork()
     const [shareText, setShareText] = useState("")
     const [tokenPrice, setTokenPrice] = useState();
@@ -54,7 +55,9 @@ function Create() {
     const { data, isError, isSuccess, signMessage } = useSignMessage({
         message: request.signedMessage,
         onSuccess(data) {
-            finishAndShareRequest(data); 
+            setRequest(request => ({...request,signature:data}));
+            finishAndShareRequest(); 
+
             setIsSigning(false);
           },
           onError(error) {
@@ -151,9 +154,7 @@ function Create() {
     }
 
     
-    async function finishAndShareRequest(data) {
-        console.log(data);
-        setRequest(request => ({...request,signature:data}));
+    async function finishAndShareRequest() {
         const abi = [{path: address+"/request/"+uuid(),content: btoa(JSON.stringify(request)),},];
         const APIKEY = process.env.REACT_APP_MORALIS_API_KEY;
         await Moralis.start({apiKey: APIKEY,});
@@ -166,6 +167,9 @@ function Create() {
             setShareText(text);
         } catch {setIsLoading(false)}
     }
+
+ 
+
 
 
 
@@ -190,12 +194,12 @@ function Create() {
 
     function setSelectedToken(token) {
         setRequest(request => ({...request,token: token}))
-        getTokenPriceSetToken(token)
+        //getTokenPriceSetToken(token)
         setIsTokenPopUp(false);
     }
 
     return (
-        <div class={isMobile?"container page create w3-animate-bottom": "container page create"} >
+        <div class="container page create no-relative">
             {!isShare && isLoading?<><a>{isSigning?"Sign transaction":"2 - 5 seconds"}</a> <h1 id="share-title">{isSigning?"Waiting on signature":"Creating request"}</h1></>:
             <>
             {isShare?<>  <a onClick={()=> setIsShare(false)}> {"<"} Edit request</a><h1 id="share-title">Share</h1></>:<><a>New request</a> <h1 id="share-title">Create</h1></>}</>}
@@ -211,7 +215,7 @@ function Create() {
             </div>
         </div>:<>
             <form>
-                <div class="row ">{!isShare?
+                <div class="row ">{!isShare?<>
                     <div class="create-content">
                         <div class="list-group">
                             {isTokenPopUp? <Tokens selectedToken={request.token} tokenSelect={setSelectedToken} togglestate={closeTokenPopUp}/>: 
@@ -260,29 +264,21 @@ function Create() {
                                         </div> */}
                        
                                     <div class="input-group bottom-mobile">
-                                    
+                                        {!isMobile? 
                                         <button type="button" onClick={()=> storeRequest()} class="btn btn-primary btn-lg btn-generate" disabled={!request.amount || !request.message}><span>Share</span></button>
-
+                                            :<></>}
                                     </div>
-                                </div>
-
-                    </div>:
+                                </div>  </div>
+                                {isMobile? 
+                            <div class="create-mobile-bottom w3-animate-bottom">
+                                    <button type="button" onClick={()=> storeRequest()} class="btn btn-primary btn-lg" disabled={!request.amount || !request.message}><span>Share</span></button>
+                            </div>:<></>}               
+                  </>:
                     
                     <div class="share-content w3-animate-opacity">
-                        {isMobile? <>
-                    {request.amount!=="" && request.message!==""?
-
-                        <button type="button" class="btn btn-primary toggle" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <span>Share</span><img src={Share} width="30"/>
-                        </button>  :
-                        <button type="button" class="btn btn-primary toggle" disabled data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <span>Share</span><img src={Share} width="30"/>
-                        </button>
-                        }</>:
-                        <></>}
-                        <div class="display-flex">
-                        {!isMobile?<>
-                           <QRCode  size="200" value={cdiLink} ecLevel="L" quietZone="5" bgColor="transparent"enableCORS="true"fgColor="#000"qrStyle="dots"logoWidth="30"logoImage={request.token.icon}removeQrCodeBehindLogo="false" eyeRadius={[[20, 0, 0, 0],[0, 20, 0, 0],[0, 0, 0, 20],]}/>
+        
+                        <div class="display-flex social">
+                           <QRCode  size="220" value={cdiLink} ecLevel="L" quietZone="5" bgColor="transparent"enableCORS="true"fgColor="#000"qrStyle="dots"logoWidth="30"logoImage={request.token.icon}removeQrCodeBehindLogo="false" eyeRadius={[[20, 0, 0, 0],[0, 20, 0, 0],[0, 0, 0, 20],]}/>
                                 <div class="socials">
                                         <button type="button" class="btn isdesktop whatsapp">
                                             <img src={Whatsapp} width="30"/>
@@ -292,27 +288,25 @@ function Create() {
                                         </button>    
                                         <button type="button" class="btn isdesktop  messenger">
                                             <img src={Messenger} width="30"/>
-                                        </button>     
+                                        </button>  
+                            
                                         <button type="button" class="btn isdesktop  discord">
                                             <img src={Slack} width="30"/>
                                         </button>   
                                         <button type="button" class="btn isdesktop  wechat">
                                             <img src={WeChat} width="30"/>
                                         </button>    
-                                        <button onClick={()=> navigator.clipboard.writeText(qrResult).then(()=> alert("Request URL copied."))} type="button" class="btn isdesktop copy">
+                                        <button onClick={()=> navigator.clipboard.writeText(cdiLink).then(()=> alert("Request URL copied."))} type="button" class="btn isdesktop copy">
                                             <img src={Copy} width="30"/>
-                                        </button>   
-                                        <a href={cdiLink} type="navigator" class="btn  pay">
-                                            Pay Directly
-                                        </a>   
+                                      </button>
+                                     
                                 </div>   
-                                </>:<></>}    
                             </div>
                             <div class="signature">
                                     <label>Your Signature</label>
-                                    <h5>{request.signature}</h5>
+                                    <code>{request.signature}</code>
                                 </div>
-                               
+                        
                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog  modal-dialog-centered">
                                 <div class="modal-content ">
@@ -337,7 +331,7 @@ function Create() {
                                         <button type="button" class="btn btn-social wechat">
                                             <img src={WeChat} width="50"/>
                                         </button>    
-                                        <button onClick={()=> navigator.clipboard.writeText(qrResult).then(()=> alert("Request URL copied."))} type="button" class="btn btn-social copy">
+                                        <button onClick={()=> navigator.clipboard.writeText(cdiLink).then(()=> alert("Request URL copied."))} type="button" class="btn btn-social copy">
                                             <img src={Copy} width="45"/>
                                         </button>   
                                         <a href={cdiLink} type="navigator" class="btn btn-social pay">

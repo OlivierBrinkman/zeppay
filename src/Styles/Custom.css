@@ -112,9 +112,9 @@ body {
 
 .container.page.create a { 
     color: #5657FE;
-    margin-bottom: -5px!important;
-    font-weight: 700;
+    font-weight: 500;
     margin-left: 0px;
+    font-size: 14px;
 
 }
 
@@ -133,7 +133,8 @@ canvas {
     justify-content: left;
     margin: 0px auto;
     padding:0px;
-    margin-top: 30px;
+    margin-top: 12px;
+    width: 185px!important;
 }
 .app-loader { 
     width: 100%;
@@ -258,17 +259,40 @@ h1 {
     margin-right: 20px;
 }
 
+.no-relative {
+    position: initial!important;;
+}
+
+.create-mobile-bottom {
+    position: absolute;
+    background: #5657FE;
+    width: 100%;
+    left: 0px;
+    height: 100px;
+    padding: 28px;
+    bottom: 0px;
+
+}
+
+.create-mobile-bottom button { 
+    color: #fff;
+    font-size: 20px;
+}
+.btn.disabled, .btn:disabled, fieldset:disabled .btn {
+    background: #5657FE;
+}
+
 .btn-generate {
-    padding: 15px 45px;
+    padding: 15px 40px;
     border-radius: 100px!important;
     background: #5657FE!important;
     margin-top: 20px;
-
+right: 10px;
     align-items: center;
     width: auto!important;
 float: right;
     display: flex;
-    font-size: 18px!important;;
+    font-size: 20px!important;;
 }
 .profile-buttons {
     margin-top: 20px;
@@ -525,8 +549,9 @@ td {
 .btn-primary {
     font-size: 16px;
     width: 100%;;
+    background-color: #5657FE;
+    border: none;
     border-radius: 10px;
-    background: #000000;
     font-weight: 600!important;
     font-family: "Poppins", sans-serif;
 }
@@ -635,7 +660,7 @@ td {
 
 
 .signature {
-    margin-top: 20px;
+    margin: 20px 10px;
 }
 .signature label { 
     font-weight: 600;
@@ -674,41 +699,75 @@ textarea.form-control {
 
 }
 .socials {
-    gap: 10px;  
-    margin-top:10px;
-    flex-wrap: wrap;
+    gap: 5px;  
+    justify-content: center;
+    text-align: center;
     display: flex;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.socials div div{ 
+    width: 33%;
 }
 
 .whatsapp {
     background: #25D366!important;
+    height: 80px;
+    width: 30%;
+     
 }
 
 
 .telegram {
     background: #0088cc!important;
+    height: 80px;  
+    width: 30%;
+   
+
 }
 
 .discord {
     background: #5663F7!important;
+    height: 80px;  
+    width: 30%;
+   
+
 }
 
 .copy { 
     background: #FD0C50!important;
+    height: 80px;  
+    width: 30%;
+   
+
 }
 
 .copy img {
-    width: 30px!important;
+    width: 20px!important;
+    
+
 }
 .wechat {
     background: #09B83E!important;
+    height: 80px;       
+    width: 30%;
+
+
 }
 
+code {
+}
 
 
 .messenger { 
     background: #008AFF!important;
      border: none;
+     width: 30%;
+     height: 80px;;
+
+    height: 80px;     
+
 }
 
 .container.page h1 {
@@ -811,10 +870,11 @@ width: 60%;
 }
 
 .isdekstop { 
-    width: auto!important;
+    width: fill!important;
+    height: 80px!important;
 }
 .isdesktop img {
-    width: 30px!important;
+    width: 35px!important;
 
 }
 
@@ -932,7 +992,9 @@ width: 60%;
    
   }
 
-  
+  button.btn.isdekstop {
+    height: 60px!important;
+  }
 
 .list-group-item:hover {
     background: whitesmoke;
@@ -1032,6 +1094,10 @@ input, textarea {
     z-index: 999;
   }
 
+  .create-content { 
+    position: relative;
+  }
+
   .readonly-field {
     background: #fff!important;;
     border: none;
@@ -1048,7 +1114,7 @@ input, textarea {
 
   .payment-buttons .col.light {
 
-    background: whitesmoke!important;
+    background: white!important;
   }
 
   .payment-buttons .col.light .payment-image {
@@ -1484,7 +1550,9 @@ margin-bottom: 20px
     margin-bottom: 20px;
   }
   .payment-group {
-    padding: 4px 0px;
+    padding: 2px 0px;
+    font-family: "Poppins", sans-serif!important;
+
   }
 
 
@@ -1510,8 +1578,8 @@ margin-bottom: 20px
     margin-top: -3px;
     align-items: center;
     gap: 7px;
-    font-weight: 600;
-    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-family: "roboto", sans-serif;
 }
 
 .accordion-body {
@@ -1526,16 +1594,24 @@ margin-bottom: 20px
 
 }
 .accordion-button {
-    padding: 10px 10px;
+    padding: 15px 10px;
     font-family: "Poppins", sans-serif;
     background: whitesmoke;
+    color: #000!important;
     border-bottom: 0px!important;
     color: #000;
     font-weight: 500!important;;
+    border-radius: 10px!important;
 
 }
 
+.accordion-button a { 
+    color: #000!important;
+}
 
+.tokens-list-item.selected {
+    padding: 15px 10px;
+}
 .input-group-text {
     color: #000;
     font-weight: 500;
@@ -1577,11 +1653,13 @@ margin-bottom: 20px
   }
 
   .payment-group label { 
-    font-weight: 500;
-    margin-bottom: -10px!important;
-    color: rgb(114, 114, 114);
-    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: -5px!important;
+    color: #000!important;
+    font-size: 16px;
     margin: 0px;
+    font-family: "Roboto", sans-serif!important;
+
   }
 
 
@@ -1755,9 +1833,9 @@ margin-top: 10%;
         text-align: center;
         border-radius: 15px;
         padding: 15px 20px;
-        margin-top: 10px;
+        margin-top: 5px;
         height: auto;
-        background: #5657FE!important;;
+       background-color : #5657FE!important;;
         gap: 10px;
         display: flex;
         align-items: center;
@@ -1777,12 +1855,16 @@ margin-top: 10%;
 
   .payment-group.total { 
     text-align: right;
+    font-family: "Roboto", sans-serif!important;
+
 
   }
 
   .payment-group.total div { 
     font-weight: 700;;
     font-size: 28px;
+    font-family: "Poppins", sans-serif!important;
+
   }
   .total-amount div { 
     display: flex;
@@ -1795,6 +1877,8 @@ margin-top: 10%;
     padding: 14px;
     border-radius: 10px 00px 0px 10px;
   }
+
+ 
 
   .total-amount-value {
     background: #5657FE;
@@ -1812,9 +1896,14 @@ margin-top: 10%;
     color: #000;
   }
 
+  .btn-generate:hover {
+    cursor: pointer;
+  }
+
   .payment-buttons .col span {
     width: 100%;
     text-align: left;
+    color: #fff;
     font-size: 16px;
   }
 
@@ -1834,9 +1923,7 @@ margin-top: 10%;
     border-radius: 20px;
 }
 
-.payment-buttons .col.light {
-background: #000;
-  }
+
 
   .fiats {
     display: flex;;
@@ -1852,9 +1939,7 @@ background: #000;
         padding: 100px 5%;
     }
 
-    canvas { 
-        width: 100%!important;
-    }
+
 }
 @media only screen and (max-width: 1000px) {
     .container.page { 
@@ -1892,6 +1977,10 @@ background: #000;
     .payment-details h1 {
         font-size: 22px;
         
+    }
+
+    #livetoast {
+        z-index: 11;
     }
 
     .payment-group label { 
@@ -1945,7 +2034,9 @@ background: #000;
         border-radius: 20px;
         margin-bottom: 20px;
     }
-
+    .display-flex.social { 
+        display: block!important;
+    }
     .create .col-5 {
         padding: 0px;
         background: #fff;
@@ -2041,25 +2132,28 @@ background: #000;
         align-items: center;
         min-height: unset;;
         padding: 15px;
-      
+        color: #000;
+        background: whitesmoke;
         border-radius: 10px!important;
             font-weight: 600
     }
     
   .payment-buttons label { 
-    color: #fff;
+    color: #000;
     font-size: 15px;
   }
 
     .payment-buttons {
         position: fixed;
         bottom: 0px;
+        background: white;
+        box-shadow: rgb(50 50 93 / 25%) 0px 2px 12px -2px, rgb(0 0 0 / 30%) 0px 7px 7px -3px;
         margin: 0px;
         bottom: 0px;
         width: -webkit-fill-available;
         right: 00px;
+        border-radius: 15px 15pxx 0px 0px;
         left: 00px;
-        background:#000;
         padding: 20px 10px 20px 10px;
     }
     .payment-buttons .col img {
@@ -2076,27 +2170,36 @@ background: #000;
     .mobile-payment-group.message {
         width: 100%;
         text-align: center;
-        font-size: 28px;
+        font-size: 24px;
         font-weight: 700;
-        margin-top: 50px;
-        margin-bottom: 15px;
+        margin-top:40px;
+        margin-bottom: 10px;
         font-family: "Poppins", sans-serif;
 
 
     }
 
+    
+
+    .pay-data {
+        width: -webkit-fill-available;;
+        right: 10px;
+        padding: 10px;
+        left: 10px;
+      }
     .mobile-payment-group.total {
-        font-size: 35px;
+        font-size:28px;
         background:#5657FE;;
         border-radius: 20px;
-        padding: 20px;
+        padding: 15px;
         font-family: "Poppins", sans-serif;
         width: fit-content;
+        box-shadow: rgb(50 50 93 / 25%) 0px 6px 12px -2px, rgb(0 0 0 / 30%) 0px 3px 7px -3px;
         margin: 0 auto;
-            color: #fff;
-font-weight: 700;
-        margin-top: 50px;
-        margin-bottom: 50px;
+        color: #fff;
+        font-weight: 700;
+        margin-top: 25px;
+        margin-bottom: 35px;
 
         display: flex;
         align-items: center;
@@ -2105,7 +2208,7 @@ font-weight: 700;
 
     .mobile-payment-group.datetime {
         font-family: "Poppins", sans-serif;
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 600;;
         width: 100%;
         text-align: center;
@@ -2177,6 +2280,7 @@ font-weight: 700;
     .display-flex button {
         display: flex;
         text-align: left;
+        padding: 23px 38px;
 
     }
 
@@ -2435,10 +2539,10 @@ h1#share {
         width: 100%;
     }
     canvas {
-        margin-top:20px;
+        margin-top:10px;
         height: auto!important;
         padding: 0px;
- 
+            width: 100%!important;
         right: 10px;
         border-radius: 20px;;
     }
@@ -2685,6 +2789,7 @@ width: auto;
     font-size: 18px!important;
     border-radius: 15px;
 }
+
 
 textarea {
 

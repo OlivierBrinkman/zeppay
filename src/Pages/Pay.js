@@ -1,12 +1,15 @@
 import {useParams, useNavigate} from "react-router-dom";
 import {decode as base64_decode, encode as base64_encode} from 'base-64';
 import { useState, useEffect } from "react";
-import { erc20ABI, useContract, useAccount, useSendTransaction, useSigner} from 'wagmi';
+import { erc20ABI, useContract, useAccount, useSendTransaction,usePrepareSendTransaction, useSigner} from 'wagmi';
 import uuid from 'react-uuid';
 import { Web3Storage } from 'web3.storage/dist/bundle.esm.min.js'
 import {useNetwork  } from 'wagmi';
 import JsonViewer from "../Webblocks/JsonViewer";
 import {isConsole, isMobile} from "react-device-detect";
+import { ethers } from "ethers";
+import TransferETH from "../Helpers/TransferETH";
+import TransferERC20 from "../Helpers/TransferERC20";
 
 function Pay() {
 
@@ -26,7 +29,8 @@ function Pay() {
     const { data: signer } = useSigner()
 
     useEffect(()=> {
-        retrieveRequest(base);
+       retrieveRequest(base);
+       console.log(erc20ABI);
     },[])
 
     async function retrieveRequest(cdiLink) {
@@ -35,72 +39,43 @@ function Pay() {
         await response.json().then((response) => setRequestForPayment(response))
     }
 
-   async function setRequestForPayment(request) {
-    console.log(request)
-    setRequest(request);
-        setIsFetching(false);
-
-        setTimeout(function(){
+    function errorOccurd(error){
+         if(!error) {
             setIsLoading(false);
-        }, 1500);
-      
+            setIsPaying(false);
+         }
+         
     }
-    useEffect(()=> {
-        setTimeout(() => {
-            setError("")
-        }, "10000")
-    }, [error])
-    
-    const {sendTransaction} = useSendTransaction({
-        mode: 'recklesslyUnprepared',
-        request: {
-          to: request.destination,
-          value: request.amount *1000000,
-        },
-       
-        onError(error) {
-            setError("Something went wrong")
-            setIsLoading(false);
-        },
-        onSuccess(data) {
-           setHash(data.hash);
-           logPayment(data, address)
-        },
-    })
 
-    const contract = useContract({
-        address: '0xd87ba7a50b2e7e660f678a895e4b72e7cb4ccd9c',
-        abi: erc20ABI,
-        signerOrProvider: signer,
-    })
-
-   async function PayWithCrypto() {
-      if(!isConnected) { 
-         alert("No wallet connected");
+   async function setRequestForPayment(request) {
+      setRequest(request);
+         setIsFetching(false);
+         setTimeout(function(){
+               setIsLoading(false);
+         }, 1500);
       }
-      else {
-         setIsPaying(true)
-         setIsLoading(true);
-         if(request.token.contract == "Native") {
-             sendTransaction();
-         } else {
-             try{ 
-                 await contract.approve(request.token.contract,request.amount*1000000);
-                 var result = await contract.transfer(request.destination, request.amount*1000000);
-                 if(result.hash) {                    
-                     setTimeout(function(){
-                         logPayment(result, address);
-                     }, 1500);
-                 }
-         } catch(error) {
-                 setError(error);
-                 setIsLoading(false);
-             }
+      useEffect(()=> {
+         setTimeout(() => {
+               setError("")
+         }, "10000")
+      }, [error])
+
+      async function paymentComplete(data) {
+         if(data.hash) {                    
+            setTimeout(function(){
+               logPayment(data, address);
+            }, 1500);
          }
       }
-    
-    }
 
+      function startPaying(){
+         setIsPaying(true)
+         setIsLoading(true);
+      }
+      
+
+
+  
     async function logPayment(_paymentResult, address, ) {
         const fileBlob = new Blob([{
                 uuid: uuid(),
@@ -135,6 +110,18 @@ function Pay() {
         else {
     return (
     <div class="container page create payment">
+      <div class="position-fixed bottom-0 end-0 p-3">
+         <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+               <strong class="me-auto">Bootstrap</strong>
+               <small>11 mins ago</small>
+               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+               Hello, world! This is a toast message.
+            </div>
+         </div>
+         </div>
         <div class="pay-content">
            {!isLoading? 
            <div class="payment-overview">
@@ -146,18 +133,6 @@ function Pay() {
               <div class="payment-details">
                  <a>Pay with Zeppay</a> 
                  <h1 id="share-title">Confirm</h1>
-                 {/* <div class="payment-group">
-                    <label>For</label>
-                    <div>{request.message}</div>
-                 </div>
-                 <div class="payment-group">
-                    <label>Price in USD</label>
-                    <div>${parseInt(request.price).toLocaleString()},-</div>
-                 </div>
-                 <div class="payment-group total">
-                    <label>Total</label>
-                    <div><img src={request.token.icon} width="20"/> {request.amount} {request.token.symbol}</div>
-                 </div> */}
                  {!isMobile? <>
                 
                  <div class="payment-group">
@@ -183,6 +158,20 @@ function Pay() {
                  <div><img src={request.token.icon} width="38"/> {request.amount} {request.token.symbol}</div>
                  </div>
                   </>}
+
+                
+
+              </div>
+              <div class="payment-buttons">
+                 <div class="">
+                  {request.token.contract == "Native"?
+                  <TransferETH errorOccurd={errorOccurd} startPaying={startPaying} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
+                   :
+                   <TransferERC20 errorOccurd={errorOccurd} decimals={request.token.decimals} startPaying={startPaying} contract={request.token.contract_5} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
+                   }
+                 </div>
+              </div>
+              <div class="pay-data">
                  <div class="accordion accordion-flush" id="accordionFlushExample">
                     <div class="accordion-item">
                        <h2 class="accordion-header" id="flush-headingOne">
@@ -216,23 +205,11 @@ function Pay() {
                        </div>
                     </div>
                  </div>
-                 {/* 
-                 
-                 */}
                  
                  <div class="payment-group">
                     <JsonViewer request={request}/>
                  </div>
-                
-              </div>
-              <div class="payment-buttons w3-animate-bottom">
-                 <label>Choose a payment method</label>
-                 <div class="">
-                    <div onClick={()=> PayWithCrypto()}  class="col pay-option">
-                       <span>Pay with {request.amount } {request.token.symbol}</span><img src={request.token.icon} height="30"/>
-                    </div>
                  </div>
-              </div>
            </div>
            : 
            <div class="loading-transactions">

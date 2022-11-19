@@ -19,7 +19,7 @@ export const ethContracts = {
           "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@bea1a9722a8c63169d" +
           "cc06e86182bf2c55a76bbc/svg/color/usdc.svg",
         contract: "0x2f3A40A3db8a7e3D09B0adfEfbCe4f6F81927557",
-        contract_5: "0x07865c6e87b9f70255377e024ace6630c1eaa37f",
+        contract_5: "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C",
         decimals: 6,
         isActive: true,
         color: "#3E73C4"
@@ -30,8 +30,7 @@ export const ethContracts = {
         symbol: "USDT",
         icon: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@bea1a9722a8c63169dcc06e86182bf2c55a76bbc/svg/color/usdt.svg",
         contract: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-        contract_5:"0x56705db9f87c8a930ec87da0d458e00a657fccb0 ",
-
+        contract_5:"0xe802376580c10fe23f027e1e19ed9d54d4c9311e",
         decimals: 6,
         isActive: true,
         color: "#92D0BD"
@@ -45,7 +44,7 @@ export const ethContracts = {
           "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@bea1a9722a8c63169d" +
           "cc06e86182bf2c55a76bbc/svg/color/dai.svg",
         contract: "0x6b175474e89094c44da98b954eedeac495271d0f",
-        contract_5:"0xE68104D83e647b7c1C15a91a8D8aAD21a51B3B3E ",
+        contract_5:"0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60 ",
         decimals: 18,
         isActive: true,
         color: "#F4B731"
@@ -58,7 +57,7 @@ export const ethContracts = {
           "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@bea1a9722a8c63169d" +
           "cc06e86182bf2c55a76bbc/svg/color/bat.svg",
         contract: " 0x6b175474e89094c44da98b954eedeac495271d0f",
-        contract_5:"0xa230021104F8eC1D36367090a61ffA3B1C66C330 ",
+        contract_5:"0x70cBa46d2e933030E2f274AE58c951C800548AeF ",
         decimals: 18,
         isActive: true,
         color: "#FF5000"
