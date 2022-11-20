@@ -7,11 +7,11 @@ import {getDefaultWallets,RainbowKitProvider,darkTheme,Theme} from '@rainbow-me/
 import {chain,configureChains,createClient,WagmiConfig,} from 'wagmi';
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public';
-const { chains, provider } = configureChains([chain.mainnet, chain.arbitrum, chain.optimism, chain.polygon, chain.goerli],[infuraProvider({ apiKey: 'a7a5842cf26343fb99eef41781524c81' })],[publicProvider()]) 
+const { chains, provider } = configureChains([chain.mainnet, chain.goerli],[infuraProvider({ apiKey: 'a7a5842cf26343fb99eef41781524c81' })],[publicProvider()]) 
 const { connectors } = getDefaultWallets({appName: 'Zeppay',chains});
 const wagmiClient = createClient({autoConnect: true,connectors,provider});
 const root = ReactDOM.createRoot(document.getElementById("root"));
-document.title = 'Zeppay | Empowering Transactional Freedom'
+
 root.render(
   <React.StrictMode>
     {/* <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}> */}
@@ -22,7 +22,7 @@ root.render(
                 borderRadius: 'large',
                 fontStack: 'system',
                 overlayBlur: 'small',
-              })} showRecentTransactions={false}  chains={chains}>
+              })} showRecentTransactions={true}  chains={chains}>
           <App />
         </RainbowKitProvider>
       </WagmiConfig>

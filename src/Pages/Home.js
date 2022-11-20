@@ -1,26 +1,26 @@
-import ArrowDown from "../Assets/arrow.png";
-import ID from "../Assets/id.png";
-import Receipt from "../Assets/receipt.png";
-import World from "../Assets/world.png";
-import Lock from "../Assets/lock.png";
-import Bolt from "../Assets/bolt.png";
-import Apple from "../Assets/apple.png";
-import Google from "../Assets/google.png";
-import Footer from '../Webblocks/Footer';
 
-import Visa from "../Assets/visa.png";
-import MC from "../Assets/mc.png";function Home() {
+import Construction from "../Assets/construction.png"
+import { useNavigate } from "react-router-dom";
+
+function Home() {
+    const navigate = useNavigate();
+    document.title = 'Zeppay | Home '
     return (
         <div class="home w3-animate-opacity">
             <div class="home-block-1">
-                <div class="typewriter">
-                    <h1 class="typed-out">Empowering<span> Transactional</span> Freedom</h1>
+                <div class="flex-div"><div><h1>Crypto payment infrastructure,</h1><h1>Empowering Africa based remote workers.</h1></div></div>
+                <div class="home-construction-text">
+                   <div><img src={Construction} width="30"/> <h3>Under Construction</h3></div>
+                <p>We are currently still in the test phase and we are working hard to launch as soon as possible.
+                If you have any questions, you can always leave a message via the form or send us an email to info@zeppay.app
+                </p>
+                <div>
+                <button class="btn-contact" onClick={()=> navigate("/contact")}>Leave a message</button>  <button onClick={()=> navigate("/create")} class="btn-beta">Use beta</button>
+
                 </div>
-                <div class="scroll-indicator">
-                    <div class="scroll"><img src={ArrowDown} width="40"/></div>
                 </div>
             </div>
-            <div class="container-full home-block-2">
+            {/* <div class="container-full home-block-2">
                 <div class="row">
                     <div class="col-8">
                     <h1>Pay and get paid in cryptos</h1>
@@ -202,8 +202,9 @@ import MC from "../Assets/mc.png";function Home() {
                 </div>
             </div>
             </div>       
-            </div>
-     <Footer/>
+            </div> */}
+            <div class="background-overlay overlay-login w3-animate-bottom"></div>
+
         </div>
     )
 }

@@ -4,16 +4,22 @@ import {encode as base64_encode, base64_decode} from 'base-64';
 import { QRCode } from "react-qrcode-logo";
 import { useNavigate } from "react-router-dom";
 import Moralis  from 'moralis';
+import { useAccount, useNetwork ,useSignMessage } from 'wagmi';
+
 import { EvmChain } from '@moralisweb3/evm-utils';
 import { ethContracts } from "../Helpers/ETHContracts";
+import { toast, Toaster, ToastBar } from 'react-hot-toast';
+
 import Whatsapp from "../Assets/whatsapp.png";
-import Telegram from "../Assets/telegram.png";
+import Telegram from "../Assets/tele.png";
 import Copy from "../Assets/copy.png";
-import Share from "../Assets/share.png";
-import WeChat from "../Assets/wechat.png";
+import Discord from "../Assets/discord.png";
 import Messenger from "../Assets/messenger.png";
-import { useAccount, useNetwork ,useSignMessage } from 'wagmi';
 import Slack from "../Assets/slack.png";
+import SMS from "../Assets/sms.png";
+import Gmail from "../Assets/gmail.png";
+import VK from "../Assets/vk.png";
+import Sign from "../Assets/sign.png";
 import uuid from 'react-uuid';
 import Tokens from "../Webblocks/Tokens";
 import {isMobile} from "react-device-detect";
@@ -23,7 +29,6 @@ import {requestTransactionSignatureMessage} from "../Helpers/Moralis";
 function Create() {
     const navigate = useNavigate();
     const { address, isDisconnected, isConnected } = useAccount()
-    
     const { chain } = useNetwork()
     const [shareText, setShareText] = useState("")
     const [tokenPrice, setTokenPrice] = useState();
@@ -33,7 +38,7 @@ function Create() {
     const [cdiLink, setCdiLink] = useState("");
     const [isShare, setIsShare] = useState(false);
     const [isSigning, setIsSigning] = useState(false);
-
+    document.title = 'Zeppay | Create '
     const [isTokenPopUp, setIsTokenPopUp] = useState(false);
     const [transactionToSign, setTransactionToSign] = useState();
     const [rawFiles, setRawFiles] = useState([])
@@ -61,9 +66,11 @@ function Create() {
             setIsSigning(false);
           },
           onError(error) {
-            setIsLoading(false)
-            console.log(error);
+            setIsLoading(false);
+
             setIsSigning(false);
+            toast("Signature declined");
+
           }
     })
 
@@ -116,9 +123,7 @@ function Create() {
             if(savedPrice) {
                 setTokenPrice(savedPrice);
             } else {
-                if(token.contract=="Native") { 
-                    setTokenPrice(1400);
-                } else {
+           
                     
                     const chain = EvmChain.ETHEREUM;
                     const address = token.contract;
@@ -127,15 +132,21 @@ function Create() {
                     const usdPrice = Number.parseFloat(response.data.usdPrice).toFixed(2) 
                     sessionStorage.setItem(saveLabel, usdPrice);
                     setTokenPrice(usdPrice);
-                }
-            }
-        } else {}
+                
+
+        }
     }
+}
 
     async function storeRequest() { 
-        setIsSigning(true)
-        setIsLoading(true);
-        await prepareRequestSignature();       
+        if(request.amount == 0) { 
+            toast("Missing amount");
+        } else {
+            setIsSigning(true)
+            setIsLoading(true);
+            await prepareRequestSignature();       
+        }
+       
     }
 
     async function prepareRequestSignature() { 
@@ -145,7 +156,7 @@ function Create() {
     }
     
     async function getTransactionSignatureMessage() { 
-        const message = await requestTransactionSignatureMessage(address, EvmChain.GOERLI, 'evm' );
+        const message = await requestTransactionSignatureMessage(address, EvmChain.ETHEREUM, 'evm' );
         return message;        
     }
     
@@ -194,12 +205,12 @@ function Create() {
 
     function setSelectedToken(token) {
         setRequest(request => ({...request,token: token}))
-        //getTokenPriceSetToken(token)
+        getTokenPriceSetToken(token)
         setIsTokenPopUp(false);
     }
 
-    return (
-        <div class="container page create no-relative">
+    return (<div class=" w3-animate-bottom">
+        <div class="container page create no-relative ">
             {!isShare && isLoading?<><a>{isSigning?"Sign transaction":"2 - 5 seconds"}</a> <h1 id="share-title">{isSigning?"Waiting on signature":"Creating request"}</h1></>:
             <>
             {isShare?<>  <a onClick={()=> setIsShare(false)}> {"<"} Edit request</a><h1 id="share-title">Share</h1></>:<><a>New request</a> <h1 id="share-title">Create</h1></>}</>}
@@ -217,6 +228,8 @@ function Create() {
             <form>
                 <div class="row ">{!isShare?<>
                     <div class="create-content">
+                    <Toaster   toastOptions={{className: 'toaster toaster-danger',}}/>
+
                         <div class="list-group">
                             {isTokenPopUp? <Tokens selectedToken={request.token} tokenSelect={setSelectedToken} togglestate={closeTokenPopUp}/>: 
                                 <div   class="tokens-list-item selected"><img src={request.token.icon} width="34"/> <b>{request.token.symbol}</b> - {request.token.name} <span onClick={()=> setIsTokenPopUp(true)} class="change-token-link">Select</span></div>
@@ -265,13 +278,13 @@ function Create() {
                        
                                     <div class="input-group bottom-mobile">
                                         {!isMobile? 
-                                        <button type="button" onClick={()=> storeRequest()} class="btn btn-primary btn-lg btn-generate" disabled={!request.amount || !request.message}><span>Share</span></button>
+                                        <button type="button" onClick={()=> storeRequest()} class="btn btn-primary btn-lg btn-generate btn-sign" ><span>Sign</span><img src={Sign} width="20"/></button>
                                             :<></>}
                                     </div>
                                 </div>  </div>
                                 {isMobile? 
                             <div class="create-mobile-bottom w3-animate-bottom">
-                                    <button type="button" onClick={()=> storeRequest()} class="btn btn-primary btn-lg" disabled={!request.amount || !request.message}><span>Share</span></button>
+                                    <button type="button" onClick={()=> storeRequest()} class="btn btn-primary btn-lg btn-sign" ><span>Sign</span><img src={Sign} width="20"/></button>
                             </div>:<></>}               
                   </>:
                     
@@ -280,26 +293,45 @@ function Create() {
                         <div class="display-flex social">
                            <QRCode  size="220" value={cdiLink} ecLevel="L" quietZone="5" bgColor="transparent"enableCORS="true"fgColor="#000"qrStyle="dots"logoWidth="30"logoImage={request.token.icon}removeQrCodeBehindLogo="false" eyeRadius={[[20, 0, 0, 0],[0, 20, 0, 0],[0, 0, 0, 20],]}/>
                                 <div class="socials">
-                                        <button type="button" class="btn isdesktop whatsapp">
-                                            <img src={Whatsapp} width="30"/>
-                                        </button> 
-                                        <button type="button" class="btn isdesktop telegram">
-                                            <img src={Telegram} width="30"/>
-                                        </button>    
-                                        <button type="button" class="btn isdesktop  messenger">
-                                            <img src={Messenger} width="30"/>
-                                        </button>  
-                            
-                                        <button type="button" class="btn isdesktop  discord">
-                                            <img src={Slack} width="30"/>
-                                        </button>   
-                                        <button type="button" class="btn isdesktop  wechat">
-                                            <img src={WeChat} width="30"/>
-                                        </button>    
-                                        <button onClick={()=> navigator.clipboard.writeText(cdiLink).then(()=> alert("Request URL copied."))} type="button" class="btn isdesktop copy">
-                                            <img src={Copy} width="30"/>
-                                      </button>
+                                    <div> <a type="button" target="_blank" href={"https://api.whatsapp.com/send?text=" + shareText}>
+                                        <img src={Whatsapp} width="18"/>  Whatsapp
+                                        </a> </div>
+                                    <div>       <a type="button" target="_blank" href={"https://t.me/share/url?url="+encodeURIComponent(cdiLink)+"&text=" + encodeURIComponent(shareText)}>
+                                        <img src={Telegram} width="18"/> Telegram
+
+                                        </a>  </div>
+                                    <div>      <a type="button" href={"https://www.facebook.com/sharer.php?u="+cdiLink}>
+                                        <img src={Messenger} width="18"/> Messenger
+                                        </a>  </div>
+                                    <div>   <a type="button" onClick={()=> navigator.clipboard.writeText(shareText).then(()=>   window.location.assign("slack://app?&tab=messages", "_blank"))}>
+                                        <img src={Slack} width="18"/> Slack
+                                        </a>  </div>
+                                    <div>     <a type="button" onClick={()=> navigator.clipboard.writeText(shareText).then(()=>   window.location.assign("slack://app?&tab=messages", "_blank"))}>
+                                        <img src={Discord} width="18"/>Discord
+                                        </a>   </div>
+                                    <div>      <a type="button" href={"http://vk.com/share.php?url="+encodeURIComponent(cdiLink)+"&title=Pay me "+request.amount +"" +request.token.symbol+"&comment="+shareText}>
+                                        <img src={VK} width="18"/>VK
+                                        </a>  </div>
+                                    <div>        <a target={"_blank"} href={"mailto:subject=Pay me "+request.amount +"" +request.token.symbol+"&body="+shareText} type="button">
+                                        <img src={Gmail} width="18"/> Gmail
+                                      </a></div>
+                                    <div>        <a href={"sms:{phone_number}?body="+shareText} type="button">
+                                        <img src={SMS} width="18"/> SMS
+                                      </a></div>
+                                    <div>  <a onClick={()=> navigator.clipboard.writeText(cdiLink).then(()=> alert("Request URL copied."))} type="button">
+                                           <img src={Copy} width="18"/> Copy
+                                      </a></div>
+                                       
+                                   
+                                  
+                                      
+                                   
+                                   
+                                
+                                
+                                    
                                      
+
                                 </div>   
                             </div>
                             <div class="signature">
@@ -316,21 +348,7 @@ function Create() {
 
                               <div class="modal-body">
                                     <div class="socials">
-                                        <button type="button" class="btn btn-social whatsapp">
-                                            <img src={Whatsapp} width="50"/>
-                                        </button> 
-                                        <button type="button" class="btn btn-social telegram">
-                                            <img src={Telegram} width="50"/>
-                                        </button>    
-                                        <button type="button" class="btn btn-social messenger">
-                                            <img src={Messenger} width="50"/>
-                                        </button>     
-                                        <button type="button" class="btn btn-social discord">
-                                            <img src={Slack} width="50"/>
-                                        </button>   
-                                        <button type="button" class="btn btn-social wechat">
-                                            <img src={WeChat} width="50"/>
-                                        </button>    
+               
                                         <button onClick={()=> navigator.clipboard.writeText(cdiLink).then(()=> alert("Request URL copied."))} type="button" class="btn btn-social copy">
                                             <img src={Copy} width="45"/>
                                         </button>   
@@ -348,7 +366,8 @@ function Create() {
             </>}
             <div class="background-overlay top"></div>
 
-            <div class="background-overlay"></div>
+            <div class="background-overlay "></div>
+        </div>
         </div>
     )
 }

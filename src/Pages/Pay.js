@@ -10,10 +10,13 @@ import {isConsole, isMobile} from "react-device-detect";
 import { ethers } from "ethers";
 import TransferETH from "../Helpers/TransferETH";
 import TransferERC20 from "../Helpers/TransferERC20";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 function Pay() {
 
     const {base} = useParams();  
+    
     const { address ,isConnected} = useAccount()
     const token = process.env.REACT_APP_STORAGE_API_KEY
     const client = new Web3Storage({ token })
@@ -24,13 +27,12 @@ function Pay() {
     const [hash, setHash] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
     const [isPaying, setIsPaying] = useState(false);
-
+    document.title = 'Zeppay | Pay '
     const [amount, setAmount] = useState(0);
     const { data: signer } = useSigner()
 
     useEffect(()=> {
        retrieveRequest(base);
-       console.log(erc20ABI);
     },[])
 
     async function retrieveRequest(cdiLink) {
@@ -40,10 +42,11 @@ function Pay() {
     }
 
     function errorOccurd(error){
-         if(!error) {
+
             setIsLoading(false);
             setIsPaying(false);
-         }
+            toast("Payment Failed")
+
          
     }
 
@@ -110,21 +113,11 @@ function Pay() {
         else {
     return (
     <div class="container page create payment">
-      <div class="position-fixed bottom-0 end-0 p-3">
-         <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-               <strong class="me-auto">Bootstrap</strong>
-               <small>11 mins ago</small>
-               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-               Hello, world! This is a toast message.
-            </div>
-         </div>
-         </div>
         <div class="pay-content">
            {!isLoading? 
-           <div class="payment-overview">
+           <div class="payment-overview w3-animate-bottom">
+                    <Toaster   toastOptions={{className: 'toaster toaster-danger',}}/>
+
               {error?
               <div class="alert alert-primary" role="alert">
                  {error} 
@@ -132,7 +125,9 @@ function Pay() {
               :<></>}
               <div class="payment-details">
                  <a>Pay with Zeppay</a> 
+                 {isMobile ?<></>:
                  <h1 id="share-title">Confirm</h1>
+              }
                  {!isMobile? <>
                 
                  <div class="payment-group">
@@ -148,30 +143,31 @@ function Pay() {
                     <div><img src={request.token.icon} width="20"/> {request.amount} {request.token.symbol}</div>
                  </div>
                  </>: <>
-                 <div class="mobile-payment-group message">
-                   <span>{request.message}</span>
-                 </div>
-                 <div class="mobile-payment-group datetime">
-                    <div>{request.dateCreated.replace('T', '')}</div>
-                 </div>
                  <div class="mobile-payment-group total">
                  <div><img src={request.token.icon} width="38"/> {request.amount} {request.token.symbol}</div>
                  </div>
+                
+                 <div class="mobile-payment-group datetime">
+                    {/* <div>{request.dateCreated.replace('T', '')}</div> */}
+                 </div>
+               
                   </>}
 
                 
 
               </div>
-              <div class="payment-buttons">
-                 <div class="">
-                  {request.token.contract == "Native"?
-                  <TransferETH errorOccurd={errorOccurd} startPaying={startPaying} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
-                   :
-                   <TransferERC20 errorOccurd={errorOccurd} decimals={request.token.decimals} startPaying={startPaying} contract={request.token.contract_5} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
-                   }
-                 </div>
-              </div>
+    
               <div class="pay-data">
+                              <div class="payment-group large">
+                                <label>For</label> 
+                                <div>{request.destination.substring(0, 10)+"..."+request.destination.substring(request.destination.length - 10,request.destination.length)}</div>
+                             </div>
+                             <div class="payment-group large">
+                                <label>Price in USD</label> 
+                                <div>${parseInt(request.price).toLocaleString()},-</div>
+                             </div>
+                          
+                    
                  <div class="accordion accordion-flush" id="accordionFlushExample">
                     <div class="accordion-item">
                        <h2 class="accordion-header" id="flush-headingOne">
@@ -183,6 +179,10 @@ function Pay() {
                           <div class="accordion-body">
                              <div class="payment-group">
                                 <label>Send to</label> 
+                                <div>{request.destination.substring(0, 10)+"..."+request.destination.substring(request.destination.length - 10,request.destination.length)}</div>
+                             </div>
+                             <div class="payment-group">
+                                <label>Date/Time created</label> 
                                 <div>{request.destination.substring(0, 10)+"..."+request.destination.substring(request.destination.length - 10,request.destination.length)}</div>
                              </div>
                              <div class="payment-group">
@@ -210,9 +210,24 @@ function Pay() {
                     <JsonViewer request={request}/>
                  </div>
                  </div>
+                 <div class="payment-buttons">
+                  {isConnected?
+                 <div class="">
+                  {request.token.contract == "Native"?
+                  <TransferETH toaster={toast} errorOccurd={errorOccurd} startPaying={startPaying} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
+                   :
+                   <TransferERC20 toaster={toast} errorOccurd={errorOccurd} decimals={request.token.decimals} startPaying={startPaying} contract={request.token.contract} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
+
+                   }
+
+                 </div>: 
+                 <div class="not-connected">
+                     No wallet connected. 
+                  </div>}
+              </div>
            </div>
            : 
-           <div class="loading-transactions">
+           <div class="loading-transactions pay">
               <div class="sk-chase">
                  <div class="sk-chase-dot"></div>
                  <div class="sk-chase-dot"></div>
@@ -222,13 +237,20 @@ function Pay() {
                  <div class="sk-chase-dot"></div>
               </div>
               {isPaying?
-              <h3>Processing payment...</h3>
+              <>    
+
+              <h3>Processing payment...</h3></>
               :<></> }
            </div>
            }
         </div>
+        {isMobile? 
+        <div class="background-overlay-mobile-pay"></div>
+
+        :<>
         <div class="background-overlay top"></div>
         <div class="background-overlay"></div>
+        </>}
      </div>
         )
     }

@@ -1,22 +1,15 @@
-import { erc20ABI, useAccount, useContract,useProvider, useSigner } from 'wagmi'
-import { ethers } from "ethers";
-import React, {useEffect} from "react";
-import Moralis from 'moralis';
-import ABI from "./ABI.json";
-import Web3 from "web3";
+import { erc20ABI, useContract, useSigner } from 'wagmi'
+import React from "react";
+import toast, { Toaster } from 'react-hot-toast';
+
 function TransferERC20(props) {
 
-   const { address } = useAccount()
-   const provider = useProvider()
    const { data: signer} = useSigner()
-   const BigNumber = require("bignumber.js")
-
-
-   
    const contract = useContract({
       address: props.contract,
       abi: erc20ABI,
       signerOrProvider: signer,
+
     })
 
    function strtodec(amount,dec){
@@ -29,16 +22,28 @@ function TransferERC20(props) {
 
    async function send() {
       props.startPaying()
-     let result = await contract.connect(signer).transfer(props.address, strtodec(props.amount, props.decimals))   
- 
-      if(result) {
-       console.log(result)
+      try {
+         await contract.connect(signer).transfer(props.address, strtodec(props.amount, props.decimals)).then(response => {
+            console.log(response);
+            props.paymentComplete(response)
+         }).catch(()=> props.errorOccurd())
+      } catch(ex) {
+         toast("Payment declined")
+         props.errorOccurd()
       }
+     
    }
+
+   function toastMessage(Message) {
+      toast(Message);
+      props.errorOccurd()
+   }
+  
  return (
  <div>
     <div onClick={()=> send()}  class="col pay-option">
         <span>Pay with {props.amount } {props.symbol}</span><img src={props.icon} height="30"/>
+
     </div>
  </div>
  )

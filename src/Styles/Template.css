@@ -26,6 +26,11 @@ body {
     width: 100%;
 }
 
+.notfound {
+    padding: 100px!important;
+    text-align: center;
+}
+
 
 .align-left{ 
     text-align: left;

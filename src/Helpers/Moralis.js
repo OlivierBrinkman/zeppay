@@ -2,6 +2,7 @@ import Moralis from 'moralis';
 import jwt from "jsonwebtoken";
 import { createClient } from '@supabase/supabase-js'
 import web3 from "web3";
+
 async function initMoralis() {
   await Moralis.start({apiKey: process.env.REACT_APP_MORALIS_API_KEY,});
 }
@@ -16,11 +17,9 @@ export async function createSignedAccount() {
   .then(console.log);
 }
 
-
 export async function verifySignature(_message, _signature) { 
- await initMoralis()
-  
-  // Values provided by the user
+ 
+  await initMoralis()
   const message = _message;
   const signature = _signature;
   const network = "evm";
@@ -31,7 +30,6 @@ export async function verifySignature(_message, _signature) {
     network: network,
   });
 
-  console.log(verifiedData)
 }
 
 export async function requestMessage(address, chain, network) {
@@ -75,9 +73,9 @@ export async function requestTransactionSignatureMessage(addressTo, chain, netwo
     const { message } = result.toJSON();
   
     return message;
-  }
+}
 
-  export async function verifyMessage(signature, message) {
+export async function verifyMessage(signature, message) {
     const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_ANON_KEY);
     await Moralis.start({apiKey: process.env.REACT_APP_MORALIS_API_KEY,});
     const _message = message
@@ -116,6 +114,6 @@ export async function requestTransactionSignatureMessage(addressTo, chain, netwo
 
         console.log(token)
       
-  }
+}
 
   

@@ -4,7 +4,7 @@ font-family: "Roboto", sans-serif;*/
 
 body { 
     font-family: "Roboto", sans-serif;
-    background: #fff;
+    background: #f2f2f2;
 }
 .navbar { 
     font-family: "Poppins", sans-serif;
@@ -13,17 +13,23 @@ body {
     position: sticky;
     background-color: rgba(255, 255, 255, 1);
     top: 0px;
-    z-index: 100;
+    z-index: 1;;
 }
 .results {
     display: flex;;
+}
+
+.mobile-connect-button > * {
+    font-weight: 500!important;;
 }
 
 [data-rk] {
     height: 100%;
 }
 
-
+.container.page.contact {
+    padding: 30px;
+}
 
 .navbar-brand { 
     font-weight: 700;
@@ -62,6 +68,66 @@ body {
     border: 1px solid #ced4da;
 }
 
+.contact form .form-group label {
+    width: 140px;
+    font-weight: 600;
+    color: #000;
+    font-size: 18px;
+} 
+.contact form .form-group img {
+    position: absolute;
+    top: 49px;
+    left: 11px;
+    width: 18px;;
+}
+
+.contact.thanks {
+}
+
+.contact.thanks h3 {
+    justify-content: center;
+}
+
+.contact form .form-group { 
+    padding: 5px 0px ;
+    align-items: center;
+    position: relative;
+
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.contact h1, .contact a {
+    margin-left: 0px!important;
+}
+
+.contact form .form-group input, .contact form .form-group textarea {
+    padding: 15px 35px;
+    width: 100%;;
+    background: #f2f2f2;
+    border-radius: 10px;
+    border: none;
+}
+.btn-send span { 
+    width: 100%;
+}
+
+
+.btn-send {
+    display: flex;
+    text-align: left;
+    align-items: center;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    padding: 20px;
+    background: #5657FE;
+    color: #fff;
+    font-weight: 600;
+    float: right;
+}
 
 .navbar-collapse {
 }
@@ -84,7 +150,6 @@ body {
     background: white;
     width: 500px;
     min-height: 500px;;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     border-radius: 20px;
     margin: 50px  auto;
  
@@ -134,7 +199,8 @@ canvas {
     margin: 0px auto;
     padding:0px;
     margin-top: 12px;
-    width: 185px!important;
+    height: 280px!important;
+    width: auto!important;;
 }
 .app-loader { 
     width: 100%;
@@ -184,7 +250,7 @@ canvas {
     color: rgb(179, 179, 179);
 }
 .btn-connect-wallet:hover {
-    background: whitesmoke;
+    background: #f2f2f2;
 }
 .connect-providers {
     background: #fff;
@@ -255,10 +321,6 @@ h1 {
     font-family: "Poppins", sans-serif!important;
 }
 
-.nav-link.contact {
-    margin-right: 20px;
-}
-
 .no-relative {
     position: initial!important;;
 }
@@ -266,12 +328,18 @@ h1 {
 .create-mobile-bottom {
     position: absolute;
     background: #5657FE;
-    width: 100%;
+    width:-webkit-fill-available;
+    border-radius: 20px;
     left: 0px;
-    height: 100px;
-    padding: 28px;
+    margin: 10px;
+    padding: 20px;
     bottom: 0px;
 
+}
+
+.btn-sign span{ 
+    width: 100%;
+    text-align: left;
 }
 
 .create-mobile-bottom button { 
@@ -281,7 +349,17 @@ h1 {
 .btn.disabled, .btn:disabled, fieldset:disabled .btn {
     background: #5657FE;
 }
+.btn-sign {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
+.contact form label { 
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
 .btn-generate {
     padding: 15px 40px;
     border-radius: 100px!important;
@@ -292,7 +370,7 @@ right: 10px;
     width: auto!important;
 float: right;
     display: flex;
-    font-size: 20px!important;;
+    font-size: 18px!important;;
 }
 .profile-buttons {
     margin-top: 20px;
@@ -345,9 +423,15 @@ a {
     box-shadow: none;
 }
 
-.navbar-nav.me-auto.mb-lg-0 a {
-    margin-right: 10px;
+.contact form {
+    position: relative;
 }
+
+.navbar-toggler {
+    margin: 0px!important;
+    padding: 0px;
+}
+
 
 .hamburger-menu {
     width: 30px;
@@ -385,17 +469,16 @@ a {
   
 }
 
+.container.nav  {
+    max-width: unset;;
+    padding: 0px 20px;
+}
+
 .container-full { 
     width: 100%;
     padding: 100px 12%;
 }
-.home-block-1 {
-    position: fixed;
-    height: 100vh;
-    z-index: -1;
-    width: 100%;
-    top: 0;
-}
+
 
 .typewriter {
     width: min-content;
@@ -405,11 +488,12 @@ a {
     display: flex;
     justify-content: center;
 }
-
+.home-block-2, .home-block-3, .home-block-4 {
+    display: none;
+}
 
 .home-block-2 {
     background: black;;
-    margin-top: 100vh;
     color: #fff;
 }
 
@@ -509,7 +593,9 @@ h4, h3 {
 
     font-family: "Poppins", sans-serif;
 }
-
+.home-block-1 div h1:last-child {
+    color: #5657FE;
+}
 .share-amount-token {
     text-align: center;
     padding: 10px 20px;
@@ -524,9 +610,80 @@ h4, h3 {
     border-radius: 10px;
 }
 
-.home-block-1 {
+.home-construction-text { 
+    margin-top: 100px;
+    width: 500px;
+    font-size: 16px;
+    font-weight: 400;;
+    color: #000;
+    font-family: "Roboto", sans-serif!important;
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+
+
+.home-construction-text h3 { 
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0px;
+    padding: 0px;
+}
+
+.home-construction-text div {
     display: flex;
     align-items: center;
+    gap: 10px;
+    margin: 10px 0px;
+}
+
+
+.home-block-1 {
+    padding: 8%;
+    width: 90%;
+    margin: 0 auto;
+    height: 82vh;
+}
+
+.flex-div {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.home-block-1 button { 
+    width: auto;
+    padding: 15px 20px; 
+    border-radius: 15px;
+    font-size: 16px;;
+    border: none;
+    font-family: "Poppins", sans-serif!important;
+    margin-top: 20px;
+    margin-right: 0px;
+}
+
+.home-construction-text div:last-child {
+    gap: 10px;
+}
+.btn-contact { 
+    background: #000;
+    color: #fff;
+    font-weight: 600;
+
+}
+
+.btn-beta {
+    background: #5657FE;
+    color: #fff;
+    width: 100%;
+    font-weight: 600;
+
+}
+
+.home-block-1 h1:last-child {
+    color: #000;
+    margin-top: 10px;
 }
 
 th, td { 
@@ -681,7 +838,7 @@ td {
 
 .background-overlay.overlay-login {
     width: 200%;
-    transform: rotate(130deg);
+    transform: rotate(165deg);
 }
 
 [data-rk] .ju367va3 {
@@ -691,7 +848,7 @@ td {
 .background-overlay.top {
     top: 0px;
     bottom: unset;
-    background: whitesmoke;
+    background: #f2f2f2;
 }
 
 
@@ -755,6 +912,19 @@ textarea.form-control {
 
 
 }
+.menu-bar-overlay {
+    position: absolute;
+    background: #000;
+    height: 100%;
+    width: 100%;
+    left: 0px;
+    top: 0px;;
+    display: none;
+}
+
+.overlay-show {
+    display: block;
+}
 
 code {
 }
@@ -802,6 +972,16 @@ code {
     color: #fff;
 }
 
+#thanks { 
+    margin-top: 150px;
+    text-align: center;
+    font-weight: 500;;
+    font-size:  18px
+}
+
+#thanks h3 {
+justify-content: center;
+}
 .col-7 { 
 width: 60%;
 }
@@ -857,7 +1037,7 @@ width: 60%;
     font-size: 30px!important;;
     font-family: "Poppins", sans-serif;
     font-weight: 700;
-    color: #000;
+    color: #fff;
     padding: 0px;
 }
 
@@ -963,6 +1143,7 @@ width: 60%;
     background: #fff;
 }
 
+
 .list-group {
     border-radius: 10px;
     overflow-x: hidden; /* Hide horizontal scrollbar */
@@ -997,7 +1178,7 @@ width: 60%;
   }
 
 .list-group-item:hover {
-    background: whitesmoke;
+    background: #f2f2f2;
     border-radius: 10px;
     cursor: pointer;
 }
@@ -1010,7 +1191,7 @@ width: 60%;
     border: none!important;
     font-weight: 500!important;
     width: 100%;
-    background: whitesmoke;
+    background: #f2f2f2;
     font-size: 18px;
     align-items: center;
     
@@ -1132,6 +1313,10 @@ input, textarea {
 
     gap: 40px;
   }
+
+  .pay-content .pay h3{ 
+    color: #000!important;
+  }
   
   .pay-content h3 {
     text-align: center;
@@ -1154,10 +1339,14 @@ input, textarea {
     margin-bottom: 30px;
 }
 
+.payment-group.large {
+    display: none;
+}
+
 .row { 
 }
   .feature-item { 
-    background: whitesmoke;
+    background: #f2f2f2;
     padding: 30px;
     border-radius: 10px;
   }
@@ -1199,7 +1388,7 @@ input, textarea {
   padding: 10px;
 }
 #google {
-  background: whitesmoke;
+  background: #f2f2f2;
   padding: 10px;
   border-radius: 100px;
 
@@ -1230,7 +1419,7 @@ input, textarea {
 
 
 .transaction-list li:hover {
-    background :whitesmoke!important;
+    background :#f2f2f2!important;
     cursor: pointer;
 }
 .container-full.profile {
@@ -1284,8 +1473,25 @@ input, textarea {
     margin-top: 30px;
     width: 100%;
 }
+..go2072408551 {
+    z-index: 9999;
+}
+.toaster {
+    background: #5657FE!important;
+    color: #fff!important;
+    width: 100%;
+    font-family: "Roboto", sans-serif;
+    padding: 15px 10px!important;
+    font-size: 18px;
+    margin: 0px!important;
+    left: 0px!important;
+    z-index: 9999;
+    font-weight:600;
+}
 
-
+.toaster-danger {
+    background: #fe566a!important;
+}
 
 .row-content h3 { 
     font-weight: 700;
@@ -1313,7 +1519,11 @@ input, textarea {
 
     width: 100%!important;
 }
+.nav-link img {
+    display: none;
+}
 
+.nav
 
 .transaction-collapse-item-text {
     font-weight: 700!important;
@@ -1566,6 +1776,10 @@ margin-bottom: 20px
     font-size: 20px;
   }
 
+  .nav-link.create {
+    margin-right: 20px;;
+  }
+
   .payment-details h1 { 
     font-size: 26px;
   }
@@ -1596,7 +1810,7 @@ margin-bottom: 20px
 .accordion-button {
     padding: 15px 10px;
     font-family: "Poppins", sans-serif;
-    background: whitesmoke;
+    background: #f2f2f2;
     color: #000!important;
     border-bottom: 0px!important;
     color: #000;
@@ -1614,12 +1828,13 @@ margin-bottom: 20px
 }
 .input-group-text {
     color: #000;
-    font-weight: 500;
+    font-weight: 600;
+font-size: 18px;
     font-family: "roboto", sans-serif;
 
 }
 .input-group-text.end {
-    background: whitesmoke;
+    background: #f2f2f2;
     max-width: 140px;;
     width: 130px;
     margin-left: -5px;
@@ -1736,7 +1951,7 @@ margin-bottom: 20px
 
 }
 
-*{padding:0;margin:0}.wrapper{height:100vh;display:flex;justify-content:center;align-items:center;background-color:#fff}.checkmark__circle{stroke-dasharray: 166;stroke-dashoffset: 166;stroke-width: 2;stroke-miterlimit: 10;stroke: #7ac142;fill: none;animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards}.checkmark{width: 56px;height: 56px;border-radius: 50%;display: block;stroke-width: 2;stroke: #fff;stroke-miterlimit: 10;margin: 10% auto;box-shadow: inset 0px 0px 0px #7ac142;animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both}.checkmark__check{transform-origin: 50% 50%;stroke-dasharray: 48;stroke-dashoffset: 48;animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards}@keyframes stroke{100%{stroke-dashoffset: 0}}@keyframes scale{0%, 100%{transform: none}50%{transform: scale3d(1.1, 1.1, 1)}}@keyframes fill{100%{box-shadow: inset 0px 0px 0px 30px #7ac142}}
+*{padding:0;margin:0}.wrapper{height:100vh;display:flex;justify-content:center;align-items:center;background-color:transparent}.checkmark__circle{stroke-dasharray: 166;stroke-dashoffset: 166;stroke-width: 2;stroke-miterlimit: 10;stroke: #7ac142;fill: none;animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards}.checkmark{width: 56px;height: 56px;border-radius: 50%;display: block;stroke-width: 2;stroke: #fff;stroke-miterlimit: 10;margin: 10% auto;box-shadow: inset 0px 0px 0px #7ac142;animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both}.checkmark__check{transform-origin: 50% 50%;stroke-dasharray: 48;stroke-dashoffset: 48;animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards}@keyframes stroke{100%{stroke-dashoffset: 0}}@keyframes scale{0%, 100%{transform: none}50%{transform: scale3d(1.1, 1.1, 1)}}@keyframes fill{100%{box-shadow: inset 0px 0px 0px 30px #7ac142}}
 .payment-confirmed { 
 
 }
@@ -1832,8 +2047,10 @@ margin-top: 10%;
   .payment-buttons .col {
         text-align: center;
         border-radius: 15px;
-        padding: 15px 20px;
-        margin-top: 5px;
+        padding: 20px 20px!important;
+        margin-top: 0px;
+    
+        bottom: 0px;
         height: auto;
        background-color : #5657FE!important;;
         gap: 10px;
@@ -1907,6 +2124,37 @@ margin-top: 10%;
     font-size: 16px;
   }
 
+  .socials {
+    max-height: 300px;
+    overflow: scroll;
+  }
+.display-flex.social div {
+    width: 200px;;
+    text-align: left;
+    border-bottom: 1px solid #ced4da;
+    
+}
+.socials div {
+    padding: 10px 5px;
+}
+.socials div:hover {
+    background: #f2f2f2;
+    cursor: pointer;
+}
+.display-flex.social div a img{ 
+width: 24px;
+}
+
+.display-flex.social div a{
+font-size: 18px!important;
+color: #000!important;
+font-weight: 600!important;
+display: flex;
+align-items: center;
+gap: 10px;
+text-align: left;
+justify-content: left;
+}
 
 
   .payment-buttons .col img {
@@ -1916,13 +2164,16 @@ margin-top: 10%;
  
 .page.contact {
     width: auto;
-    padding: 20px!important;
+    padding: 30px!important;
     max-width: 800px;;
     margin: 0 auto;
     margin-top: 100px;
     border-radius: 20px;
 }
 
+.container.page.create.contact {
+    min-height: 650px!important;;
+}
 
 
   .fiats {
@@ -1995,7 +2246,6 @@ margin-top: 10%;
         position: initial;
         width: 100%;
         padding-top: 0px;
-        padding-bottom: 60px;
     }
     .payment-buttons .row {
         display: block;
@@ -2017,6 +2267,7 @@ margin-top: 10%;
 
     body{ 
         margin: 0px!important;
+        background: #fff;
     }
 
     .item-confirmations{
@@ -2057,7 +2308,12 @@ margin-top: 10%;
 
     }
 
-    
+    .container.page.create.contact {
+        background: #fff;
+        margin: 0px;
+        border-radius: 0px;
+        padding: 0px 10px!important;
+    }
 .break-mobile {
     display: block;
 }
@@ -2133,7 +2389,7 @@ margin-top: 10%;
         min-height: unset;;
         padding: 15px;
         color: #000;
-        background: whitesmoke;
+        background: #f2f2f2;
         border-radius: 10px!important;
             font-weight: 600
     }
@@ -2144,17 +2400,18 @@ margin-top: 10%;
   }
 
     .payment-buttons {
-        position: fixed;
         bottom: 0px;
         background: white;
-        box-shadow: rgb(50 50 93 / 25%) 0px 2px 12px -2px, rgb(0 0 0 / 30%) 0px 7px 7px -3px;
         margin: 0px;
+        justify-content: right;
+        bottom: 0px;
+        border-radius: 0px 0px 10px 10px;
+        position: sticky;
         bottom: 0px;
         width: -webkit-fill-available;
         right: 00px;
-        border-radius: 15px 15pxx 0px 0px;
-        left: 00px;
-        padding: 20px 10px 20px 10px;
+        margin: 0px 5px;
+        padding:10px 10px 10px 10px;
     }
     .payment-buttons .col img {
      height: 28px;
@@ -2184,26 +2441,32 @@ margin-top: 10%;
     .pay-data {
         width: -webkit-fill-available;;
         right: 10px;
+        z-index: 9999;
+        overflow: hidden;
+        height: 60vh;
         padding: 10px;
+        margin: 0px 5px;
+        border-radius: 10px 10px 0px 0px;
+        background: #fff;
+        padding-bottom: 0px!important;
         left: 10px;
       }
     .mobile-payment-group.total {
-        font-size:28px;
+        font-size:36px;
         background:#5657FE;;
         border-radius: 20px;
-        padding: 15px;
         font-family: "Poppins", sans-serif;
         width: fit-content;
-        box-shadow: rgb(50 50 93 / 25%) 0px 6px 12px -2px, rgb(0 0 0 / 30%) 0px 3px 7px -3px;
         margin: 0 auto;
         color: #fff;
         font-weight: 700;
-        margin-top: 25px;
-        margin-bottom: 35px;
 
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    .mobile-payment-group.message {
+    color: #fff;
     }
 
     .mobile-payment-group.datetime {
@@ -2214,6 +2477,17 @@ margin-top: 10%;
         text-align: center;
     }
 
+    .display-flex.social div {
+        width: 100%;
+    }
+
+    .socials div {
+        padding: 10px;
+    }
+
+    .socials div img {
+        width: 30px!important;
+    }
 
     .generate-btn{ 
         width: 100%;;
@@ -2247,7 +2521,7 @@ margin-top: 10%;
 
     .input-group-text {
         width: 100px;
-        font-size: 15px;
+        font-size: 16px;
         padding-left: 0px;
     }
 
@@ -2284,6 +2558,10 @@ margin-top: 10%;
 
     }
 
+    .contact.thanks {
+        margin-top: 100px!important;
+    }
+
     h1 { 
         font-size: 34px;
     }
@@ -2299,7 +2577,7 @@ h1#share {
 .payment-details h1 {
     margin-top: 0px!important;
     font-size: 28px;
-    margin-bottom: 10px!important;
+    margin-bottom: 0px!important;
 }
 
 
@@ -2311,6 +2589,21 @@ h1#share {
         margin-top: 10px;
         height: auto;
         min-width: unset!important;;
+    }
+
+    .payment-group.large {
+        margin-top: 15px;
+    }
+
+    .payment-group.large div {
+        font-size: 20px;
+        font-weight: 600;
+        font-family: "Poppins", sans-serif;
+    }
+    .payment-group.large label{
+        font-size: 16px!important;
+        margin-bottom: 5px!important;
+        color: #5657FE!important;
     }
 
     .container.page.create a { 
@@ -2368,6 +2661,26 @@ h1#share {
         padding: 0px;
         margin: 0px;
     }
+
+    .flex-div {
+        display: block;
+        text-align: center;
+    }
+
+    .home-block-1 h1:last-child {
+        color: #5657FE;
+    }
+    .flex-div img {
+        width: 50px;;
+        margin-bottom: 20px;
+    }
+
+
+
+    .home-block-1 h1 {
+        font-size: 26px;
+        width: 100%;
+    }
     .navbar-nav.me-auto.mb-lg-0 >div >button:last-child >div>div, .navbar-nav.me-auto.mb-lg-0 >div > button, .navbar-nav.me-auto.mb-lg-0 >div >button:last-child >div>div{
 
         border: none!important;
@@ -2413,7 +2726,9 @@ h1#share {
 
     }
 
-
+.container.nav { 
+    padding: 0px 10px!important;;
+}
 
     .contact-form h1 {
         font-size: 25px!important;
@@ -2423,7 +2738,7 @@ h1#share {
         display: block!important;
     }
     .navbar.navbar-expand-lg  { 
-        padding-bottom: 10px;
+        padding-bottom: 15px;
         padding-top: 10px;
         position: fixed;
         top: 0px;
@@ -2435,12 +2750,35 @@ h1#share {
         outline: none!important;
         box-shadow: none!important;
     }
+.navbar .navbar-nav:first-child .nav-item:first-child{
+    border-bottom: 1px solid #ced4dA;
+}
 
-
+.nav-item .nav-link {
+    padding: 10px 0px!important;
+}
+.navbar-nav .nav-item:last-child{
+    border-bottom: 0px;
+}
     .btn-generate {
         margin-top: 20px;
+      
     }
 
+    .mobile-connect-button {
+        margin-top: 10px
+    }
+
+    .mobile-connect-button > * {
+        font-weight: 500!important;;
+    }
+
+    .nav-link.create {
+        margin-right: 0px;;;
+        padding-bottom: 10px!important;
+        margin-bottom: 20px!important;
+        border-bottom: 1px solid #ced4da;
+      }
     .container.page h1 {
         font-size: 30px;
         font-weight: 700;
@@ -2530,8 +2868,24 @@ h1#share {
     .contact-form {
         padding: 10px;
     }
+
+    .background-overlay-mobile-pay {
+        background-color: #5657FE;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        left: 0px;
+        position: fixed;
+    }
+
     .btn-contact { 
         width: -webkit-fill-available;
+        font-size: 16px;
+    }
+
+    .btn-beta {
+        font-size: 16px!important;
     }
 
     .contact-form .row, .contact-form .col {
@@ -2579,18 +2933,24 @@ h1#share {
         font-size: 22px;
     }
     
-
+.payment-group.large {
+    display: block;
+}
     .nav-link {
         display: flex;
         grid-gap: 10px;
         margin-bottom: 10px;
         /* background: red; */
-        padding: 8px 10px;
+        padding: 8px 0px!important;
         border-radius: 100px;
         gap: 10px;
         align-items: center;
         color: #000000;
     }
+
+    .pay-content .pay h3{ 
+        color: #fff!important;
+      }
 
 .wrapper {
     margin-top: 100px;
@@ -2607,13 +2967,32 @@ h1#share {
         margin-top: 30px;
     }
 
+    .btn-send {
+        background: #5657FE;
+        width: -webkit-fill-available;
+        border-radius: 10px;
+        left: 0px;
+        padding: 15px;
+        font-size: 18px;
+        bottom: 0px;
+    }
+    
+    .loading-transactions.pay {
+        margin-top: 300px!important;
+    }
+    .btn-send img { 
+        width: 23px;
+    }
     .nav-link.contact { 
         margin-top: 20px;
         margin-bottom: 0px;
     }
 
-    .navbar-nav{ 
+    .navbar-collapse .navbar-nav:last-child { 
         margin-top: 0px;
+        border-bottom: 2px solid #ced4da;
+        padding-bottom: 10px;
+        padding-top: 10px;
     }
 
     .navbar-nav.me-auto.mb-lg-0 { 
@@ -2648,9 +3027,22 @@ h1#share {
         margin-top: 30px;
     }
     .nav-link, .nav-item {
-        width:90vw;
         height: 45px!important;
     }
+
+    .nav-link img {
+        display: block;
+    }
+
+    .nav-link span {
+        width: 100%;;
+    }
+    .nav-link {
+        display: flex;
+        align-items: center;
+    }
+
+
     .feature-item {
         margin-bottom: 20px;
         padding-bottom: 30px!important;;
@@ -2674,18 +3066,55 @@ h1#share {
         text-align: right;
     }
 
+    .home-block-1 {
+        padding:0px;;
+        margin-top: 100px;
+        width: 100%;;
+        padding: 10px;
+        height: auto;
+    }
  
+    .home-construction-text {
+        width: calc(100% - 20px);
+        right: 10px;
+        left:10px;
+        position: fixed;
+        bottom: 10px;
+
+    }
+    .home-block-1 h1:first-child {
+        font-weight: 800;
+    }
+    .home-block-1 h1 {
+        font-size: 28px;
+        margin-top: 20px;
+        text-align: left;
+    }
+    .navbar-brand span {
+        display: none;
+    }
+
+    .navbar-brand img {
+        width: 40px;
+    }
 
     .transaction-collapse-item {
         border-bottom: 1px solid #ced4da;
         padding: 5px 0px;
         font-size: 145x;
     }
-
+    .home-block-1 div h1:last-child {
+        color: #5657FE;
+        width: 90%;
+    }
     .socials.mobile {
         margin-top: 0px;
     }
 
+    .socials {
+        max-height: unset;;
+
+    }
     .mobile.form {
         margin-top: 20px;
     }
@@ -2744,13 +3173,7 @@ h1#share {
 margin-bottom: 20px;
   }
 
-  .home-block-1 {
-    position: inherit;
-    height: 100vh;
-    z-index: -1;
-    width: 100%;
-    top: 0;
-}
+
 
 
   .alert {
@@ -2791,15 +3214,15 @@ width: auto;
 }
 
 
-textarea {
-
-}
+.pay   .sk-chase-dot:before {
+	background: #fff;
+  }
 
 .background-overlay.overlay-login {
     display: block!important;
-    bottom: -108px;
-    left: -190px;
-    height: 55vh;
+    bottom: -100px;
+    left: -40px;
+    height: 62vh;
 }
 .background-overlay {
     display: none;
@@ -2824,7 +3247,9 @@ textarea {
     padding-top: 50px;
     width:100%;
   }
-
+.last-create {
+    margin-bottom: 20px!important;
+}
 
   
 }

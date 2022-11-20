@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "/",
   "dependencies": {
+    "@emailjs/browser": "^3.9.1",
     "@glidejs/glide": "^3.6.0",
     "@magic-ext/oauth": "^4.0.0",
     "@moralisweb3/evm-utils": "^2.7.1",
@@ -32,6 +33,7 @@
     "react": "^18.2.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.0",
     "react-ipfs": "^0.3.1",
     "react-json-pretty": "^2.2.0",
     "react-moralis": "^1.4.2",

@@ -101,7 +101,7 @@
 	top: 0; 
 	animation: sk-chase-dot 2.0s infinite ease-in-out both; 
   }
-  
+
   .sk-chase-dot:before {
 	content: '';
 	display: block;
