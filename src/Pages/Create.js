@@ -5,11 +5,11 @@ import { QRCode } from "react-qrcode-logo";
 import { useNavigate } from "react-router-dom";
 import Moralis  from 'moralis';
 import { useAccount, useNetwork ,useSignMessage } from 'wagmi';
-
 import { EvmChain } from '@moralisweb3/evm-utils';
+import {getUserLocation} from  "../Helpers/MetaData";
+import {logEvent, retrieveEventRequest, } from  "../Helpers/web3Storage";
 import { ethContracts } from "../Helpers/ETHContracts";
 import { toast, Toaster, ToastBar } from 'react-hot-toast';
-
 import Whatsapp from "../Assets/whatsapp.png";
 import Telegram from "../Assets/tele.png";
 import Copy from "../Assets/copy.png";
@@ -24,7 +24,7 @@ import uuid from 'react-uuid';
 import Tokens from "../Webblocks/Tokens";
 import {isMobile} from "react-device-detect";
 import {requestTransactionSignatureMessage} from "../Helpers/Moralis";
-
+import {createLocation} from "../Helpers/Supabase";
 
 function Create() {
     const navigate = useNavigate();
@@ -62,15 +62,12 @@ function Create() {
         onSuccess(data) {
             setRequest(request => ({...request,signature:data}));
             finishAndShareRequest(); 
-
             setIsSigning(false);
           },
           onError(error) {
             setIsLoading(false);
-
             setIsSigning(false);
             toast("Signature declined");
-
           }
     })
 
@@ -123,8 +120,6 @@ function Create() {
             if(savedPrice) {
                 setTokenPrice(savedPrice);
             } else {
-           
-                    
                     const chain = EvmChain.ETHEREUM;
                     const address = token.contract;
                     await Moralis.start({apiKey: APIKEY});
@@ -132,9 +127,7 @@ function Create() {
                     const usdPrice = Number.parseFloat(response.data.usdPrice).toFixed(2) 
                     sessionStorage.setItem(saveLabel, usdPrice);
                     setTokenPrice(usdPrice);
-                
-
-        }
+            }
     }
 }
 
@@ -142,12 +135,16 @@ function Create() {
         if(request.amount == 0) { 
             toast("Missing amount");
         } else {
-            setIsSigning(true)
-            setIsLoading(true);
-            await prepareRequestSignature();       
+        
+                setIsSigning(true)
+                setIsLoading(true);
+                await prepareRequestSignature();     
+        
+      
         }
-       
     }
+
+
 
     async function prepareRequestSignature() { 
         const signatureMessage = await getTransactionSignatureMessage();
@@ -166,38 +163,25 @@ function Create() {
 
     
     async function finishAndShareRequest() {
-        const abi = [{path: address+"/request/"+uuid(),content: btoa(JSON.stringify(request)),},];
-        const APIKEY = process.env.REACT_APP_MORALIS_API_KEY;
-        await Moralis.start({apiKey: APIKEY,});
-        try {
-            const response = await Moralis.EvmApi.ipfs.uploadFolder({abi});
-            let payURL = window.location.origin +"/pay/" + base64_encode(response.result[0].path)
-            setCdiLink(payURL);
-            var _text ="Hi, would you please transfer me *" +request.amount +"* *" +request.token.symbol +"* for '*" +request.message +"*' via " +"\n\n" +payURL +  " \n\n" + "_ " + "\n\n" +"_Made with Zeppay_";
-            var text = escape(_text);
-            setShareText(text);
-        } catch {setIsLoading(false)}
+        const location = await getUserLocation();
+        await createLocation(location)
+        const cid = await logEvent(address, location, request);
+        if(cid) {
+            try {
+                //const response = await Moralis.EvmApi.ipfs.uploadFolder({abi});
+                let payURL = window.location.origin +"/pay/" + base64_encode(cid)
+                setCdiLink(payURL);
+                var _text ="Hi, would you please transfer me *" +request.amount +"* *" +request.token.symbol +"* for '*" +request.message +"*' via " +"\n\n" +payURL +  " \n\n" + "_ " + "\n\n" +"_Made with Zeppay_";
+                var text = escape(_text);
+                setShareText(text);
+            } catch {setIsLoading(false)}
+        }
+        // const abi = [{path: address+"/request/"+uuid(),content: btoa(JSON.stringify(request)),},];
+        // const APIKEY = process.env.REACT_APP_MORALIS_API_KEY;
+        // await Moralis.start({apiKey: APIKEY,});
+        
     }
 
- 
-
-
-
-
-    async function filesUploaded(e) {
-        let files = e.target.files[0];
-        let baseTextFile = await convertBase64(files);
-        setRequest(request => ({...request,image: baseTextFile}))
-    }
-
-    const convertBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {resolve (fileReader.result);};
-            fileReader.onerror = (error) => {reject(error);};
-        });
-    };
 
     function closeTokenPopUp(){ 
         setIsTokenPopUp(false)
@@ -209,7 +193,7 @@ function Create() {
         setIsTokenPopUp(false);
     }
 
-    return (<div class=" w3-animate-bottom">
+    return (<div class=" w3-animate-opacity">
         <div class="container page create no-relative ">
             {!isShare && isLoading?<><a>{isSigning?"Sign transaction":"2 - 5 seconds"}</a> <h1 id="share-title">{isSigning?"Waiting on signature":"Creating request"}</h1></>:
             <>
@@ -230,7 +214,7 @@ function Create() {
                     <div class="create-content">
                     <Toaster   toastOptions={{className: 'toaster toaster-danger',}}/>
 
-                        <div class="list-group">
+                        <div class="list-group mb-3">
                             {isTokenPopUp? <Tokens selectedToken={request.token} tokenSelect={setSelectedToken} togglestate={closeTokenPopUp}/>: 
                                 <div   class="tokens-list-item selected"><img src={request.token.icon} width="34"/> <b>{request.token.symbol}</b> - {request.token.name} <span onClick={()=> setIsTokenPopUp(true)} class="change-token-link">Select</span></div>
                             }
@@ -239,19 +223,13 @@ function Create() {
                             ))}  */}
                         </div> 
                         <div class="form-create">
-                        <div class="input-group disabled-address">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text destination" id="basic-addon1">Send to</span>
-                                </div>
-                                <input type="text" class="form-control readonly-field" disabled value={request.destination} placeholder="Address" aria-label="Username" aria-describedby="basic-addon1"/>
-                            </div>
-                            {/* <div class="input-group mb-3">
+                        <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">Name</span>
+                                        <span class="input-group-text">Destination</span>
                                     </div>
                                     
-                                    <input  onChange={(e)=> setRequest(request => ({...request,name: e.target.value}))} class="form-control" value={request.name} aria-label="With textarea"></input>
-                                    </div> */}
+                                    <input class="form-control" value={address} aria-label="With textarea"></input>
+                                    </div>
                         <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Amount </span>
@@ -294,32 +272,32 @@ function Create() {
                            <QRCode  size="220" value={cdiLink} ecLevel="L" quietZone="5" bgColor="transparent"enableCORS="true"fgColor="#000"qrStyle="dots"logoWidth="30"logoImage={request.token.icon}removeQrCodeBehindLogo="false" eyeRadius={[[20, 0, 0, 0],[0, 20, 0, 0],[0, 0, 0, 20],]}/>
                                 <div class="socials">
                                     <div> <a type="button" target="_blank" href={"https://api.whatsapp.com/send?text=" + shareText}>
-                                        <img src={Whatsapp} width="18"/>  Whatsapp
+                                        <img src={Whatsapp} width="18"/>  <span>Whatsapp</span>
                                         </a> </div>
                                     <div>       <a type="button" target="_blank" href={"https://t.me/share/url?url="+encodeURIComponent(cdiLink)+"&text=" + encodeURIComponent(shareText)}>
-                                        <img src={Telegram} width="18"/> Telegram
+                                        <img src={Telegram} width="18"/> <span>Telegram</span>
 
                                         </a>  </div>
                                     <div>      <a type="button" href={"https://www.facebook.com/sharer.php?u="+cdiLink}>
-                                        <img src={Messenger} width="18"/> Messenger
+                                        <img src={Messenger} width="18"/><span>Messenger</span> 
                                         </a>  </div>
                                     <div>   <a type="button" onClick={()=> navigator.clipboard.writeText(shareText).then(()=>   window.location.assign("slack://app?&tab=messages", "_blank"))}>
-                                        <img src={Slack} width="18"/> Slack
+                                        <img src={Slack} width="18"/><span>Slack</span> 
                                         </a>  </div>
                                     <div>     <a type="button" onClick={()=> navigator.clipboard.writeText(shareText).then(()=>   window.location.assign("slack://app?&tab=messages", "_blank"))}>
-                                        <img src={Discord} width="18"/>Discord
+                                        <img src={Discord} width="18"/><span>Discord</span>
                                         </a>   </div>
                                     <div>      <a type="button" href={"http://vk.com/share.php?url="+encodeURIComponent(cdiLink)+"&title=Pay me "+request.amount +"" +request.token.symbol+"&comment="+shareText}>
-                                        <img src={VK} width="18"/>VK
+                                        <img src={VK} width="18"/><span>VK</span>
                                         </a>  </div>
                                     <div>        <a target={"_blank"} href={"mailto:subject=Pay me "+request.amount +"" +request.token.symbol+"&body="+shareText} type="button">
-                                        <img src={Gmail} width="18"/> Gmail
+                                        <img src={Gmail} width="18"/><span>Gmail</span> 
                                       </a></div>
                                     <div>        <a href={"sms:{phone_number}?body="+shareText} type="button">
-                                        <img src={SMS} width="18"/> SMS
+                                        <img src={SMS} width="18"/><span>SMS</span> 
                                       </a></div>
                                     <div>  <a onClick={()=> navigator.clipboard.writeText(cdiLink).then(()=> alert("Request URL copied."))} type="button">
-                                           <img src={Copy} width="18"/> Copy
+                                           <img src={Copy} width="18"/><span>Copy</span> 
                                       </a></div>
                                        
                                    

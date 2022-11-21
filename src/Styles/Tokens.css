@@ -40,7 +40,7 @@
 .tokens-list ul {
     padding: 0px;
     margin: 0px;
-    max-height: 350px;
+    max-height: 370px;
     overflow: scroll;
 }
 .tokens-list-item b {
@@ -50,9 +50,9 @@
 }
 .tokens-list-item {
     padding: 10px 10px;
-    font-family: "roboto", sans-serif;
-    color: #333;
-    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+    color: #000;
+    font-size: 18px;
     display: flex;
     align-items: center;
     list-style-type: none;
@@ -90,6 +90,7 @@
    }
     .tokens-list-item {
         font-size: 18px;
+        padding: 15px 10px;
    }
     .tokens-header a {
         margin-left: 0px!important;
@@ -99,6 +100,6 @@
         width: 18px;
    }
     .tokens-list ul {
-        max-height: unset;
+        max-height: 500px; overflow: scroll;
    }
 }

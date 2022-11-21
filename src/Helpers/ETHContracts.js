@@ -4,9 +4,10 @@ export const ethContracts = {
           name: "Ethereum ",
           symbol: "ETH",
           icon: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@bea1a9722a8c63169dcc06e86182bf2c55a76bbc/svg/color/eth.svg",
-          contract: "Native",
-          contract_5: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          contract: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          contract_5: "0x7c1ed097af300c85f3e9aaf51a15de5c967f828e",
           isActive: false,
+          decimals:18,
           color: "#627EEA"
       },
       {
@@ -48,7 +49,7 @@ export const ethContracts = {
       {
           name: "Binance USD",
           symbol: "BUSD",
-          icon: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@bea1a9722a8c63169dcc06e86182bf2c55a76bbc/svg/color/busd.svg",
+          icon: "https://cryptologos.cc/logos/binance-usd-busd-logo.png",
           contract: "0x4Fabb145d64652a948d72533023f6E7A623C7C53",
           contract_5: "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
           decimals: 18,
@@ -68,7 +69,7 @@ export const ethContracts = {
       {
           name: "Cronos",
           symbol: "CRO",
-          icon: "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@bea1a9722a8c63169dcc06e86182bf2c55a76bbc/svg/color/cro.svg",
+          icon: "https://cryptologos.cc/logos/cronos-cro-logo.png",
           contract: "0xA0b73E1Ff0B80914AB6fe0444E65848C4C34450b",
           contract_5: "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
           decimals: 8,

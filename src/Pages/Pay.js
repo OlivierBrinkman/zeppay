@@ -3,6 +3,7 @@ import {decode as base64_decode, encode as base64_encode} from 'base-64';
 import { useState, useEffect } from "react";
 import { erc20ABI, useContract, useAccount, useSendTransaction,usePrepareSendTransaction, useSigner} from 'wagmi';
 import uuid from 'react-uuid';
+import {retrieveEventRequest} from  "../Helpers/web3Storage";
 import { Web3Storage } from 'web3.storage/dist/bundle.esm.min.js'
 import {useNetwork  } from 'wagmi';
 import JsonViewer from "../Webblocks/JsonViewer";
@@ -24,7 +25,7 @@ function Pay() {
     const [request, setRequest] = useState({})
     const [isFetching, setIsFetching] = useState(true);
     const [error, setError] = useState();
-    const [hash, setHash] = useState("");
+    const [canPay, setCanPay] = useState(true);
     const [isSuccess, setIsSuccess] = useState(false);
     const [isPaying, setIsPaying] = useState(false);
     document.title = 'Zeppay | Pay '
@@ -35,19 +36,18 @@ function Pay() {
        retrieveRequest(base);
     },[])
 
-    async function retrieveRequest(cdiLink) {
-        let decoded = base64_decode(cdiLink);
-        const response = await fetch(decoded);
-        await response.json().then((response) => setRequestForPayment(response))
+    async function retrieveRequest(cid) {
+        let decodedCDI = base64_decode(cid);
+        const response = await retrieveEventRequest(decodedCDI);
+        setRequestForPayment(response);
     }
 
-    function errorOccurd(error){
+    function errorOccured(error){
+      console.log(error)
+      setCanPay(false);
 
             setIsLoading(false);
-            setIsPaying(false);
-            toast("Payment Failed")
-
-         
+            setIsPaying(false);    
     }
 
    async function setRequestForPayment(request) {
@@ -55,13 +55,9 @@ function Pay() {
          setIsFetching(false);
          setTimeout(function(){
                setIsLoading(false);
-         }, 1500);
+         }, 500);
       }
-      useEffect(()=> {
-         setTimeout(() => {
-               setError("")
-         }, "10000")
-      }, [error])
+
 
       async function paymentComplete(data) {
          if(data.hash) {                    
@@ -72,8 +68,8 @@ function Pay() {
       }
 
       function startPaying(){
-         setIsPaying(true)
          setIsLoading(true);
+         setIsPaying(true);
       }
       
 
@@ -112,11 +108,10 @@ function Pay() {
         }
         else {
     return (
-    <div class="container page create payment">
+    <div class="container page create payment  ">
         <div class="pay-content">
            {!isLoading? 
-           <div class="payment-overview w3-animate-bottom">
-                    <Toaster   toastOptions={{className: 'toaster toaster-danger',}}/>
+           <div class="payment-overview">
 
               {error?
               <div class="alert alert-primary" role="alert">
@@ -213,13 +208,17 @@ function Pay() {
                  <div class="payment-buttons">
                   {isConnected?
                  <div class="">
-                  {request.token.contract == "Native"?
+                  <TransferERC20 toaster={toast} errorOccured={errorOccured} 
+                   decimals={request.token.decimals} startPaying={startPaying} 
+                   contract={request.token.contract} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
+                
+                 {/* {request.token.symbol == "ETH"?
                   <TransferETH toaster={toast} errorOccurd={errorOccurd} startPaying={startPaying} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
                    :
-                   <TransferERC20 toaster={toast} errorOccurd={errorOccurd} decimals={request.token.decimals} startPaying={startPaying} contract={request.token.contract} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
-
-                   }
-
+                   <TransferERC20 toaster={toast} errorOccurd={errorOccurd} 
+                   decimals={request.token.decimals} startPaying={startPaying} 
+                   contract={request.token.contract_5} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
+                   } */}
                  </div>: 
                  <div class="not-connected">
                      No wallet connected. 
@@ -238,7 +237,6 @@ function Pay() {
               </div>
               {isPaying?
               <>    
-
               <h3>Processing payment...</h3></>
               :<></> }
            </div>

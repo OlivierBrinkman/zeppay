@@ -166,7 +166,6 @@ canvas {
     justify-content: left;
     margin: 0px auto;
     padding:0px;
-    margin-top: 12px;
     height: 280px!important;
     width: auto!important;
    ;
@@ -683,6 +682,7 @@ td {
 }
 .signature {
     margin: 20px 10px;
+    color: #5657FE!important;
 }
 .signature label {
     font-weight: 600;
@@ -701,6 +701,9 @@ td {
 .background-overlay.overlay-login {
     width: 200%;
     transform: rotate(165deg);
+    left: -100px;
+    bottom: -50vh;
+    height: 100vh;
 }
 [data-rk] .ju367va3 {
     background: #000!important;
@@ -1488,8 +1491,8 @@ h3 {
 .input-group-text {
     color: #000;
     font-weight: 600;
-    font-size: 18px;
-    font-family: "roboto", sans-serif;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
 }
 .input-group-text.end {
     background: #f2f2f2;
@@ -1796,25 +1799,44 @@ h3 {
 }
 .display-flex.social div {
     width: 200px;
-   ;
     text-align: left;
-    border-bottom: 1px solid #ced4da;
+}
+.socials {
+    border-bottom: 0px!important;
+    overflow-x: hidden;
+
 }
 .socials div {
     padding: 10px 5px;
+    background-color: white;
+    border-radius: 100px;
+    display: flex;
+
+}
+.social div a span {
+    width: 100%;
+}
+.social div a { 
+    display: flex;
+    padding: 0px 5px;
+    align-items: center;
+    flex-direction: row-reverse;
+    width: -webkit-fill-available!important;
 }
 .socials div:hover {
-    background: #f2f2f2;
+    background: whitesmoke;
     cursor: pointer;
 }
 .display-flex.social div a img{
     width: 24px;
 }
 .display-flex.social div a{
-    font-size: 18px!important;
+    font-size: 16px!important;
     color: #000!important;
     font-weight: 600!important;
     display: flex;
+    font-family: "Poppins", sans-serif!important;
+
     align-items: center;
     gap: 10px;
     text-align: left;
@@ -2062,7 +2084,6 @@ h3 {
         right: 10px;
         z-index: 9999;
         overflow: hidden;
-        height: 60vh;
         padding: 10px;
         margin: 0px 5px;
         border-radius: 10px 10px 0px 0px;
@@ -2306,7 +2327,7 @@ h3 {
        ;
    }
     .container.nav {
-        padding: 0px 10px!important;
+        padding: 0px 15px!important;
        ;
    }
     .contact-form h1 {
@@ -2328,9 +2349,7 @@ h3 {
         outline: none!important;
         box-shadow: none!important;
    }
-    .navbar .navbar-nav:first-child .nav-item:first-child{
-        border-bottom: 1px solid #ced4dA;
-   }
+
     .nav-item .nav-link {
         padding: 10px 0px!important;
    }
@@ -2353,7 +2372,6 @@ h3 {
        ;
         padding-bottom: 10px!important;
         margin-bottom: 20px!important;
-        border-bottom: 1px solid #ced4da;
    }
     .container.page h1 {
         font-size: 30px;
@@ -2450,7 +2468,6 @@ h3 {
         width: 100%;
    }
     canvas {
-        margin-top:10px;
         height: auto!important;
         padding: 0px;
         width: 100%!important;

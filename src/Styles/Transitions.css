@@ -85,6 +85,11 @@
 		transform: translate(24px, 0);
    }
 }
+
+.loading-transactions .pay .sk-chase-dot:before {
+	color: #000!important;
+}
+
 .sk-chase {
 	width: 40px;
 	height: 40px;

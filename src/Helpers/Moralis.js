@@ -1,7 +1,7 @@
 import Moralis from 'moralis';
 import jwt from "jsonwebtoken";
 import { createClient } from '@supabase/supabase-js'
-import web3 from "web3";
+
 
 async function initMoralis() {
   await Moralis.start({apiKey: process.env.REACT_APP_MORALIS_API_KEY,});
@@ -10,11 +10,6 @@ async function initMoralis() {
 export async function getMoralisUserObject() {
   await initMoralis();
   return Moralis.User.current()
-}
-
-export async function createSignedAccount() {
-  web3.eth.personal.sign("Hello world", "0x11f4d0A3c12e86B4b5F39B213F7E19D048276DAe", "test password!")
-  .then(console.log);
 }
 
 export async function verifySignature(_message, _signature) { 
@@ -32,23 +27,6 @@ export async function verifySignature(_message, _signature) {
 
 }
 
-export async function requestMessage(address, chain, network) {
-  await Moralis.start({apiKey: process.env.REACT_APP_MORALIS_API_KEY,});
-  const result = await Moralis.Auth.requestMessage({
-    address,
-    chain,
-    network,
-    domain: 'authenticate.zeppay.app',
-    statement: 'Please sign this message to confirm your identity.',
-    uri: 'https://zeppay.app',
-    expirationTime: '2023-01-01T00:00:00.000Z',
-    timeout: 15,
-  });
-
-  const { message } = result.toJSON();
-
-  return message;
-}
 
 function addDays(days) {
   var result = new Date();

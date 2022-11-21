@@ -5,31 +5,16 @@ import toast, { Toaster } from 'react-hot-toast';
 function TransferETH(props) {
    const amount = ethers.utils.parseUnits(props.amount, "ether");
    const { config } = usePrepareSendTransaction({request: { to: props.address, value: ethers.BigNumber.from(amount)}})
-   const { data,isSuccess, sendTransaction } =useSendTransaction({...config, 
-      onSuccess(data) {
-         props.paymentComplete(data)
-         },
-         onError(error) {
-         props.errorOccurd()
-   },})
+   const { data,error,isSuccess,isError, sendTransaction } = useSendTransaction({config})
 
-   function send(){
-      props.startPaying()
-      try {
-         sendTransaction?.()
-      } catch(ex) {
-         props.errorOccurd()
 
-      }
-    
-}
+
 
    return (
       <div>
-         <div onClick={()=> send()}  class="col pay-option">
-            <span>Pay with {props.amount } {props.symbol}</span><img src={props.icon} height="30"/>
-
-         </div>
+           <button class="col pay-option"  type="button" onClick={() => sendTransaction?.()}>
+            Send {props.amount} {props.symbol}
+            </button>
       </div>
    )
 }

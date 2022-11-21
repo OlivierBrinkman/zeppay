@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './Styles/Template.css';
 import App from './Pages/Main';
 import merge from 'lodash.merge';
+
 import {getDefaultWallets,RainbowKitProvider,darkTheme,Theme} from '@rainbow-me/rainbowkit';
-import {chain,configureChains,createClient,WagmiConfig,} from 'wagmi';
+import {chain,configureChains,WagmiConfig,createClient} from 'wagmi';
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public';
 const { chains, provider } = configureChains([chain.mainnet, chain.goerli],[infuraProvider({ apiKey: 'a7a5842cf26343fb99eef41781524c81' })],[publicProvider()]) 
@@ -23,6 +24,7 @@ root.render(
                 fontStack: 'system',
                 overlayBlur: 'small',
               })} showRecentTransactions={true}  chains={chains}>
+
           <App />
         </RainbowKitProvider>
       </WagmiConfig>

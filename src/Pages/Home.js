@@ -8,7 +8,7 @@ function Home() {
     return (
         <div class="home w3-animate-opacity">
             <div class="home-block-1">
-                <div class="flex-div"><div><h1>Crypto payment infrastructure,</h1><h1>Empowering Africa based remote workers.</h1></div></div>
+                <div class="flex-div"><div><h1>Crypto payment infrastructure,</h1><h1>Empowering freelancers and creators.</h1></div></div>
                 <div class="home-construction-text">
                    <div><img src={Construction} width="30"/> <h3>Under Construction</h3></div>
                 <p>We are currently still in the test phase and we are working hard to launch as soon as possible.
@@ -203,7 +203,7 @@ function Home() {
             </div>
             </div>       
             </div> */}
-            <div class="background-overlay overlay-login w3-animate-bottom"></div>
+            <div class="background-overlay overlay-login"></div>
 
         </div>
     )
