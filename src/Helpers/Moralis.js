@@ -1,97 +1,134 @@
-import Moralis from 'moralis';
+import Moralis from "moralis";
 import jwt from "jsonwebtoken";
-import { createClient } from '@supabase/supabase-js'
-
-
+import { createClient } from "@supabase/supabase-js";
+import { EvmChain } from "@moralisweb3/evm-utils";
 async function initMoralis() {
-  await Moralis.start({apiKey: process.env.REACT_APP_MORALIS_API_KEY,});
+  await Moralis.start({ apiKey: process.env.REACT_APP_MORALIS_API_KEY });
 }
 
 export async function getMoralisUserObject() {
   await initMoralis();
-  return Moralis.User.current()
+  return Moralis.User.current();
 }
 
-export async function verifySignature(_message, _signature) { 
- 
-  await initMoralis()
+export async function verifySignature(_message, _signature) {
+  await initMoralis();
   const message = _message;
   const signature = _signature;
   const network = "evm";
-  
+
   const verifiedData = Moralis.Auth.verify({
     message: message,
     signature: signature,
     network: network,
   });
-
 }
-
 
 function addDays(days) {
   var result = new Date();
   result.setDate(result.getDate() + days);
-  return result.toISOString()
+  return result.toISOString();
 }
 
-export async function requestTransactionSignatureMessage(addressTo, chain, network) {
+export async function requestTransactionSignatureMessage(
+  addressTo,
+  chain,
+  network
+) {
+  await Moralis.start({ apiKey: process.env.REACT_APP_MORALIS_API_KEY });
+  const result = await Moralis.Auth.requestMessage({
+    address: addressTo,
+    chain,
+    network,
+    domain: "Authenticate.Zeppay.app",
+    statement:
+      "Please sign this transaction to confirm and authenticate your identity.",
+    uri: "https://zeppay.app",
+    expirationTime: addDays(10),
+    timeout: 15,
+  });
 
-    await Moralis.start({apiKey: process.env.REACT_APP_MORALIS_API_KEY,});
-    const result = await Moralis.Auth.requestMessage({
-      address:addressTo,
-      chain,
-      network,
-      domain: 'Authenticate.Zeppay.app',
-      statement: 'Please sign this transaction to confirm and authenticate your identity.',
-      uri: 'https://zeppay.app',
-      expirationTime: addDays(10),
-      timeout: 15,
-    });
-    
-    const { message } = result.toJSON();
-  
-    return message;
+  const { message } = result.toJSON();
+
+  return message;
+}
+
+export async function getTransactionCount() {
+  await Moralis.start({ apiKey: process.env.REACT_APP_MORALIS_API_KEY });
+
+  const address = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
+
+  const chain = EvmChain.ETHEREUM;
+
+  const response = await Moralis.EvmApi.transaction.getWalletTransactions({address,chain,});
+
+  return response.data.total;
+}
+
+export async function getNativeBalance(_address, _chain) {
+  await Moralis.start({ apiKey: process.env.REACT_APP_MORALIS_API_KEY });
+
+  let chain;
+
+  if(_chain == 1) {
+    chain = EvmChain.ETHEREUM;
+  } else if (_chain == 5) {
+    chain = EvmChain.GOERLI;
+  }
+  const response = await Moralis.EvmApi.balance.getNativeBalance({
+    _address,
+    chain,
+  });
+
+   return response;
 }
 
 export async function verifyMessage(signature, message) {
-    const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_ANON_KEY);
-    await Moralis.start({apiKey: process.env.REACT_APP_MORALIS_API_KEY,});
-    const _message = message
-    const _signature = signature
-    const _network = "evm"
-    
-    const verifiedData = await Moralis.Auth.verify({
-      message: _message,
-      signature: _signature,
-      network: _network,
-    })
+  const supabase = createClient(
+    process.env.REACT_APP_SUPABASE_URL,
+    process.env.REACT_APP_ANON_KEY
+  );
+  await Moralis.start({ apiKey: process.env.REACT_APP_MORALIS_API_KEY });
+  const _message = message;
+  const _signature = signature;
+  const _network = "evm";
 
-    const authData = verifiedData.data;
-    let { data: users } = await supabase.from('users').select("*").eq('moralis_provider_id', authData.profileId);
-    let _user;
-    if(users.length != 0) { 
-      alert("user already connected")
-    } else {
-        const response = await supabase.from('users').insert([
-            { created_at: new Date(),
-            moralis_provider_id: authData.profileId,
-            metadata : authData
-         }])    
-          _user = response.data;
-        }
+  const verifiedData = await Moralis.Auth.verify({
+    message: _message,
+    signature: _signature,
+    network: _network,
+  });
 
-        const token = jwt.sign(
-          {
-            ..._user,
-            aud: 'authenticated',
-            role: 'authenticated',
-            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
-          },
-          "SxaQ5OLMRp/lmQqdaOP369jJsNUuKvTXU7ksIRBTzQLkL90wtYCJFbvTBZpE7e8a40Q/US/lGWFRe5SUnmNeeg==",
-        );
+  const authData = verifiedData.data;
+  let { data: users } = await supabase
+    .from("users")
+    .select("*")
+    .eq("moralis_provider_id", authData.profileId);
+  let _user;
+  if (users.length != 0) {
+    alert("user already connected");
+  } else {
+    const response = await supabase
+      .from("users")
+      .insert([
+        {
+          created_at: new Date(),
+          moralis_provider_id: authData.profileId,
+          metadata: authData,
+        },
+      ]);
+    _user = response.data;
+  }
 
-        console.log(token)
-      
+  const token = jwt.sign(
+    {
+      ..._user,
+      aud: "authenticated",
+      role: "authenticated",
+      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
+    },
+    "SxaQ5OLMRp/lmQqdaOP369jJsNUuKvTXU7ksIRBTzQLkL90wtYCJFbvTBZpE7e8a40Q/US/lGWFRe5SUnmNeeg=="
+  );
+
+  console.log(token);
 }
-
-  

@@ -1,258 +1,293 @@
-import {useParams, useNavigate} from "react-router-dom";
-import {decode as base64_decode, encode as base64_encode} from 'base-64';
+import { useParams } from "react-router-dom";
+import { decode as base64_decode } from "base-64";
 import { useState, useEffect } from "react";
-import { erc20ABI, useContract, useAccount, useSendTransaction,usePrepareSendTransaction, useSigner} from 'wagmi';
-import uuid from 'react-uuid';
-import {retrieveEventRequest} from  "../Helpers/web3Storage";
-import { Web3Storage } from 'web3.storage/dist/bundle.esm.min.js'
-import {useNetwork  } from 'wagmi';
-import JsonViewer from "../Webblocks/JsonViewer";
-import {isConsole, isMobile} from "react-device-detect";
-import { ethers } from "ethers";
-import TransferETH from "../Helpers/TransferETH";
-import TransferERC20 from "../Helpers/TransferERC20";
-import toast, { Toaster } from 'react-hot-toast';
+import {useAccount} from "wagmi";
+import { useNetwork } from "wagmi";
+import JsonViewer from "../webblocks/jsonviewer";
+import {isMobile} from "react-device-detect";
+import { getRequest, logPayment, logEvent} from "../helpers/supabase";
+import TransferERC20 from "../helpers/transfer";
+import { verifyMessage } from 'ethers/lib/utils'
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
 
 
 function Pay() {
+  const { base } = useParams();
+  const { address, isConnected } = useAccount();
+  const [showCancel, setShowCancel] = useState(false);
+  const token = process.env.REACT_APP_STORAGE_API_KEY;
+  const { chain } = useNetwork();
+  const [isLoading, setIsLoading] = useState(true);
+  const [request, setRequest] = useState({});
+  const [isFetching, setIsFetching] = useState(true);
+  const [error, setError] = useState();
+  const [canPay, setCanPay] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isPaying, setIsPaying] = useState(false);
+  document.title = "Zeppay | Pay ";
 
-    const {base} = useParams();  
-    
-    const { address ,isConnected} = useAccount()
-    const token = process.env.REACT_APP_STORAGE_API_KEY
-    const client = new Web3Storage({ token })
-    const [isLoading, setIsLoading] = useState(true);
-    const [request, setRequest] = useState({})
-    const [isFetching, setIsFetching] = useState(true);
-    const [error, setError] = useState();
-    const [canPay, setCanPay] = useState(true);
-    const [isSuccess, setIsSuccess] = useState(false);
-    const [isPaying, setIsPaying] = useState(false);
-    document.title = 'Zeppay | Pay '
-    const [amount, setAmount] = useState(0);
-    const { data: signer } = useSigner()
+  useEffect(() => {
+    retrieveRequest(base);
+  }, []);
 
-    useEffect(()=> {
-       retrieveRequest(base);
-    },[])
-
-    async function retrieveRequest(cid) {
-        let decodedCDI = base64_decode(cid);
-        const response = await retrieveEventRequest(decodedCDI);
-        setRequestForPayment(response);
-    }
-
-    function errorOccured(error){
-      console.log(error)
-      setCanPay(false);
-
-            setIsLoading(false);
-            setIsPaying(false);    
-    }
-
-   async function setRequestForPayment(request) {
-      setRequest(request);
-         setIsFetching(false);
-         setTimeout(function(){
-               setIsLoading(false);
-         }, 500);
-      }
-
-
-      async function paymentComplete(data) {
-         if(data.hash) {                    
-            setTimeout(function(){
-               logPayment(data, address);
-            }, 1500);
-         }
-      }
-
-      function startPaying(){
-         setIsLoading(true);
-         setIsPaying(true);
-      }
-      
-
+  async function retrieveRequest(cid) {
+    let decodedCDI = base64_decode(cid);
+    const response = await getRequest(decodedCDI);
+    setRequestForPayment(response[0]);
+  }
 
   
-    async function logPayment(_paymentResult, address, ) {
-        const fileBlob = new Blob([{
-                uuid: uuid(),
-                paidBy: address,
-                paymentResult:_paymentResult,
-            }], { type: 'application/json' })
-        
-        const short = require('short-uuid');
-        const nameBlob = "Transaction > " + request.amount + " " + request.token.symbol +" / " + short.generate().substring(0,6);
-      
-        const files = [new File([fileBlob], 'Payment_' + uuid()) ]
-        const cid = await client.put(files, {name: nameBlob})
-          if(cid) {
-            setIsSuccess(true);
-            setIsLoading(false);
-          }
+  function refresh(){ 
+    notification("Payment restarted", "warning", 4000);
+    setCanPay(false);
+    setIsLoading(false);
+    setIsPaying(false);
+  }
+
+  function notification(title, type, duration) {
+    let danger = "#d63031";
+    let success = "#2ecc71";
+    let prime = "#000";
+    let warning = "#e67e22";
+    let background;
+    if (type == "danger") {
+      background = danger;
+    } else if (type == "prime") {
+      background = prime;
+    } else if(type=="warning") {
+      background = warning;
+    } else {
+      background = success;
     }
-    
+    Toastify({
+      text: title,
+      gravity: "bottom",
+      duration: duration,
+      position: "left",
+      backgroundColor: background,
+    }).showToast();
+  }
+
+  function errorOccured(error) {
+    notification(error, "danger", 4000);
+    setCanPay(false);
+    setIsLoading(false);
+    setIsPaying(false);
+  }
+
+  async function setRequestForPayment(request) {
+    if (isConnected) {
+      if (request.chain != chain.name) {
+        notification("Switch Network!", "danger", 4000);
+      }
+    }
+    setRequest(request);
+    setIsFetching(false);
+    setTimeout(function () {
+      setIsLoading(false);
+    }, 500);
+  }
+
+  async function paymentComplete(data) {
+    if (data.hash) {
+      notification("Verifying signature...", "prime", 4000);
+      setTimeout(function () {
+        _logPayment(data.hash)
+        setIsSuccess(true);
+      }, 3000);
+    }
+  }
+
+  function startPaying() {
+    setIsLoading(true);
+    setIsPaying(true);
+    setTimeout(function () {
+      setShowCancel(true);
+    }, 8000);
+
+  }
+
+  async function _logPayment(hash) {
+    notification("All check", "success", 4000);
+    console.log(base + " " + base64_decode(base))
+    logPayment(hash, request, base64_decode(base));
+
+    setIsSuccess(true);
+    setIsLoading(false);
+  }
 
 
-    if(!isFetching) {
-        if(isSuccess) {
-            return (
-                    <div class="wrapper w3-animate-opacity"> 
-                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
-                        <h1>Payment completed</h1>
-                        <span>You can close this page by clicking <a href={window.location.origin +"/"}>here</a> </span>
-           
-                    </div>  
-            )
-        }
-        else {
-    return (
-    <div class="container page create payment  ">
-        <div class="pay-content">
-           {!isLoading? 
-           <div class="payment-overview">
+  function paymentSettled(data, error) {
+    setCanPay(false);
+    setIsLoading(false);
+    setIsPaying(false);
+  } 
 
-              {error?
-              <div class="alert alert-primary" role="alert">
-                 {error} 
-              </div>
-              :<></>}
-              <div class="payment-details">
-                 <a>Pay with Zeppay</a> 
-                 {isMobile ?<></>:
-                 <h1 id="share-title">Confirm</h1>
-              }
-                 {!isMobile? <>
-                
-                 <div class="payment-group">
-                    <label>For</label>
-                    <div>{request.message}</div>
-                 </div>
-                 <div class="payment-group">
-                    <label>Price in USD</label>
-                    <div>${parseInt(request.price).toLocaleString()},-</div>
-                 </div>
-                 <div class="payment-group total">
-                    <label>Total</label>
-                    <div><img src={request.token.icon} width="20"/> {request.amount} {request.token.symbol}</div>
-                 </div>
-                 </>: <>
-                 <div class="mobile-payment-group total">
-                 <div><img src={request.token.icon} width="38"/> {request.amount} {request.token.symbol}</div>
-                 </div>
-                
-                 <div class="mobile-payment-group datetime">
-                    {/* <div>{request.dateCreated.replace('T', '')}</div> */}
-                 </div>
-               
-                  </>}
-
-                
-
-              </div>
-    
-              <div class="pay-data">
-                              <div class="payment-group large">
-                                <label>For</label> 
-                                <div>{request.destination.substring(0, 10)+"..."+request.destination.substring(request.destination.length - 10,request.destination.length)}</div>
-                             </div>
-                             <div class="payment-group large">
-                                <label>Price in USD</label> 
-                                <div>${parseInt(request.price).toLocaleString()},-</div>
-                             </div>
-                          
-                    
-                 <div class="accordion accordion-flush" id="accordionFlushExample">
-                    <div class="accordion-item">
-                       <h2 class="accordion-header" id="flush-headingOne">
-                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseOne">
-                          <a> Request data</a>
-                          </button>
-                       </h2>
-                       <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                          <div class="accordion-body">
-                             <div class="payment-group">
-                                <label>Send to</label> 
-                                <div>{request.destination.substring(0, 10)+"..."+request.destination.substring(request.destination.length - 10,request.destination.length)}</div>
-                             </div>
-                             <div class="payment-group">
-                                <label>Date/Time created</label> 
-                                <div>{request.destination.substring(0, 10)+"..."+request.destination.substring(request.destination.length - 10,request.destination.length)}</div>
-                             </div>
-                             <div class="payment-group">
-                                <label>Token Contract</label>
-                                {request.token.contract == "Native"?
-                                <div>Native</div>
-                                :
-                                <div>{request.token.contract.substring(0, 10)+"..."+request.token.contract.substring(request.token.contract.length - 10,request.token.contract.length)}</div>
-                                }
-                            </div>
-                            <div class="payment-group">
-                                    <label>Payment Network</label>
-                                    <div>{request.chain}</div>
-                                </div>
-                                <div class="payment-group">
-                                    <label>Date created</label>
-                                    <div>{request.dateCreated}</div>
-                                </div>
-                          </div>
-                       </div>
-                    </div>
-                 </div>
-                 
-                 <div class="payment-group">
-                    <JsonViewer request={request}/>
-                 </div>
-                 </div>
-                 <div class="payment-buttons">
-                  {isConnected?
-                 <div class="">
-                  <TransferERC20 toaster={toast} errorOccured={errorOccured} 
-                   decimals={request.token.decimals} startPaying={startPaying} 
-                   contract={request.token.contract} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
-                
-                 {/* {request.token.symbol == "ETH"?
-                  <TransferETH toaster={toast} errorOccurd={errorOccurd} startPaying={startPaying} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
-                   :
-                   <TransferERC20 toaster={toast} errorOccurd={errorOccurd} 
-                   decimals={request.token.decimals} startPaying={startPaying} 
-                   contract={request.token.contract_5} symbol={request.token.symbol} icon={request.token.icon} paymentComplete={paymentComplete} address={request.destination} amount={request.amount}/>
-                   } */}
-                 </div>: 
-                 <div class="not-connected">
-                     No wallet connected. 
-                  </div>}
-              </div>
-           </div>
-           : 
-           <div class="loading-transactions pay">
-              <div class="sk-chase">
-                 <div class="sk-chase-dot"></div>
-                 <div class="sk-chase-dot"></div>
-                 <div class="sk-chase-dot"></div>
-                 <div class="sk-chase-dot"></div>
-                 <div class="sk-chase-dot"></div>
-                 <div class="sk-chase-dot"></div>
-              </div>
-              {isPaying?
-              <>    
-              <h3>Processing payment...</h3></>
-              :<></> }
-           </div>
-           }
+  if (!isFetching) {
+    if (isSuccess) {
+      return (
+        <div class="wrapper w3-animate-opacity">
+          <svg
+            class="checkmark"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 52 52"
+          >
+            {" "}
+            <circle
+              class="checkmark__circle"
+              cx="26"
+              cy="26"
+              r="25"
+              fill="none"
+            />{" "}
+            <path
+              class="checkmark__check"
+              fill="none"
+              d="M14.1 27.2l7.1 7.2 16.7-16.8"
+            />
+          </svg>
+          <h1>Payment completed</h1>
+          <span>
+            You can close this page by clicking{" "}
+            <a href={window.location.origin + "/"}>here</a>{" "}
+          </span>
         </div>
-        {isMobile? 
-        <div class="background-overlay-mobile-pay"></div>
+      );
+    } else {
+      return (
+        <div class="container page create payment  ">
+          <div class="pay-content">
+            {!isLoading ? (
+              <div class="payment-overview">
+                {error ? (
+                  <div class="alert alert-primary" role="alert">
+                    {error}
+                  </div>
+                ) : (
+                  <></>
+                )}
+                <div class="payment-details">
+                  <a>Pay with Zeppay</a>
+                  {isMobile ? <></> : <h1 id="share-title">Confirm</h1>}
+                  {!isMobile ? (
+                    <>
+                      <div class="payment-group">
+                        <label>For</label>
+                        <div>{request.message}</div>
+                      </div>
+                      <div class="payment-group">
+                        <label>Price in USD</label>
+                        <div>${parseInt(request.value).toLocaleString()},-</div>
+                      </div>
+                      <div class="payment-group total">
+                        <label>Total</label>
+                        <div>
+                          <img src={request.token.icon} width="20" />{" "}
+                          {request.amount} {request.token.symbol}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div class="mobile-payment-group total">
+                        <div>
+                          <img src={request.token.icon} width="38" />{" "}
+                          {parseInt(request.amount).toLocaleString()} {request.token.symbol}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
 
-        :<>
-        <div class="background-overlay top"></div>
-        <div class="background-overlay"></div>
-        </>}
-     </div>
-        )
+                <div class="pay-data">
+                  <div class="payment-group large">
+                    <label>For</label>
+                    <div>
+                    {request.message}
+                    </div>
+                  </div>
+                  <div class="payment-group large">
+                    <label>Price in USD</label>
+                    <div>${parseInt(request.value).toLocaleString()},-</div>
+                  </div>
+
+                
+                </div>
+                <div class="payment-buttons">
+                  {isConnected ? (
+                    <div class="">
+                      <div class="chain-status">
+                        Network status :
+                        {request.chain != chain.name ? (
+                          <span class="wrong-network">
+                            {" "}
+                            Switch to {request.chain}
+                          </span>
+                        ) : (
+                          <span class="ok-network">Ok</span>
+                        )}
+                      </div>
+                      <TransferERC20
+                        errorOccured={errorOccured}
+                        decimals={request.token.decimals}
+                        startPaying={startPaying}
+                        contract={
+                          request.chain == "Ethereum"
+                            ? request.token.contract
+                            : request.token.contract_5
+                        }
+                        symbol={request.token.symbol}
+                        icon={request.token.icon}
+                        paymentSettled={paymentSettled}
+                        paymentComplete={paymentComplete}
+                        address={request.destination}
+                        chain={request.chain}
+                        amount={request.amount}
+                      />
+                    </div>
+                  ) : (
+                    <div class="not-connected">
+                      <ConnectButton label="Connect Wallet" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div class="loading-transactions pay">
+                <div class="sk-chase">
+                  <div class="sk-chase-dot"></div>
+                  <div class="sk-chase-dot"></div>
+                  <div class="sk-chase-dot"></div>
+                  <div class="sk-chase-dot"></div>
+                  <div class="sk-chase-dot"></div>
+                  <div class="sk-chase-dot"></div>
+                </div>
+                {isPaying ? (
+                  <>
+                    <h3>Processing payment...</h3>
+
+                    {showCancel?<button onClick={()=> refresh()} class="btn btn-primary btn-restart w3-animate-bottom">Page stuck? Refresh here</button>  :<></>}
+                  </>
+                ) : (
+                  <></>
+                )}
+              </div>
+            )}
+          </div>
+          {isMobile ? (
+            <div class="background-overlay-mobile-pay"></div>
+          ) : (
+            <>
+              <div class="background-overlay top"></div>
+              <div class="background-overlay"></div>
+            </>
+          )}
+        </div>
+      );
     }
-    }
+  }
 }
 
 export default Pay;

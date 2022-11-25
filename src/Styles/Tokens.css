@@ -37,6 +37,13 @@
     height: 100%;
     overflow: scroll;
 }
+
+.tokens-list{
+    margin-top: 20px;
+    min-height: 350px;
+    max-height: 370px;
+    overflow: scroll;
+}
 .tokens-list ul {
     padding: 0px;
     margin: 0px;
