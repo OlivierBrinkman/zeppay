@@ -1,0 +1,25 @@
+.box {
+    --mask:
+    radial-gradient(79.38px at 50% calc(100% - 112.10px),#000 99%,#0000 101%) calc(50% - 118px) 0/236px 100%,
+    radial-gradient(79.38px at 50% calc(100% + 53.10px),#0000 99%,#000 101%) 50% calc(0px - 61px)/236px 100% repeat-x;
+    -webkit-mask: var(--mask);
+            mask: var(--mask);
+            width: 100%;
+    position: absolute;
+    z-index: 9999;
+    height: 100%;
+    background: #5657FE;
+  }
+
+  .background-overlay.overlay-login.home {
+    background: transparent!important;;
+    box-shadow: none;
+  }
+
+
+  @media only screen and (max-width: 1000px) {
+
+.box { 
+    height: 500px;;
+}
+  }

@@ -33,16 +33,12 @@ function Create() {
   const [tokenPrice, setTokenPrice] = useState();
   const [plainText, setPlainText] = useState("")
   const [isPageLoading, setIsLoading] = useState(false);
-  const [qrResult, setQrResult] = useState(
-    "https://zeppay.app/pay/UNKNOWNHASH"
-  );
   const [showCancel, setShowCancel] = useState(false);
   const [isAmountInvalid, setIsAmountInvalid] = useState(false);
   const APIKEY = process.env.REACT_APP_MORALIS_API_KEY;
   const [cdiLink, setCdiLink] = useState("");
   const [isShare, setIsShare] = useState(false);
   const [isSigning, setIsSigning] = useState(false);
-  document.title = "Zeppay | Create ";
   const [isTokenPopUp, setIsTokenPopUp] = useState(false);
   const [transactionToSign, setTransactionToSign] = useState();
   const [rawFiles, setRawFiles] = useState([]);
@@ -125,6 +121,7 @@ function Create() {
       gravity: "bottom",
       duration: 3000,
       position: "left",
+      close:true,
       backgroundColor: background,
     }).showToast();
   }

@@ -3,21 +3,18 @@ import { decode as base64_decode } from "base-64";
 import { useState, useEffect } from "react";
 import {useAccount} from "wagmi";
 import { useNetwork } from "wagmi";
-import JsonViewer from "../webblocks/jsonviewer";
 import {isMobile} from "react-device-detect";
 import { getRequest, logPayment, logEvent} from "../helpers/supabase";
 import TransferERC20 from "../helpers/transfer";
-import { verifyMessage } from 'ethers/lib/utils'
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
-
+import {fetchTokenPrice} from "../helpers/moralis";
 
 function Pay() {
   const { base } = useParams();
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const [showCancel, setShowCancel] = useState(false);
-  const token = process.env.REACT_APP_STORAGE_API_KEY;
   const { chain } = useNetwork();
   const [isLoading, setIsLoading] = useState(true);
   const [request, setRequest] = useState({});
@@ -26,19 +23,20 @@ function Pay() {
   const [canPay, setCanPay] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
-  document.title = "Zeppay | Pay ";
+  const [tokenPrice, setTokenPrice] = useState(0);
 
   useEffect(() => {
     retrieveRequest(base);
-  }, []);
+  },[]);
 
   async function retrieveRequest(cid) {
     let decodedCDI = base64_decode(cid);
     const response = await getRequest(decodedCDI);
+    const price = await fetchTokenPrice(response[0].token)
+    setTokenPrice(price);
     setRequestForPayment(response[0]);
   }
 
-  
   function refresh(){ 
     notification("Payment restarted", "warning", 4000);
     setCanPay(false);
@@ -65,6 +63,7 @@ function Pay() {
       text: title,
       gravity: "bottom",
       duration: duration,
+      close: true,
       position: "left",
       backgroundColor: background,
     }).showToast();
@@ -157,7 +156,7 @@ function Pay() {
       );
     } else {
       return (
-        <div class="container page create payment  ">
+        <div class="container page create payment ">
           <div class="pay-content">
             {!isLoading ? (
               <div class="payment-overview">
@@ -173,27 +172,26 @@ function Pay() {
                   {isMobile ? <></> : <h1 id="share-title">Confirm</h1>}
                   {!isMobile ? (
                     <>
-                      <div class="payment-group">
-                        <label>For</label>
+                      <div class="payment-group message">
                         <div>{request.message}</div>
                       </div>
-                      <div class="payment-group">
-                        <label>Price in USD</label>
-                        <div>${parseInt(request.value).toLocaleString()},-</div>
-                      </div>
+            
                       <div class="payment-group total">
-                        <label>Total</label>
                         <div>
                           <img src={request.token.icon} width="20" />{" "}
                           {request.amount} {request.token.symbol}
                         </div>
+                         <span class="total-amount-usd">~ ${Number.parseFloat(
+                      tokenPrice * request.amount
+                      ).toFixed(2)}</span>
+                           <div class="amount-per-unit">1 {request.token.symbol} : ~${tokenPrice}</div>
                       </div>
                     </>
                   ) : (
                     <>
                       <div class="mobile-payment-group total">
                         <div>
-                          <img src={request.token.icon} width="38" />{" "}
+                          <img src={request.token.icon} width="48" />{" "}
                           {parseInt(request.amount).toLocaleString()} {request.token.symbol}
                         </div>
                       </div>
@@ -203,16 +201,22 @@ function Pay() {
 
                 <div class="pay-data">
                   <div class="payment-group large">
-                    <label>For</label>
+                  
                     <div>
-                    {request.message}
+                    {request.message?request.message:"No message"}
                     </div>
                   </div>
-                  <div class="payment-group large">
-                    <label>Price in USD</label>
-                    <div>${parseInt(request.value).toLocaleString()},-</div>
-                  </div>
 
+                  <div class="payment-group total mobile">
+                       
+                         <span class="total-amount-usd">~ ${Number.parseFloat(
+                      tokenPrice * request.amount
+                      ).toFixed(2)}</span>
+                      <div class="amount-per">
+                        <div class="amount-per-unit">1 {request.token.symbol} : ~${tokenPrice}</div>
+                      
+                      </div>
+                      </div>
                 
                 </div>
                 <div class="payment-buttons">

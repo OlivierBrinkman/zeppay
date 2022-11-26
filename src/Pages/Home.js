@@ -7,6 +7,7 @@ import {
   useChainModal,
 } from '@rainbow-me/rainbowkit'
 import {useAccount} from "wagmi"
+import "../styles/home.css"
 
 function Home() {
   const navigate = useNavigate();
@@ -40,7 +41,6 @@ function Home() {
       notification("No wallet connected", "danger")
     }
   }
-  document.title = "Zeppay | Home ";
   return (
     <div class="home w3-animate-opacity">
       <div class="home-block-1">
@@ -71,7 +71,10 @@ function Home() {
           </div>
         </div>
       </div>
-      <div class="background-overlay overlay-login"></div>
+      <div class="background-overlay overlay-login home"> 
+      <div class="box"></div>
+
+      </div>
     </div>
   );
 }

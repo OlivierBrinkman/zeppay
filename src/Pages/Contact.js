@@ -9,7 +9,6 @@ import Name from "../assets/name.png";
 
 function Contact(props) {
   const form = useRef();
-  document.title = "Zeppay | Contact ";
   const [emailSend, setEmailSend] = useState(false);
   const [nameInvalid, setNameInvalid] = useState();
   const [emailInvalid, setEmailInvalid] = useState();

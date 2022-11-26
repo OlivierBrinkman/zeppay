@@ -2,6 +2,29 @@ import Moralis from "moralis";
 import jwt from "jsonwebtoken";
 import { createClient } from "@supabase/supabase-js";
 import { EvmChain } from "@moralisweb3/evm-utils";
+
+export async function fetchTokenPrice(token) {
+  const APIKEY = process.env.REACT_APP_MORALIS_API_KEY;
+  
+      const saveLabel = token.symbol + "_USD";
+      var savedPrice = sessionStorage.getItem(saveLabel);
+      if (savedPrice) {
+        return savedPrice;
+      } else {
+        const chain = EvmChain.ETHEREUM;
+        const address = token.contract;
+        await Moralis.start({ apiKey: APIKEY });
+        const response = await Moralis.EvmApi.token.getTokenPrice({
+          address,
+          chain,
+        });
+        const usdPrice = Number.parseFloat(response.data.usdPrice).toFixed(2);
+        sessionStorage.setItem(saveLabel, usdPrice);
+        return usdPrice;
+      }
+  }
+
+
 async function initMoralis() {
   await Moralis.start({ apiKey: process.env.REACT_APP_MORALIS_API_KEY });
 }

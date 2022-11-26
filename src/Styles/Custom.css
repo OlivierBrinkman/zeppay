@@ -160,6 +160,14 @@ body {
 }
 .container.page.create.payment a {
     margin-left: 0px;
+    font-weight: 700!important;;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.container.page.create.payment {
+    min-height: unset;
+   margin-top: 100px;
 }
 .btn.disabled:hover, .btn:disabled:hover, fieldset:disabled:hover .btn:hover {
     cursor: not-allowed 
@@ -700,6 +708,19 @@ td {
     transform: none;
 }
 
+.total-amount-usd { 
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.payment-group.message div{ 
+    font-size: 22px!important;
+    font-weight: 700;
+
+    color: #000;
+    font-family: 'Inter', sans-serif;
+
+}
 .toastify {
     width:450px!important;
     max-width: unset!important;;
@@ -746,7 +767,8 @@ td {
 .navbar-nav.me-auto.mb-lg-0 >div > button:first-child{
     background: transparent!important;
     font-family: "Poppins", sans-serif!important;
-    color:#000;
+    color:#000!important;;
+    padding: 0px;
     font-weight: 700!important; 
 }
 .background-overlay {
@@ -1034,7 +1056,7 @@ td {
     background: rgba(0, 0, 0, 0.1)!important;
 }
 .modal-content, [data-rk] ._1ckjpok1 {
-    padding: 20px!important;
+    padding: 0px!important;
     border-radius: 20px!important;
     margin: 0 auto!important;
 }
@@ -1044,6 +1066,10 @@ td {
 }
 .modal-content a {
     color: #fff;
+}
+
+.mobile {
+    display: none;
 }
 #thanks {
     margin-top: 150px;
@@ -1143,6 +1169,15 @@ td {
     top: 15px!important;
     width: 8px!important;
     height: 8px!important;
+}
+
+.toast-close {
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+    color :#fff;
+    opacity : 1;
+    top: 28px;
 }
 .lds-ellipsis {
     height: 40px!important;
@@ -1291,6 +1326,20 @@ input, textarea {
     border-radius: 20px;
     margin: 4% auto;
     width: fit-content;
+}
+.total-amount-usd { 
+    font-size: 20px!important;
+    color :#777;
+    font-weight: 600!important;;
+    font-family: "Poppins", sans-serif!important;
+
+}
+.amount-per-unit {
+    font-size: 16px!important;
+    font-family: "Poppins", sans-serif;
+
+    color :#777;
+    font-weight: 500!important;;
 }
 .alert {
     position: fixed;
@@ -2051,7 +2100,7 @@ h3 {
 }
 .payment-group.total {
     text-align: right;
-    font-family: "Roboto", sans-serif!important;
+    font-family: "Poppins", sans-serif!important;
 }
 .payment-group.total div {
     font-weight: 700;
@@ -2392,18 +2441,24 @@ h3 {
         left: 10px;
    }
     .mobile-payment-group.total {
-        font-size:36px;
+        font-size:42px;
         background:#5657FE;
        ;
         border-radius: 20px;
         font-family: "Poppins", sans-serif;
         width: fit-content;
         margin: 0 auto;
+        
         color: #fff;
         font-weight: 700;
         display: flex;
-        align-items: center;
         justify-content: center;
+   }
+
+   .mobile-payment-group.total div { 
+    display: flex;
+    align-items: center;
+    gap: 10px;
    }
     .mobile-payment-group.message {
         color: #fff;
@@ -2473,6 +2528,9 @@ h3 {
         padding-right: 0px;
        ;
    }
+   .mobile {
+    display: bblock;;
+}
     .supported-item {
         padding: 20px;
         border: none;
@@ -2499,6 +2557,10 @@ h3 {
 
     .contact.thanks {
         margin-top: 100px!important;
+   }
+
+   .total-amount-usd { 
+    font-size: 30px;
    }
     h1 {
         font-size: 34px;
@@ -2631,7 +2693,6 @@ h3 {
    }
     .navbar-nav.me-auto.mb-lg-0 >div button:first-child {
         width: auto;
-        padding: 10px;
    }
     .contact-form {
         background: #fff;
@@ -2861,15 +2922,16 @@ h3 {
    .toastify {
     width: calc(100% - 20px)!important;
     max-width: unset!important;;
-    font-size: 18px!important;
         border-radius: 15px!important;
-        font-weight: 600;
+
         padding: 30px!important;
    }
 
    .toastify-left {
     left: 10px!important;
     right: 10px;
+    font-size: 20px!important;
+
     bottom: 10px!important;
    }
 

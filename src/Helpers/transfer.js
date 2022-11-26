@@ -1,4 +1,4 @@
-import {erc20ABI,useNetwork,useContract,useAccount,useSigner,useBalance,usePrepareSendTransaction,useSendTransaction,useProvider } from "wagmi";
+import {erc20ABI,useNetwork,useContract,useAccount,useSigner,usePrepareSendTransaction,useSendTransaction,useProvider } from "wagmi";
  import React from "react"
  import Web3 from "web3";
  import {getBalance} from "./infura";
@@ -15,11 +15,18 @@ import {erc20ABI,useNetwork,useContract,useAccount,useSigner,useBalance,usePrepa
      abi: erc20ABI,
      signerOrProvider: signer,
      onError(error) {
-      console.log(error)
-     },
+      props.errorOccured("Error: user has declined payment");
+
+    },
      onSuccess(data) {
       console.log(data)
-     }
+     },
+     onMutate({ args, overrides }) {
+      console.log('Mutate', { args, overrides })
+    },
+    onSettled(data) {
+      console.log(data)
+    },
    });
 
     const { config } = usePrepareSendTransaction({
@@ -27,10 +34,9 @@ import {erc20ABI,useNetwork,useContract,useAccount,useSigner,useBalance,usePrepa
                to: props.address,
                value: web3.utils.toWei(props.amount, "ether"),
              },
-
+             enabled: false,
     })
-    const {  data, isLoading, isSuccess,sendTransaction } = useSendTransaction({
-      ...config,
+    const {sendTransaction } = useSendTransaction({...config,
       onError(error) {
         props.errorOccured(formatErrorMessage(error));
       },
@@ -53,32 +59,65 @@ import {erc20ABI,useNetwork,useContract,useAccount,useSigner,useBalance,usePrepa
     }
 
 
+    async function hasEnoughFunds() {
+      const balance = await contract.balanceOf(address);
+      let hexBalance = balance._hex;
+      let int = web3.utils.hexToNumberString(hexBalance) / decimalSplit();
+      if(int < props.amount) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    function decimalSplit() {
+      let d = props.decimals;
+      if(d == 6) {
+        return 1e6
+      } else if(d == 8) {
+        return 1e8
+      } else if(d == 12) {
+        return 1e12
+      } else if(d == 18) {
+        return 1e18
+      }
+    }
+  
    async function send() {
-    const BigNumber = require('bignumber.js');
-     if (props.chain != chain.name) {
-       props.errorOccured("Switch to " + props.chain);
-     } else {
-       props.startPaying(); 
-         if (props.symbol == "ETH") {
-            sendEth();
-         } else {
-          let bigNumber = await contract.balanceOf(address)
-          let hexBalance = bigNumber._hex;
-          const balance = web3.utils.hexToNumber(hexBalance)/1000000;
-          if(balance < props.amount) {
-              props.errorOccured("Error: account has insufficient balance");
+    if(props.contract == "") {
+      props.errorOccured("Token not supported on Goerli Network");
+
+    } else {
+      const BigNumber = require('bignumber.js');
+      if (props.chain != chain.name) {
+        props.errorOccured("Switch to " + props.chain);
+      } else {
+        props.startPaying(); 
+          if (props.symbol == "ETH") {
+             sendEth();
           } else {
-            let amount_wei = new BigNumber(props.amount).shiftedBy(parseInt(props.decimals)).toString()
-            const res = await contract.connect(signer).transfer(props.address, amount_wei);
-            if (res.hash) {
-              props.paymentComplete(res);
-            }
-            else { 
-              console.log(res)
-            }
+           const eFunds = await hasEnoughFunds();
+           if(!eFunds) {
+               props.errorOccured("Error: user has insufficient balance");
+           } else {
+             let amount_wei = new BigNumber(props.amount).shiftedBy(parseInt(props.decimals)).toString();
+             try {
+               const res = await contract.connect(signer).transfer(props.address, amount_wei);
+               if (res.hash) {
+                 props.paymentComplete(res);
+               }
+               else { 
+                 props.errorOccured("Error: user has insufficient balance");
+               }
+             } catch(ex) { 
+                     props.errorOccured(formatErrorMessage(ex));
+ 
+             }
+           }
           }
-         }
-     }
+      }
+    }
+    
    }
  
 

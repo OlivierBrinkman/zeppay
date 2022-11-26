@@ -7,31 +7,33 @@ import {
   RainbowKitProvider,
   darkTheme,
   GetSiweMessageOptions,
+  DisclaimerComponent,
   Theme,
 } from "@rainbow-me/rainbowkit";
+
 import { chain, configureChains, WagmiConfig, createClient } from "wagmi";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.goerli],
+  [chain.mainnet, chain.polygon, chain.optimism, chain.goerli],
   [infuraProvider({ apiKey: "a7a5842cf26343fb99eef41781524c81" })],
   [publicProvider()]
 );
+
+
+
+//ttps://bsc-dataseed.binance.org/
+
 const { connectors } = getDefaultWallets({ appName: "Zeppay", chains });
 const wagmiClient = createClient({ autoConnect: true, connectors, provider });
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root"))
 
-const getSiweMessageOptions = {
-  statement: 'Sign in to my RainbowKit app',
-};
 
 root.render(
   <React.StrictMode>
     {/* <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}> */}
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider
-        getSiweMessageOptions={getSiweMessageOptions}
-
         theme={darkTheme({
           accentColor: "#5657FE",
           accentColorForeground: "#fff",
