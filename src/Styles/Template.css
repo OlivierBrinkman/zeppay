@@ -41,7 +41,7 @@ body {
 }
 
 .form-control {
-    height: 70px;
+    height: 60px;
     background-color: whitesmoke;
     border: none;
     font-size: 18px!important;
@@ -68,7 +68,7 @@ margin-right: 10px!important;
     width: auto;
 }
 .input-group-text {
-    height: 70px;
+    height: 60px;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     background: none;

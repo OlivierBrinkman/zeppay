@@ -1,19 +1,18 @@
 import { useParams } from "react-router-dom";
 import { decode as base64_decode } from "base-64";
 import { useState, useEffect } from "react";
-import {useAccount} from "wagmi";
-import { useNetwork } from "wagmi";
-import {isMobile} from "react-device-detect";
-import { getRequest, logPayment, logEvent} from "../helpers/supabase";
+import { useAccount,useNetwork } from "wagmi";
+import { isMobile } from "react-device-detect";
+import { getRequest, logPayment, logEvent } from "../helpers/supabase";
 import TransferERC20 from "../helpers/transfer";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
-import {fetchTokenPrice} from "../helpers/moralis";
+import { fetchTokenPrice } from "../helpers/moralis";
 
 function Pay() {
   const { base } = useParams();
-  const { isConnected } = useAccount();
+  const { isConnected, address} = useAccount();
   const [showCancel, setShowCancel] = useState(false);
   const { chain } = useNetwork();
   const [isLoading, setIsLoading] = useState(true);
@@ -27,17 +26,17 @@ function Pay() {
 
   useEffect(() => {
     retrieveRequest(base);
-  },[]);
+  }, []);
 
   async function retrieveRequest(cid) {
     let decodedCDI = base64_decode(cid);
     const response = await getRequest(decodedCDI);
-    const price = await fetchTokenPrice(response[0].token)
+    const price = await fetchTokenPrice(response[0].token);
     setTokenPrice(price);
     setRequestForPayment(response[0]);
   }
 
-  function refresh(){ 
+  function refresh() {
     notification("Payment restarted", "warning", 4000);
     setCanPay(false);
     setIsLoading(false);
@@ -54,7 +53,7 @@ function Pay() {
       background = danger;
     } else if (type == "prime") {
       background = prime;
-    } else if(type=="warning") {
+    } else if (type == "warning") {
       background = warning;
     } else {
       background = success;
@@ -69,8 +68,9 @@ function Pay() {
     }).showToast();
   }
 
-  function errorOccured(error) {
+  async function errorOccured(error) {
     notification(error, "danger", 4000);
+    const response = await logEvent(404, error, address)
     setCanPay(false);
     setIsLoading(false);
     setIsPaying(false);
@@ -93,7 +93,7 @@ function Pay() {
     if (data.hash) {
       notification("Verifying signature...", "prime", 4000);
       setTimeout(function () {
-        _logPayment(data.hash)
+        _logPayment(data.hash);
         setIsSuccess(true);
       }, 3000);
     }
@@ -105,52 +105,34 @@ function Pay() {
     setTimeout(function () {
       setShowCancel(true);
     }, 8000);
-
   }
 
   async function _logPayment(hash) {
     notification("All check", "success", 4000);
-    console.log(base + " " + base64_decode(base))
+    console.log(base + " " + base64_decode(base));
     logPayment(hash, request, base64_decode(base));
 
     setIsSuccess(true);
     setIsLoading(false);
   }
 
-
-  function paymentSettled(data, error) {
+  function paymentSettled() {
     setCanPay(false);
     setIsLoading(false);
     setIsPaying(false);
-  } 
+  }
 
   if (!isFetching) {
     if (isSuccess) {
       return (
         <div class="wrapper w3-animate-opacity">
-          <svg
-            class="checkmark"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 52 52"
-          >
+          <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
             {" "}
-            <circle
-              class="checkmark__circle"
-              cx="26"
-              cy="26"
-              r="25"
-              fill="none"
-            />{" "}
-            <path
-              class="checkmark__check"
-              fill="none"
-              d="M14.1 27.2l7.1 7.2 16.7-16.8"
-            />
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /> <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
           </svg>
           <h1>Payment completed</h1>
           <span>
-            You can close this page by clicking{" "}
-            <a href={window.location.origin + "/"}>here</a>{" "}
+            You can close this page by clicking <a href={window.location.origin + "/"}>here</a>{" "}
           </span>
         </div>
       );
@@ -175,24 +157,22 @@ function Pay() {
                       <div class="payment-group message">
                         <div>{request.message}</div>
                       </div>
-            
+
                       <div class="payment-group total">
                         <div>
-                          <img src={request.token.icon} width="20" />{" "}
-                          {request.amount} {request.token.symbol}
+                          <img src={request.token.icon} width="20" /> {request.amount} {request.token.symbol}
                         </div>
-                         <span class="total-amount-usd">~ ${Number.parseFloat(
-                      tokenPrice * request.amount
-                      ).toFixed(2)}</span>
-                           <div class="amount-per-unit">1 {request.token.symbol} : ~${tokenPrice}</div>
+                        <span class="total-amount-usd">~ ${Number.parseFloat(tokenPrice * request.amount).toFixed(2)}</span>
+                        <div class="amount-per-unit">
+                          1 {request.token.symbol} : ~${tokenPrice}
+                        </div>
                       </div>
                     </>
                   ) : (
                     <>
                       <div class="mobile-payment-group total">
                         <div>
-                          <img src={request.token.icon} width="48" />{" "}
-                          {parseInt(request.amount).toLocaleString()} {request.token.symbol}
+                          <img src={request.token.icon} width="48" /> {parseInt(request.amount).toLocaleString()} {request.token.symbol}
                         </div>
                       </div>
                     </>
@@ -201,47 +181,27 @@ function Pay() {
 
                 <div class="pay-data">
                   <div class="payment-group large">
-                  
-                    <div>
-                    {request.message?request.message:"No message"}
-                    </div>
+                    <div>{request.message ? request.message : "No message"}</div>
                   </div>
 
                   <div class="payment-group total mobile">
-                       
-                         <span class="total-amount-usd">~ ${Number.parseFloat(
-                      tokenPrice * request.amount
-                      ).toFixed(2)}</span>
-                      <div class="amount-per">
-                        <div class="amount-per-unit">1 {request.token.symbol} : ~${tokenPrice}</div>
-                      
+                    <span class="total-amount-usd">~ ${Number.parseFloat(tokenPrice * request.amount).toFixed(2)}</span>
+                    <div class="amount-per">
+                      <div class="amount-per-unit">
+                        1 {request.token.symbol} : ~${tokenPrice}
                       </div>
-                      </div>
-                
+                    </div>
+                  </div>
                 </div>
                 <div class="payment-buttons">
                   {isConnected ? (
                     <div class="">
-                      <div class="chain-status">
-                        Network status :
-                        {request.chain != chain.name ? (
-                          <span class="wrong-network">
-                            {" "}
-                            Switch to {request.chain}
-                          </span>
-                        ) : (
-                          <span class="ok-network">Ok</span>
-                        )}
-                      </div>
+                      <div class="chain-status">Network status :{request.chain != chain.name ? <span class="wrong-network"> Switch to {request.chain}</span> : <span class="ok-network">Ok</span>}</div>
                       <TransferERC20
                         errorOccured={errorOccured}
                         decimals={request.token.decimals}
                         startPaying={startPaying}
-                        contract={
-                          request.chain == "Ethereum"
-                            ? request.token.contract
-                            : request.token.contract_5
-                        }
+                        contract={request.chain == "Ethereum" ? request.token.contract : request.token.contract_5}
                         symbol={request.token.symbol}
                         icon={request.token.icon}
                         paymentSettled={paymentSettled}
@@ -272,7 +232,13 @@ function Pay() {
                   <>
                     <h3>Processing payment...</h3>
 
-                    {showCancel?<button onClick={()=> refresh()} class="btn btn-primary btn-restart w3-animate-bottom">Page stuck? Refresh here</button>  :<></>}
+                    {showCancel ? (
+                      <button onClick={() => refresh()} class="btn btn-primary btn-restart w3-animate-bottom">
+                        Page stuck? Refresh here
+                      </button>
+                    ) : (
+                      <></>
+                    )}
                   </>
                 ) : (
                   <></>

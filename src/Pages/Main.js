@@ -5,6 +5,7 @@ import Navigation from '../webblocks/navigation';
 import Home from "./home";
 import Create from "./create";
 import Pay from "./pay";
+import Share from "./share";
 import Contact from "./contact";
 import NotFound from "./notfound";
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/create" element={<Create/>}></Route>
           <Route path="/pay/:base" element={<Pay />}></Route>
+          <Route path="/share" element={<Share />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

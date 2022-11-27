@@ -12,14 +12,72 @@
   }
 
   .background-overlay.overlay-login.home {
-    background: transparent!important;;
     box-shadow: none;
   }
 
 
+  .home-construction-text {
+    margin-top: 100px;
+    width: 500px;
+    font-size: 16px;
+    font-weight: 400;
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+    color: #000;
+    font-family: "Roboto", sans-serif!important;
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.home-block-1 h1:first-child {
+  color: #5657FE!important;
+ }
+  .home-block-1 h1:last-child {
+      color: #000!important;
+ }
+
+.home-construction-text h3 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0px;
+    padding: 0px;
+}
+.home-construction-text div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0px;
+}
+
+  
   @media only screen and (max-width: 1000px) {
 
-.box { 
-    height: 500px;;
+    .home-construction-text div {
+      display: block;
+    }
+    .home-block-1 h1:last-child {
+      width: 100%;
+      font-size: 24px;
+      width: 100%;
+      margin: 5px 0px;;
+     }
+    .home-block-1 h1 {
+      font-size: 30px;
+      width: 100%;
+ }
+    .home-construction-text div button {
+      border-radius: 10px;
+      padding: 15px;
+      width: 100%!important;
+    margin: 5px 0px;
+    }
+.home-construction-text {
+  width: calc(100% - 20px);
+  right: 10px;
+  left:10px;
+  position: fixed;
+  bottom: 10px;
 }
   }

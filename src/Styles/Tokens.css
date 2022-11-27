@@ -1,112 +1,81 @@
-.tokens {
-    top: 0px;
-    background: #fff;
-    z-index: 99;
-    border-radius: 20px;
-    transition: all 0.5s ease-out;
-    position: absolute;
-    top: -100px;
-   ;
-    width: 100%;
-   ;
-    left: 0px;
-    padding: 30px 10px;
-   ;
-    padding-bottom: 10px;
-}
-.tokens.show {
-    margin-bottom: 0px;
-    transition: all 2s ease-out;
-}
-.tokens-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.tokens-header-title {
-    width: 100%;
-}
-.tokens-header-title h1 {
-    margin: -3px 0px 0px 0px!important;
-}
-.tokens-header-close:hover {
-    cursor: pointer;
-}
-.token-list {
-    min-height: 100%;
-    height: 100%;
-    overflow: scroll;
+#tokens {
+    min-height: unset;
+    height: 60px;;
+    border-radius: 10px;
 }
 
-.tokens-list{
-    margin-top: 20px;
-    min-height: 350px;
-    max-height: 370px;
-    overflow: scroll;
+.css-1s2u09g-control {
+    min-height: unset;
+    height: 60px;
+    border-radius: 10px!important;
+    background: whitesmoke!important;
+    border: none!important;
 }
-.tokens-list ul {
-    padding: 0px;
-    margin: 0px;
-    max-height: 370px;
-    overflow: scroll;
-}
-.tokens-list-item b {
+
+.token-label {
     font-weight: 700;
     font-family: "Poppins", sans-serif;
-    color: #000 
+color: #000;
+font-size: 16px;
+margin-bottom: 3px;
 }
-.tokens-list-item {
-    padding: 10px 10px;
+.css-14el2xx-placeholder{ 
+    color: #000!important;
+    font-weight: 500;
     font-family: "Poppins", sans-serif;
-    color: #000;
-    font-size: 18px;
+font-size: 16px;
+    content: 'test'!important;
+}
+
+.css-b62m3t-container:hover {
+    background: whitesmoke!important;
+}
+
+
+#react-select-3-listbox {
+    border: none;
+    z-index: 999;
+}
+
+#react-select-3-input {
+    font-size: 18px!important;
+}
+
+.token-list-item {
+    padding: 5px 5px;
     display: flex;
+    font-size: 18px!important;
+    font-family: 'Poppins', sans-serif;
+font-weight: 600;
     align-items: center;
-    list-style-type: none;
-    gap: 10px;
-    font-weight: 500;
-    border-radius: 10px;
-    position: relative;
+    gaP: 10px;
 }
-.tokens-list-item.selected {
-    background-color: whitesmoke;
+
+.token-list-header {
+    font-weight: 700;
+    font-family: "Inter", sans-serif;
+    color: #000;
 }
-.tokens-list-item-arrow {
-    position: absolute;
-    right: 10px;
-    top: 22px;
+
+.css-1pahdxg-control {
+    min-height: unset;
+    height:60px;;
+    border-radius: 10px!important;
+    background: whitesmoke!important;
+
+    border: none!important;
 }
-.change-token-link {
-    color: #5657FE;
-    font-family: "Poppins", sans-serif;
-    position: absolute;
-    right: 15px;
-    top: 22px;
-    font-weight: 500;
-    font-size: 16px;
-   ;
+
+.css-1pahdxg-control:active, .css-1pahdxg-control:focus,.css-1pahdxg-control:hover {
+    border: none!important;
+    outline: none!important;
+    border-radius: 10px!important;
+    background: white!important;
+
+    box-shadow: none!important;;
 }
-.tokens-list-item:hover {
-    background: whitesmoke;
-    cursor: pointer;
-}
+
+
 @media only screen and (max-width: 1000px) {
-    .tokens {
-        padding: 0px 10px;
-        top: -65px;
-   }
-    .tokens-list-item {
-        font-size: 18px;
-        padding: 15px 10px;
-   }
-    .tokens-header a {
-        margin-left: 0px!important;
-   }
-    .tokens-header-close img {
-        margin-right: 10px;
-        width: 18px;
-   }
-    .tokens-list ul {
-        max-height: 500px; overflow: scroll;
-   }
+  
 }

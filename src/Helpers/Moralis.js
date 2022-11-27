@@ -5,25 +5,24 @@ import { EvmChain } from "@moralisweb3/evm-utils";
 
 export async function fetchTokenPrice(token) {
   const APIKEY = process.env.REACT_APP_MORALIS_API_KEY;
-  
-      const saveLabel = token.symbol + "_USD";
-      var savedPrice = sessionStorage.getItem(saveLabel);
-      if (savedPrice) {
-        return savedPrice;
-      } else {
-        const chain = EvmChain.ETHEREUM;
-        const address = token.contract;
-        await Moralis.start({ apiKey: APIKEY });
-        const response = await Moralis.EvmApi.token.getTokenPrice({
-          address,
-          chain,
-        });
-        const usdPrice = Number.parseFloat(response.data.usdPrice).toFixed(2);
-        sessionStorage.setItem(saveLabel, usdPrice);
-        return usdPrice;
-      }
-  }
 
+  const saveLabel = token.symbol + "_USD";
+  var savedPrice = sessionStorage.getItem(saveLabel);
+  if (savedPrice) {
+    return savedPrice;
+  } else {
+    const chain = EvmChain.ETHEREUM;
+    const address = token.contract;
+    await Moralis.start({ apiKey: APIKEY });
+    const response = await Moralis.EvmApi.token.getTokenPrice({
+      address,
+      chain,
+    });
+    const usdPrice = Number.parseFloat(response.data.usdPrice).toFixed(2);
+    sessionStorage.setItem(saveLabel, usdPrice);
+    return usdPrice;
+  }
+}
 
 async function initMoralis() {
   await Moralis.start({ apiKey: process.env.REACT_APP_MORALIS_API_KEY });
@@ -53,19 +52,14 @@ function addDays(days) {
   return result.toISOString();
 }
 
-export async function requestTransactionSignatureMessage(
-  addressTo,
-  chain,
-  network
-) {
+export async function requestTransactionSignatureMessage(addressTo, chain, network) {
   await Moralis.start({ apiKey: process.env.REACT_APP_MORALIS_API_KEY });
   const result = await Moralis.Auth.requestMessage({
     address: addressTo,
     chain,
     network,
     domain: "Authenticate.Zeppay.app",
-    statement:
-      "Please sign this transaction to confirm and authenticate your identity.",
+    statement: "Please sign this transaction to confirm and authenticate your identity.",
     uri: "https://zeppay.app",
     expirationTime: addDays(10),
     timeout: 15,
@@ -83,7 +77,7 @@ export async function getTransactionCount() {
 
   const chain = EvmChain.ETHEREUM;
 
-  const response = await Moralis.EvmApi.transaction.getWalletTransactions({address,chain,});
+  const response = await Moralis.EvmApi.transaction.getWalletTransactions({ address, chain });
 
   return response.data.total;
 }
@@ -93,7 +87,7 @@ export async function getNativeBalance(_address, _chain) {
 
   let chain;
 
-  if(_chain == 1) {
+  if (_chain == 1) {
     chain = EvmChain.ETHEREUM;
   } else if (_chain == 5) {
     chain = EvmChain.GOERLI;
@@ -103,14 +97,11 @@ export async function getNativeBalance(_address, _chain) {
     chain,
   });
 
-   return response;
+  return response;
 }
 
 export async function verifyMessage(signature, message) {
-  const supabase = createClient(
-    process.env.REACT_APP_SUPABASE_URL,
-    process.env.REACT_APP_ANON_KEY
-  );
+  const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_ANON_KEY);
   await Moralis.start({ apiKey: process.env.REACT_APP_MORALIS_API_KEY });
   const _message = message;
   const _signature = signature;
@@ -123,23 +114,18 @@ export async function verifyMessage(signature, message) {
   });
 
   const authData = verifiedData.data;
-  let { data: users } = await supabase
-    .from("users")
-    .select("*")
-    .eq("moralis_provider_id", authData.profileId);
+  let { data: users } = await supabase.from("users").select("*").eq("moralis_provider_id", authData.profileId);
   let _user;
   if (users.length != 0) {
     alert("user already connected");
   } else {
-    const response = await supabase
-      .from("users")
-      .insert([
-        {
-          created_at: new Date(),
-          moralis_provider_id: authData.profileId,
-          metadata: authData,
-        },
-      ]);
+    const response = await supabase.from("users").insert([
+      {
+        created_at: new Date(),
+        moralis_provider_id: authData.profileId,
+        metadata: authData,
+      },
+    ]);
     _user = response.data;
   }
 

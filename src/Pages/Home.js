@@ -1,13 +1,20 @@
 import Construction from "../assets/construction.png";
 import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
-import {
-  useConnectModal,
-  useAccountModal,
-  useChainModal,
-} from '@rainbow-me/rainbowkit'
-import {useAccount} from "wagmi"
-import "../styles/home.css"
+import { useConnectModal, useAccountModal, useChainModal } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
+import "../styles/home.css";
+const hiddenElements = document.querySelectorAll(".home-frame");
+hiddenElements.forEach((el) => observer.observe(el));
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if(entry.isIntersecting) {
+        entry.target.classList.add('show');
+    } else {
+      entry.target.classList.remove("show");
+    }
+  });
+})
 
 function Home() {
   const navigate = useNavigate();
@@ -31,14 +38,13 @@ function Home() {
       duration: 3000,
       position: "left",
       backgroundColor: background,
-      className:"home-toast"
+      className: "home-toast",
     }).showToast();
   }
-  
 
   function toApp() {
-    if(!isConnected) {
-      notification("No wallet connected", "danger")
+    if (!isConnected) {
+      notification("No wallet connected", "danger");
     }
   }
   return (
@@ -54,27 +60,28 @@ function Home() {
           <div>
             <img src={Construction} width="50" /> <h3>Hey there</h3>
           </div>
-          <p>
-             Good to see you. Zeppay is currently in beta. Questions? Leave a message. 
-          </p>
+          <p>Good to see you. Zeppay is currently in beta. Questions? Leave a message.</p>
           <div>
             <button class="btn-contact" onClick={() => navigate("/contact")}>
               Leave a message
             </button>{" "}
-            {isConnected? 
-            <button type="button" onClick={() => navigate("/create")} class="btn-beta">
-              Use beta
-            </button>:
-            <button type="button"  onClick={() => openConnectModal()} class="btn-beta">
-              Connect Wallet
-          </button>}
+            {isConnected ? (
+              <button type="button" onClick={() => navigate("/create")} class="btn-beta">
+                Use beta
+              </button>
+            ) : (
+              <button type="button" onClick={() => openConnectModal()} class="btn-beta">
+                Connect Wallet
+              </button>
+            )}
           </div>
         </div>
       </div>
-      <div class="background-overlay overlay-login home"> 
-      <div class="box"></div>
 
-      </div>
+ 
+
+      <div class="background-overlay overlay-login home">
+            </div>
     </div>
   );
 }

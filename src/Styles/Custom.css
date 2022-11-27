@@ -12,7 +12,8 @@ body {
     font-family: "Poppins", sans-serif;
     font-weight: 600;
     font-size: 20px;
-    position: sticky;
+    position: fixed;
+    width: 100%;
     background-color: rgba(255, 255, 255, 1);
     top: 0px;
     z-index: 1;
@@ -116,6 +117,7 @@ body {
 }
 .container.page {
     padding: 30px;
+  
    /* position: fixed;
     top: 100px;
     padding: 30px 30px;
@@ -131,13 +133,11 @@ body {
     background: white;
     width: 500px;
     min-height: 500px;
-    margin-top: 50px;
+    margin-top: 150px!important;
    ;
     border-radius: 20px;
 }
-.blurry canvas {
-    filter: blur(2px);
-}
+
 .iekbcc0._1ckjpok3._1ckjpok1.ju367val.ju367vd0.ju367vp.ju367vt.ju367vv.ju367vdu.ju367va.ju367v10.ju367v61.ju367v8g {
     width: 700px!important;
 }
@@ -172,18 +172,7 @@ body {
 .btn.disabled:hover, .btn:disabled:hover, fieldset:disabled:hover .btn:hover {
     cursor: not-allowed 
 }
-canvas {
-    transform: translate(0,0);
-    height: auto!important;
-    display: flex;
-    border-radius: 20px;
-    justify-content: left;
-    margin: 0px auto;
-    padding:0px;
-    height: 280px!important;
-    width: auto!important;
-   ;
-}
+
 .app-loader {
     width: 100%;
     display: flex;
@@ -443,6 +432,11 @@ a {
     width: fit-content;
     margin: 0 auto;
 }
+
+.home {
+    margin-top: 150px;
+
+}
 .container.nav {
     max-width: unset;
    ;
@@ -573,33 +567,6 @@ h4, h3 {
     margin-bottom: 5px;
     border-radius: 10px;
 }
-.home-construction-text {
-    margin-top: 100px;
-    width: 500px;
-    font-size: 16px;
-    font-weight: 400;
-   ;
-    color: #000;
-    font-family: "Roboto", sans-serif!important;
-    background: #fff;
-    padding: 20px;
-    border-radius: 20px;
-}
-
-
-
-.home-construction-text h3 {
-    font-size: 26px;
-    font-weight: 700;
-    margin: 0px;
-    padding: 0px;
-}
-.home-construction-text div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0px;
-}
 .home-block-1 {
     padding: 8%;
     width: 90%;
@@ -645,12 +612,7 @@ h4, h3 {
     border-radius: 0px 10px 10px 0px ;
     font-weight: 600;
 }
-.home-block-1 h1:first-child {
-    color: #5657FE!important;
-   }
-    .home-block-1 h1:last-child {
-        color: #000!important;
-   }
+
 th, td {
     font-family: "Poppins", sans-serif;
 }
@@ -1233,15 +1195,16 @@ td {
 }
 .list-group {
     border-radius: 10px;
-    overflow-x: hidden;
    /* Hide horizontal scrollbar */
 }
 ::-webkit-scrollbar {
     width: 5px;
+    opacity: 0px;
+    display: none!important;;
 }
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #fff;
+    background: transparent;
     margin: 5px 0px!important;
 }
 /* Handle */
@@ -1830,6 +1793,7 @@ h3 {
 .tokens-list-item.selected>* {
     font-weight: 700;
 }
+
 .input-group-text {
     color: #000;
     font-weight: 700;
@@ -2315,9 +2279,10 @@ h3 {
     .modal-content, [data-rk] ._1ckjpok1 {
         border-radius: 20px 20px 0px 0px !important;
    }
-    .container.page.create.contact {
+    .container.page.create {
         background: #fff;
         margin: 0px;
+        margin-top: 80px!important;
         border-radius: 0px;
         padding: 0px 10px!important;
    }
@@ -2660,10 +2625,7 @@ h3 {
        ;
         margin-bottom: 20px;
    }
-    .home-block-1 h1 {
-        font-size: 34px;
-        width: 100%;
-   }
+  
     .navbar-nav.me-auto.mb-lg-0 >div >button:last-child >div>div, .navbar-nav.me-auto.mb-lg-0 >div > button, .navbar-nav.me-auto.mb-lg-0 >div >button:last-child >div>div{
         border: none!important;
         padding: 10px 10px;
@@ -2841,14 +2803,7 @@ h3 {
         display: block!important;
         width: 100%;
    }
-    canvas {
-        height: auto!important;
-        padding: 0px;
-        width: 100%!important;
-        right: 10px;
-        border-radius: 20px;
-       ;
-   }
+
 
    .btn-restart { 
     margin: 200px 10px 10px 10px;
@@ -3033,13 +2988,7 @@ h3 {
         padding: 10px;
         height: auto;
    }
-    .home-construction-text {
-        width: calc(100% - 20px);
-        right: 10px;
-        left:10px;
-        position: fixed;
-        bottom: 10px;
-   }
+
 
     .home-block-1 h1 {
         margin-top: 20px;
