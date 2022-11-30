@@ -2,10 +2,7 @@ import React, { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { toast, Toaster, ToastBar } from "react-hot-toast";
 import Send from "../assets/send.png";
-import Message from "../assets/message.png";
-import Company from "../assets/company.png";
-import Email from "../assets/email.png";
-import Name from "../assets/name.png";
+
 
 function Contact(props) {
   const form = useRef();
@@ -14,6 +11,8 @@ function Contact(props) {
   const [emailInvalid, setEmailInvalid] = useState();
   const [messageInvalid, setMessageInvalid] = useState();
   const [emailLoading, setEmailLoading] = useState(false);
+  document.title = "Zeppay - Contact"
+
   function handleSubmit(e) {
     e.preventDefault();
     setEmailLoading(true);
@@ -69,7 +68,7 @@ function Contact(props) {
     }
   }
   return (
-    <div class="container page create contact w3-animate-opacity">
+    <div class="container page create contact">
       {emailSend ? (
         <div id="thanks">
           {" "}
@@ -103,7 +102,7 @@ function Contact(props) {
           <form onSubmit={handleSubmit} ref={form}>
             <div class="form-group">
               <label for="from_name">
-                <img src={Name} width="14" />
+               
                 Name
               </label>
 
@@ -118,7 +117,7 @@ function Contact(props) {
             </div>
             <div class="form-group">
               <label for="from_email">
-                <img src={Email} width="14" />
+               
                 Email
               </label>
               <input
@@ -131,7 +130,7 @@ function Contact(props) {
             </div>
             <div class="form-group">
               <label for="from_company">
-                <img src={Company} width="14" />
+                
                 Company
               </label>
               <input
@@ -143,7 +142,7 @@ function Contact(props) {
             </div>
             <div class="form-group">
               <label for="from_message">
-                <img src={Message} width="14" />
+       
                 Message
               </label>
               <textarea
@@ -162,7 +161,7 @@ function Contact(props) {
           </form>
         </>
       )}
-      <div class="background-overlay overlay-contact"></div>
+      <div class="background-overlay w3-animate-bottom"></div>
     </div>
   );
 }

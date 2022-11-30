@@ -9,6 +9,10 @@ import Share from "./share";
 import Contact from "./contact";
 import NotFound from "./notfound";
 function App() {
+  document.title = "Zeppay"
+
+
+
   return (
     <div class="container-fluid padding-none">
       <BrowserRouter>

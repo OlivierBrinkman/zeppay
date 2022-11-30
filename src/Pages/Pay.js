@@ -9,6 +9,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { fetchTokenPrice } from "../helpers/moralis";
+import Invoice from "../helpers/invoice";
 
 function Pay() {
   const { base } = useParams();
@@ -23,7 +24,7 @@ function Pay() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
   const [tokenPrice, setTokenPrice] = useState(0);
-
+  const [hash, setHash] = useState("");
   useEffect(() => {
     retrieveRequest(base);
   }, []);
@@ -90,6 +91,7 @@ function Pay() {
   }
 
   async function paymentComplete(data) {
+    
     if (data.hash) {
       notification("Verifying signature...", "prime", 4000);
       setTimeout(function () {
@@ -108,8 +110,7 @@ function Pay() {
   }
 
   async function _logPayment(hash) {
-    notification("All check", "success", 4000);
-    console.log(base + " " + base64_decode(base));
+    setHash(hash);
     logPayment(hash, request, base64_decode(base));
 
     setIsSuccess(true);
@@ -125,7 +126,7 @@ function Pay() {
   if (!isFetching) {
     if (isSuccess) {
       return (
-        <div class="wrapper w3-animate-opacity">
+        <div class="wrapper w3-animate-bottom">
           <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
             {" "}
             <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /> <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
@@ -134,11 +135,13 @@ function Pay() {
           <span>
             You can close this page by clicking <a href={window.location.origin + "/"}>here</a>{" "}
           </span>
+        <Invoice hash={hash} request={request} address={address}/>
+       
         </div>
       );
     } else {
       return (
-        <div class="container page create payment ">
+        <div class="container page create payment w3-animate-bottom ">
           <div class="pay-content">
             {!isLoading ? (
               <div class="payment-overview">
@@ -192,8 +195,7 @@ function Pay() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="payment-buttons">
+                  <div class="payment-buttons">
                   {isConnected ? (
                     <div class="">
                       <div class="chain-status">Network status :{request.chain != chain.name ? <span class="wrong-network"> Switch to {request.chain}</span> : <span class="ok-network">Ok</span>}</div>
@@ -217,6 +219,8 @@ function Pay() {
                     </div>
                   )}
                 </div>
+                </div>
+               
               </div>
             ) : (
               <div class="loading-transactions pay">
@@ -246,14 +250,9 @@ function Pay() {
               </div>
             )}
           </div>
-          {isMobile ? (
-            <div class="background-overlay-mobile-pay"></div>
-          ) : (
-            <>
-              <div class="background-overlay top"></div>
+
               <div class="background-overlay"></div>
-            </>
-          )}
+    
         </div>
       );
     }

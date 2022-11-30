@@ -1,34 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { encode as base64_encode } from "base-64";
-import { QRCode } from "react-qrcode-logo";
 import { useNavigate } from "react-router-dom";
 import Moralis from "moralis";
 import { useAccount, useNetwork, useSignMessage } from "wagmi";
 import { EvmChain } from "@moralisweb3/evm-utils";
-import Whatsapp from "../assets/whatsapp.png";
-import Telegram from "../assets/tele.png";
-import Copy from "../assets/copy.png";
-import Discord from "../assets/discord.png";
-import Messenger from "../assets/messenger.png";
-import Slack from "../assets/slack.png";
-import SMS from "../assets/sms.png";
-import Gmail from "../assets/gmail.png";
-import VK from "../assets/vk.png";
 import Sign from "../assets/sign.png";
 import Tokens from "../webblocks/tokens";
 import { isMobile } from "react-device-detect";
 import { requestTransactionSignatureMessage } from "../helpers/moralis";
 import { logRequest } from "../helpers/supabase";
 import Toastify from "toastify-js";
-import { verifyMessage } from "ethers/lib/utils";
 import "toastify-js/src/toastify.css";
 import { _getTokens } from "../helpers/supabase";
-import Select from "react-select";
 
 function Create() {
   const navigate = useNavigate();
-  const { address, isDisconnected, isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
+  const [isOk, setIsOk] = useState(false);
   const [shareText, setShareText] = useState("");
   const [tokenPrice, setTokenPrice] = useState();
   const [plainText, setPlainText] = useState("");
@@ -40,8 +29,12 @@ function Create() {
   const [isShare, setIsShare] = useState(false);
   const [isSigning, setIsSigning] = useState(false);
   const [isTokenPopUp, setIsTokenPopUp] = useState(false);
-  const [transactionToSign, setTransactionToSign] = useState();
-  const [rawFiles, setRawFiles] = useState([]);
+  const [messageToSign, setMessageToSign] = useState({})
+  const [stableTokens, setStableTokens] = useState([]);
+  const [cryptoTokens, setCryptoTokens] = useState([]);
+
+  document.title = "Zeppay - Create"
+
   const [request, setRequest] = useState({
     destination: "",
     token: {},
@@ -56,13 +49,56 @@ function Create() {
     signedMessage: "",
   });
 
-
-  const [stableTokens, setStableTokens] = useState([]);
-  const [cryptoTokens, setCryptoTokens] = useState([]);
   useEffect(() => {
     getStableTokens();
     getCryptoTokens();
+    setSigningMessage();
   }, []);
+
+  useEffect(() => {
+    if (isSigning) {
+      setTimeout(function () {
+        setShowCancel(true);
+      }, 8000);
+      setTimeout(function () {
+          setIsSigning(false)
+          setIsLoading(false);
+      }, 16000);
+    }
+  }, [isSigning]);
+
+  useEffect(() => {
+    if (isConnected) {
+      setRequest((request) => ({
+        ...request,
+        destination: address,
+        chain: chain.name,
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    setIsAmountInvalid(false);
+    if (request.amount != 0) {
+      var formattedPrice = Number.parseFloat(tokenPrice * request.amount).toFixed(2);
+      setRequest((request) => ({
+        ...request,
+        price: formattedPrice.toString(),
+      }));
+    }
+  }, [request.amount, request.token]);
+
+  useEffect(() => {
+    if (cdiLink != "") {
+      setIsShare(true);
+      setIsLoading(false);
+    }
+  }, [cdiLink]);
+
+  async function setSigningMessage() {
+    const message = await requestTransactionSignatureMessage(address, EvmChain.ETHEREUM, "evm");
+    setMessageToSign(message); 
+  }
 
   async function getStableTokens() {
     const response = await _getTokens("Stable");
@@ -77,31 +113,22 @@ function Create() {
   }
 
   const {signMessage } = useSignMessage({
-    message: request.signedMessage,
-    onSuccess(data, variables) {
-      const address = verifyMessage(variables.message, data);
-      notification("Request signed successfully", "success");
-      setRequest((request) => ({ ...request, signature: data }));
-      setTimeout(function () {
-        finishAndShareRequest(data);
+    message: messageToSign,
+    onSettled(data, error) {
+      if(!error) {
+        setIsOk(true)
         setIsSigning(false);
-      }, 2000);
-    },
-    onError(error) {
-      setIsLoading(false);
-      setIsSigning(false);
-      setShowCancel(false);
-      notification("Signature declined", "danger");
-    },
-  });
-
-  useEffect(() => {
-    if (isSigning) {
-      setTimeout(function () {
-        setShowCancel(true);
-      }, 8000);
+        notification("Request signed successfully", "success");
+        setRequest((request) => ({ ...request, signature: data }));
+        finishAndShareRequest(data);
+      } else {
+        setIsLoading(false);
+        setIsSigning(false);
+        setShowCancel(false);
+        notification("Signature declined", "danger");
+      }
     }
-  }, [isSigning]);
+  });
 
   function notification(title, type) {
     let danger = "#d63031";
@@ -121,47 +148,6 @@ function Create() {
       backgroundColor: background,
     }).showToast();
   }
-
-  useEffect(() => {
-    if (isDisconnected) {
-      navigate("/");
-    }
-  }, [isConnected]);
-
-  useEffect(() => {
-    if (isConnected) {
-      setRequest((request) => ({
-        ...request,
-        destination: address,
-        chain: chain.name,
-      }));
-    }
-  }, []);
-
-  useEffect(() => {
-    setIsAmountInvalid(false);
-    if (request.amount != 0) {
-      var formattedPrice = Number.parseFloat(tokenPrice * request.amount).toFixed(2);
-
-      setRequest((request) => ({
-        ...request,
-        price: formattedPrice.toString(),
-      }));
-    }
-  }, [request.amount, request.token]);
-
-  useEffect(() => {
-    if (cdiLink != "") {
-      setIsShare(true);
-      setIsLoading(false);
-    }
-  }, [cdiLink]);
-
-  useEffect(() => {
-    if (request.signedMessage) {
-      getSignatureSigner();
-    }
-  }, [request.signedMessage]);
 
   async function getTokenPriceSetToken(token) {
     if (token) {
@@ -198,22 +184,12 @@ function Create() {
           setIsSigning(true);
           setIsAmountInvalid(false);
           setIsLoading(true);
-          await prepareRequestSignature();
+          signMessage()
         }
       }
     } else {
       notification("Missing Token", "danger");
     }
-  }
-
-  async function prepareRequestSignature() {
-    const signatureMessage = await getTransactionSignatureMessage();
-    setRequest((request) => ({ ...request, signedMessage: signatureMessage }));
-  }
-
-  async function getTransactionSignatureMessage() {
-    const message = await requestTransactionSignatureMessage(address, EvmChain.ETHEREUM, "evm");
-    return message;
   }
 
   function refresh() {
@@ -222,30 +198,13 @@ function Create() {
     setIsSigning(false);
   }
 
-  async function getSignatureSigner() {
-    await signMessage();
-  }
-
   async function finishAndShareRequest(signature) {
     let response = await logRequest(signature, request);
     if (response.length == 20) {
       try {
         let payURL = window.location.origin + "/pay/" + base64_encode(response);
         setCdiLink(payURL);
-        var _text =
-          "Hi, would you please transfer me *" +
-          request.amount +
-          "* *" +
-          request.token.symbol +
-          "* for '*" +
-          request.message +
-          "*' via " +
-          "\n\n" +
-          payURL +
-          " \n\n" +
-          "_ " +
-          "\n\n" +
-          "_Made with Zeppay_";
+       
         var _textplain = "Hi, would you please pay me " + parseInt(request.amount).toLocaleString() + "" + request.token.symbol + " for " + request.message + " via " + "\n\n" + payURL;
         setPlainText(_textplain);
         navigate('/share',{state:{request:request,cdiLink:payURL, shareText:shareText, plainText:_textplain}});
@@ -266,7 +225,7 @@ function Create() {
   }
 
   return (
-    <div id="mainframe" class="hidden w3-animate-opacity">
+    <div id="mainframe" class="hidden ">
       <div class="container page create no-relative ">
         {!isShare && isPageLoading ? (
           <>
@@ -310,22 +269,11 @@ function Create() {
           <>
             <form>
               <div class="row ">
-                {!isShare ? (
-                  <>
                     <div class="create-content">
                       <div class="list-group mb-3">
                      
                       <span class="token-label">Currency</span>
-
                           <Tokens stableTokens={stableTokens} cryptoTokens={cryptoTokens} selectedToken={request.token} tokenSelect={setSelectedToken} togglestate={closeTokenPopUp} />
-                      
-                          {/* <div class="tokens-list-item selected">
-                            <img src={request.token.icon} width="34" /> <b>{request.token.symbol}</b> - {request.token.name}{" "}
-                            <span onClick={() => document.getElementById("token-select").classList.toggle("hide")} class="change-token-link">
-                              Select
-                            </span>
-                          </div> */}
-                     
                       </div>
                       <div class="form-create">
                         <div class="input-group mb-3">
@@ -400,128 +348,16 @@ function Create() {
                     ) : (
                       <></>
                     )}
-                  </>
-                ) : (
-                  <div class="share-content w3-animate-opacity">
-                    <div class="display-flex social">
-             
-                      {isMobile ? (
-                        <div class="mb-3 mobile-share-container">
-                          <span class="share-request-label">Copy me</span>
-                          <div onClick={() => navigator.clipboard.writeText(plainText).then(() => alert("Request copied."))} class="share-text">
-                            {plainText.toString()}
-                          </div>
-                        </div>
-                      ) : (
-                        <></>
-                      )}
-                      <div class="socials">
-                        <div>
-                          {" "}
-                          <a type="button" target="_blank" href={"https://api.whatsapp.com/send?text=" + shareText}>
-                            <img src={Whatsapp} width="18" /> <span>Whatsapp</span>
-                          </a>{" "}
-                        </div>
-                        <div>
-                          {" "}
-                          <a type="button" target="_blank" href={"https://t.me/share/url?url=" + encodeURIComponent(cdiLink) + "&text=" + encodeURIComponent(shareText)}>
-                            <img src={Telegram} width="18" /> <span>Telegram</span>
-                          </a>{" "}
-                        </div>
-                        <div>
-                          {" "}
-                          <a type="button" href={"https://www.facebook.com/sharer.php?u=" + cdiLink}>
-                            <img src={Messenger} width="18" />
-                            <span>Messenger</span>
-                          </a>{" "}
-                        </div>
-                        <div>
-                          {" "}
-                          <a type="button" onClick={() => navigator.clipboard.writeText(shareText).then(() => window.location.assign("slack://app?&tab=messages", "_blank"))}>
-                            <img src={Slack} width="18" />
-                            <span>Slack</span>
-                          </a>{" "}
-                        </div>
-                        <div>
-                          {" "}
-                          <a type="button" onClick={() => navigator.clipboard.writeText(shareText).then(() => window.location.assign("slack://app?&tab=messages", "_blank"))}>
-                            <img src={Discord} width="18" />
-                            <span>Discord</span>
-                          </a>{" "}
-                        </div>
-                        <div>
-                          {" "}
-                          <a
-                            type="button"
-                            href={"http://vk.com/share.php?url=" + encodeURIComponent(cdiLink) + "&title=Pay me " + request.amount + "" + request.token.symbol + "&comment=" + shareText}
-                          >
-                            <img src={VK} width="18" />
-                            <span>VK</span>
-                          </a>{" "}
-                        </div>
-                        <div>
-                          {" "}
-                          <a target={"_blank"} href={"mailto:subject=Pay me " + request.amount + "" + request.token.symbol + "&body=" + shareText} type="button">
-                            <img src={Gmail} width="18" />
-                            <span>Gmail</span>
-                          </a>
-                        </div>
-                        <div>
-                          {" "}
-                          <a href={"sms:{phone_number}?body=" + shareText} type="button">
-                            <img src={SMS} width="18" />
-                            <span>SMS</span>
-                          </a>
-                        </div>
-                        <div>
-                          {" "}
-                          <a onClick={() => navigator.clipboard.writeText(cdiLink).then(() => alert("Request URL copied."))} type="button">
-                            <img src={Copy} width="18" />
-                            <span>Copy</span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    {!isMobile ? (
-                      <div class="signature">
-                        <label>Share me</label>
-                        <div onClick={() => navigator.clipboard.writeText(plainText).then(() => alert("Request copied."))} class="share-text">
-                          {plainText.toString()}
-                        </div>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog  modal-dialog-centered">
-                        <div class="modal-content ">
-                          <div class="modal-header">
-                            <span class="modal-title" id="exampleModalLabel">
-                              Share
-                            </span>
-                          </div>
-                          <div class="modal-body">
-                            <div class="socials">
-                              <button onClick={() => navigator.clipboard.writeText(plainText).then(() => alert("Request URL copied."))} type="button" class="btn btn-social copy">
-                                <img src={Copy} width="45" />
-                              </button>
-                              <a href={cdiLink} type="navigator" class="btn btn-social pay">
-                                Pay Directly
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                 
+     
+              
+            
               </div>
             </form>
           </>
         )}
-        <div class="background-overlay top"></div>
 
-        <div class="background-overlay "></div>
+        <div class="background-overlay w3-animate-bottom"></div>
       </div>
     </div>
   );

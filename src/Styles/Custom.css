@@ -11,6 +11,7 @@ body {
 .navbar {
     font-family: "Poppins", sans-serif;
     font-weight: 600;
+
     font-size: 20px;
     position: fixed;
     width: 100%;
@@ -130,6 +131,8 @@ body {
 .container.page.create {
     padding: 30px;
     position: relative;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+
     background: white;
     width: 500px;
     min-height: 500px;
@@ -148,6 +151,7 @@ body {
 }
 #share-title {
     margin-top: -3px;
+    text-align: left!important;;
 }
 
 
@@ -207,10 +211,11 @@ body {
 }
 
 .chain-status {
-    padding: 10px;
+    padding: 20px;
     margin-bottom: 10px;
-    border-radius: 10px;
-    background: whitesmoke;
+    border-radius: 15px!important;
+    background: #000;
+    color: #fff;
     font-family: 'Poppins', sans-serif!important;
 
     font-weight: 600;
@@ -738,10 +743,17 @@ td {
     position: fixed;
     width: 100%;
     bottom: 0px;
-    left: 0px;
+    transform: rotate(45deg);
+    left: -50%;
     height: 50vh;
     box-shadow: rgb(38 57 77) 0px 5px 28px -10px;
     z-index: -1;
+}
+
+.home-overlay {
+    transform: rotate(0deg);
+    left: unset;
+  
 }
 
 .typewriter h1 {
@@ -853,7 +865,8 @@ td {
 	display: block;
 	width: 25%;
 	height: 25%;
-	background-color: #000;
+	color: #000!important;
+    background: #000!important;
 	border-radius: 100%;
 	animation: sk-chase-dot-before 2.0s infinite ease-in-out both;
 }
@@ -1903,11 +1916,16 @@ h3 {
    margin:0
 }
 .wrapper{
-   height:100vh;
+   width: auto;
    display:flex;
+
    justify-content:center;
    align-items:center;
-   background-color:transparent
+   background-color:#fff;
+}
+
+.wrapper h1 {
+    margin-bottom: 60px!important;
 }
 .checkmark__circle{
    stroke-dasharray: 166;
@@ -1957,12 +1975,12 @@ h3 {
 .wrapper {
     display: block;
     text-align: center;
-    width: 50%;
-    padding-top: 00px!important;
     margin: 0 auto;
+    width: 500px;;
     color: #000;
-    height: auto;
     padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+
     border-radius: 20px;
     font-size: 18px;
     margin-top: 10%;
@@ -1991,8 +2009,7 @@ h3 {
 }
 .wrapper h1 {
     color: #000!important;
-    margin-bottom: 20px!important;
-    font-size: 28px;
+    font-size: 32px;
 }
 .method-title {
     font-weight: 600;
@@ -2043,7 +2060,6 @@ h3 {
 .payment-buttons .col {
     text-align: center;
     border-radius: 15px;
-    padding: 20px 20px!important;
     margin-top: 0px;
     bottom: 0px;
     height: auto;
@@ -2351,8 +2367,7 @@ h3 {
        ;
         padding: 15px;
         color: #000;
-        background: #f2f2f2;
-        border-radius: 10px!important;
+        border-radius: 15px!important;
         font-weight: 600 
    }
     .payment-buttons label {
@@ -2361,17 +2376,18 @@ h3 {
    }
     .payment-buttons {
         bottom: 0px;
-        background: white;
         margin: 0px;
         justify-content: right;
         bottom: 0px;
-        border-radius: 0px 0px 10px 10px;
+        margin-top: 30px;
+        padding-bottom: 20px;
+        border-radius: 15px;
         position: sticky;
         bottom: 0px;
         width: -webkit-fill-available;
         right: 00px;
-        margin: 0px 5px;
-        padding:10px 10px 10px 10px;
+
+      
    }
     .payment-buttons .col img {
         height: 28px;
@@ -2398,23 +2414,24 @@ h3 {
         right: 10px;
         z-index: 9999;
         overflow: hidden;
-        padding: 10px;
-        margin: 0px 5px;
-        border-radius: 10px 10px 0px 0px;
-        background: #fff;
+        padding: 20px;
+position: sticky;
+bottom: 0px;
+border-radius: 15px;
+box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+
+background: #f2f2f2;
         padding-bottom: 0px!important;
         left: 10px;
    }
     .mobile-payment-group.total {
         font-size:42px;
-        background:#5657FE;
-       ;
         border-radius: 20px;
         font-family: "Poppins", sans-serif;
         width: fit-content;
-        margin: 0 auto;
+        margin: 100px auto;
         
-        color: #fff;
+        color: #000;
         font-weight: 700;
         display: flex;
         justify-content: center;
@@ -2526,6 +2543,8 @@ h3 {
 
    .total-amount-usd { 
     font-size: 30px;
+    color: #000;
+    font-weight: 700!important;;
    }
     h1 {
         font-size: 34px;
@@ -2688,7 +2707,7 @@ h3 {
    }
 
     .nav-item .nav-link {
-        padding: 10px 0px!important;
+        padding: 20px 0px!important;
    }
     .navbar-nav .nav-item:last-child{
         border-bottom: 0px;
@@ -2792,6 +2811,11 @@ h3 {
         left: 0px;
         position: fixed;
    }
+
+   .chain-status { 
+    background: #000;;
+    color: #fff;
+   }
     .btn-contact {
         width: -webkit-fill-available;
         font-size: 16px;
@@ -2848,7 +2872,7 @@ h3 {
         color: #000000;
    }
     .pay-content .pay h3{
-        color: #fff!important;
+        color: #000!important;
    }
     .wrapper {
         margin-top: 100px;
@@ -2885,7 +2909,7 @@ h3 {
    .toastify-left {
     left: 10px!important;
     right: 10px;
-    font-size: 20px!important;
+    font-size: 18px!important;
 
     bottom: 10px!important;
    }
@@ -2907,7 +2931,6 @@ h3 {
    }
     .navbar-collapse .navbar-nav:last-child {
         margin-top: 0px;
-        border-bottom: 2px solid #ced4da;
         padding-bottom: 10px;
         padding-top: 10px;
    }
@@ -2943,7 +2966,7 @@ h3 {
         margin-top: 30px;
    }
     .nav-link, .nav-item {
-        height: 45px!important;
+        height: 60px!important;
    }
     .nav-link img {
         display: block;
@@ -3087,13 +3110,13 @@ h3 {
         border-radius: 15px;
    }
     .pay .sk-chase-dot:before {
-        background: #fff;
    }
-    .background-overlay.overlay-login {
-        display: block!important;
-        bottom: -65px;
-        left: -40px;
-        height: 50vh;
+
+   .navbar {
+    box-shadow: none;
+   }
+    .background-overlay {
+   height: 100%;
    }
     .background-overlay {
         display: none;

@@ -1,20 +1,10 @@
-import Construction from "../assets/construction.png";
 import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
 import { useConnectModal, useAccountModal, useChainModal } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+
+
 import "../styles/home.css";
-const hiddenElements = document.querySelectorAll(".home-frame");
-hiddenElements.forEach((el) => observer.observe(el));
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if(entry.isIntersecting) {
-        entry.target.classList.add('show');
-    } else {
-      entry.target.classList.remove("show");
-    }
-  });
-})
 
 function Home() {
   const navigate = useNavigate();
@@ -42,11 +32,9 @@ function Home() {
     }).showToast();
   }
 
-  function toApp() {
-    if (!isConnected) {
-      notification("No wallet connected", "danger");
-    }
-  }
+
+
+
   return (
     <div class="home w3-animate-opacity">
       <div class="home-block-1">
@@ -56,9 +44,9 @@ function Home() {
             <h1>Empowering freelancers and creators.</h1>
           </div>
         </div>
-        <div class="home-construction-text">
+        <div class="home-construction-text w3-animate-left">
           <div>
-            <img src={Construction} width="50" /> <h3>Hey there</h3>
+           <h3>Hey there</h3>
           </div>
           <p>Good to see you. Zeppay is currently in beta. Questions? Leave a message.</p>
           <div>
@@ -76,12 +64,11 @@ function Home() {
             )}
           </div>
         </div>
+
       </div>
 
- 
+ <div class="home-overlay w3-animate-opacity"></div>
 
-      <div class="background-overlay overlay-login home">
-            </div>
     </div>
   );
 }

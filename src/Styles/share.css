@@ -1,5 +1,7 @@
 .share {
     margin-top: 150px;
+    transition: all 0.4s;
+    opacity: 0;
     max-width: 800px;;
 }
 
@@ -23,7 +25,7 @@
     height: auto; 
     border-radius: 25px;
     margin: 0px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;    transition: 100ms;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .qrcode:hover {
@@ -55,7 +57,6 @@
 
 .social-icon {
     width: auto!important;
-    background: #fff;
     border-radius: 15px  0px 0px 15px;
 }
 
@@ -78,7 +79,7 @@
     width: 100%;
     border-radius: 15px;
     display: flex;
-    font-weight: 700;
+    font-weight:600;
     color: #000;
     font-size: 18px;
     align-items: center;
@@ -89,13 +90,16 @@
 
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 
-    background: white;
 
 }
 
+.container.page.share h1 {
+    text-align: left;
+}
+
 .socialshare:hover {
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-            transition: 200ms;
+    cursor: pointer;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;            transition: 200ms;
 }
 
 .socialshare div {
@@ -103,17 +107,44 @@
     text-align: left;
 }
 
-.socialshare:active {
-    box-shadow: none
+
+.s1:active {
+    box-shadow: none;
+    background: #3c883e;
+}
+
+.s2:active {
+    box-shadow: none;
+    background: #027cb8;
+}
+
+.s3:active {
+    box-shadow: none;
+    background: #270b27;
+}
+
+.s4:active {
+    box-shadow: none;
+    background: #cccccc;
+}
+
+.s1 #te {
+    border-left: 3px solid #3c883e;
+}
+
+.s2 #te {
+    border-left: 3px solid #027cb8;
+}
+
+.s3 #te {
+    border-left: 3px solid #270b27;
 
 }
 
-
-#te {
-    border-left: 1px solid #ced4da;
+.s4 #te {
+    border-left: 3px solid #cccccc;
 
 }
-
 .socialshare div:last-child {
     padding-left: 15px;
 }
@@ -126,6 +157,25 @@
     margin-bottom: 15px;
 }
 
+
+.s1 { 
+    background: #4CAF50;
+    color: #fff;
+}
+
+.s2 {
+    background: #039BE5;
+    color: #fff;
+}
+
+.s3 {
+    background: #4f1650;
+    color: #fff;
+}
+
+.s4 {
+    background: #fff;
+}
 canvas {
     background: #fff;
     padding: 25px;
@@ -144,14 +194,21 @@ canvas {
 
     .qrcode {
         margin: 0 auto;
-        margin-bottom: 40px;
+        width: unset;
+        padding-top: 20px;
+        text-align: center;
+        margin-bottom: 20px;
     }
 
-    .socialshare {
+    canvas {
+        margin: 0 auto;
+    }
+    
+    .s4 {
         background: whitesmoke;
     }
 
-    .social-icon {
-        background: whitesmoke
-    }
+
+
+
 }

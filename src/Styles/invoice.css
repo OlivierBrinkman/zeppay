@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200;300;400;500;600&display=swap');
+
+
+.invoice-content {
+    z-index: -200;
+    visibility: hidden;
+    position: absolute;
+}
+.invoice{
+    font-family: 'Roboto Mono', monospace!important;
+    background: White;
+
+}
+
+.btn-download {
+    width: 300px;
+    display: flex;
+    margin: 0 auto;
+
+    margin-top: 20px;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+
+
+
+.break {
+    line-break: anywhere;
+    width: 300px;
+}
+
+thead th{ 
+    font-weight: 700!important;
+    font-size: 18px;
+}
+
+.invoice-header img {
+    position: absolute;
+
+}
+
+.table { 
+font-size: 14px;
+}
+
+.invoice h1 {
+    text-align: left;
+    margin: 0px!important;
+    color: #000;
+    font-size: 50px!important;
+}
+.invoice h3 {
+    margin: 0px!important;
+    color: #5657FE;
+}
+.invoice-header {
+    width: 100%;
+    text-align: center;
+    padding: 40px 20px 20px 20px!important;
+    background: White;
+    margin-top: 0px;
+    margin-bottom: 50px;
+}
+
+
+.invoice-header img {
+    top: 40px;
+    right: 40px;;
+}
+
+.col-sm-6, .col-sm-8 {
+    text-align: left;
+}
+
+
+.col-sm-4 { 
+text-align: left;
+}
+.col-header {
+    font-weight: 700;
+    color: #000;
+    font-size: 20px;
+}
