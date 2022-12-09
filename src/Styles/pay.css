@@ -1,0 +1,125 @@
+.btn-verify {
+    padding:   15px;
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 16px;;
+    font-family: "Poppins", sans-serif!important;
+    display : flex;
+    align-items: center;
+    /* 5657FE */
+}
+.display-flex {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.pay-option {
+    width: 100%!important;
+}
+
+.import-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-paydapp {
+    font-weight: 600;
+    font-family: "Poppins", sans-serif;
+    transition: 200ms;
+    height: 60px;
+    width: 50%;
+    padding: 18px 20px!important;
+    border-radius: 15px;
+    background: #000;
+    color: #fff!important;
+    font-size: 16px;
+}
+
+.btn-verify span { 
+    width: 100%;
+    text-align: left;
+}
+.btn-verify:hover {
+    background: #333;
+    color: #fff;
+}
+
+.btn-import {
+    border: none; 
+    padding: 12px;
+    font-size: 14px;
+    width: 100%;
+    font-weight: 600;
+    color: #000; 
+    background: #f1f1f1;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 15px;
+}
+
+.display-flex div {
+    width: 50%;;
+}
+
+.swtich {
+    background: #000!important;
+    padding: 12px;
+    font-size: 14px; 
+    height: 70px;
+    border-radius: 15px;
+    color: #fff!important;
+
+}
+
+.dapp-container {
+    width: 100%;
+}
+
+.dapp-container button {
+    background: #000;
+    color: #fff;
+    text-align: center;
+}
+
+
+
+.btn-import:hover {
+    background: #ddd;
+    color: #000;
+}
+
+.bottom-top-slide { 
+    transition: all .3s ease-out;
+    height: 100%;
+z-index: 0;
+  position: fixed;
+  bottom: 0px;
+    left: 0px;
+  transition: all .3s ease-out;
+    
+
+    background: #5657FE;
+    width: 100%;
+}
+
+.btn-wrong-network {
+    background: rgb(214, 48, 49);
+    border: none; 
+    padding: 15px;
+    font-size: 16px;
+    width: 100%;
+    font-weight: 700;
+    color: #fff; 
+    border-radius: 15px;
+}

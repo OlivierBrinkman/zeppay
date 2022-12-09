@@ -4,15 +4,43 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;500;700;900&display=swap');
 
+@font-face {
+    font-family: light;
+    src: url('../fonts/light.otf');
+  }
+
+  @font-face {
+    font-family: medium;
+    src: url('../fonts/medium.otf');
+  }
+  
+  @font-face {
+    font-family: book;
+    src: url('../fonts/book.otf');
+  }
+  @font-face {
+    font-family: bold;
+    src: url('../fonts/light.otf');
+  }
+  @font-face {
+    font-family: dark;
+    src: url('../fonts/black.otf');
+  }
+      
 body {
-    font-family: 'Inter', sans-serif;
-    background: #f2f2f2;
+    background: #f4f4f4;
+    font-family: "Poppins", sans-serif;
+
+}
+
+[data-rk] .ju367v1n {
+    font-family: "Poppins", sans-serif!important;
 }
 .navbar {
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
-
+box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;
     font-size: 20px;
+    font-family: "Poppins", sans-serif;
+
     position: fixed;
     width: 100%;
     background-color: rgba(255, 255, 255, 1);
@@ -35,14 +63,30 @@ body {
     padding: 30px;
 }
 .navbar-brand {
-    font-weight: 700;
-    font-size: 32px;
+    font-size: 38px;
+    font-family: dark!important;
     margin-right: 40px;
     display: flex;
-    font-family: 'Poppins', sans-serif;
     color:#000!important;
     align-items: flex-start;
     gap: 3px;
+}
+
+.navbar-brand img {
+    margin-top: 5px!important;
+}
+[data-rk] .ju367v81 {
+    margin-top: 10px!important;
+}
+[data-rk] .iekbcc0 {
+    font-weight: 600;
+    font-family: 'Poppins'!important;
+
+}
+
+[data-rk] .ju367v8a {
+    background: #000!important;
+    padding: 20px!important
 }
 .page.create .row {
     display: flex!important;
@@ -64,6 +108,8 @@ body {
 .btn-pay:hover {
     border: 1px solid #ced4da;
 }
+
+
 .contact form .form-group label {
     width: 140px;
     font-weight: 600;
@@ -91,7 +137,7 @@ body {
     margin-left: 0px!important;
 }
 .contact form .form-group input, .contact form .form-group textarea {
-    padding: 15px 35px;
+    padding: 15px 15px;
     width: 100%;
    ;
     background: #f2f2f2;
@@ -108,16 +154,16 @@ body {
     width: 100%;
     border: none;
     border-radius: 10px;
-    font-family: 'Poppins', sans-serif;
+    font-family: '';
     font-size: 16px;
     padding: 20px;
     background: #5657FE;
     color: #fff;
     font-weight: 600;
-    float: right;
 }
 .container.page {
     padding: 30px;
+    
   
    /* position: fixed;
     top: 100px;
@@ -132,10 +178,10 @@ body {
     padding: 30px;
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-
+    margin-bottom: 50px;
     background: white;
     width: 500px;
-    min-height: 500px;
+    min-height: 450px;
     margin-top: 150px!important;
    ;
     border-radius: 20px;
@@ -158,20 +204,21 @@ body {
 
 .container.page.create a {
     color: #5657FE;
-    font-weight: 700;
     margin-left: 0px;
+    font-family: 'Poppins';
+    font-weight: 700;
     font-size: 14px;
 }
 .container.page.create.payment a {
     margin-left: 0px;
     font-weight: 700!important;;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins';
 
 }
 
 .container.page.create.payment {
-    min-height: unset;
    margin-top: 100px;
+   min-height: 350px;
 }
 .btn.disabled:hover, .btn:disabled:hover, fieldset:disabled:hover .btn:hover {
     cursor: not-allowed 
@@ -205,20 +252,18 @@ body {
     padding: 20px!important;
     height: auto!important;
     max-height: unset!important;;
-    font-family: 'Poppins', sans-serif!important;
+    font-family: ''!important;
     font-weight: 600!important;;
     font-size: 18px!important;
 }
 
 .chain-status {
-    padding: 20px;
+    padding: 0px;
     margin-bottom: 10px;
     border-radius: 15px!important;
-    background: #000;
-    color: #fff;
-    font-family: 'Poppins', sans-serif!important;
+    color: #000;
 
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
 }
 
@@ -229,8 +274,9 @@ body {
 }
 
 .ok-network {
-    color: #349a29;
+    color: #3db730;
     margin-left: 10px;
+    font-weight: 700;
 
 }
 
@@ -277,9 +323,8 @@ body {
     margin: 0px;
 }
 h1 {
-    font-weight: 700;
-    font-size: 40px;
-    font-family: "Poppins", sans-serif;
+    font-size: 45px;
+    font-family: dark;
     color: #000000;
     margin: 0px;
 }
@@ -315,13 +360,13 @@ h1 {
    ;
 }
 .create-mobile-bottom {
-    position: absolute;
     background: #5657FE;
     width:-webkit-fill-available;
     border-radius: 20px;
     left: 0px;
+    height: 80px!important;
     margin: 10px;
-    padding: 20px;
+    padding: 18px;
     bottom: 0px;
 }
 .btn-sign span{
@@ -346,18 +391,18 @@ h1 {
     gap: 5px;
 }
 .btn-generate {
-    padding: 15px 40px;
-    border-radius: 100px!important;
+    padding: 15px;
+    border-radius: 13px!important;
     background: #5657FE!important;
-    margin-top: 20px;
-    right: 10px;
+    margin-top: 00px;
     align-items: center;
-    width: auto!important;
+    width: 310px!important;
     float: right;
     display: flex;
     font-size: 18px!important;
-   ;
+    height: 60px;
 }
+
 .profile-buttons {
     margin-top: 20px;
 }
@@ -534,6 +579,13 @@ h2 {
     align-items: center;
     gap: 5px;
 }
+
+.share-content {
+    padding-right: 30px;;
+    border-radius: 23px;
+    background: #fff;
+    box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;
+}
 .share-message {
     width: 100%;
     background: #F0F1F5;
@@ -573,7 +625,7 @@ h4, h3 {
     border-radius: 10px;
 }
 .home-block-1 {
-    padding: 8%;
+    padding: 4%;
     width: 90%;
     margin: 0 auto;
     height: 82vh;
@@ -655,9 +707,10 @@ td {
     border: 1px solid #F0F1F5;
 }
 .navbar-nav.me-auto.mb-lg-0 >div > button, .navbar-nav.me-auto.mb-lg-0 >div >button:last-child >div>div{
-    font-weight: 700!important;
-   ;
-    font-size: 18px;
+    font-weight: 600!important;
+    font-family: "Poppins", sans-serif;
+
+    font-size: 16px;
     box-shadow: none;
     border: none!important;
     border-radius: 10px;
@@ -665,10 +718,13 @@ td {
 .navbar-nav.me-auto.mb-lg-0 >div > button, .navbar-nav.me-auto.mb-lg-0 >div >button:last-child >div>div, .navbar-nav.me-auto.mb-lg-0 >div > button, .navbar-nav.me-auto.mb-lg-0 >div >button:last-child >div{
     border: none;
     padding-left: 10px;
+    font-size: 16px!important;
     padding-right: 10px;
 }
 .navbar-nav.me-auto.mb-lg-0 >div >button:last-child:hover , .navbar-nav.me-auto.mb-lg-0 >div >button:last-child >div>div:hover,.navbar-nav.me-auto.mb-lg-0 >div >button:last-child >div:hover{
     color:#fff;
+    font-size: 16px!important;
+
 }
 .navbar-nav.me-auto.mb-lg-0 >div > button:hover, .navbar-nav.me-auto.mb-lg-0 >div >button:last-child >div>div:hover {
     font-size: 18px;
@@ -732,19 +788,25 @@ td {
     opacity:1!important;
 }
 .navbar-nav.me-auto.mb-lg-0 >div > button:first-child{
-    background: transparent!important;
     font-family: "Poppins", sans-serif!important;
-    color:#000!important;;
-    padding: 0px;
+    color:#fff!important;;
+    background: #000!important;
+    
     font-weight: 700!important; 
 }
+
+[data-rk] .ju367v4t {
+    margin-top: 0px;
+}
+
+
 .background-overlay {
     background: #5657FE;
     position: fixed;
-    width: 100%;
+    width: 115%;
     bottom: 0px;
     transform: rotate(45deg);
-    left: -50%;
+    left: -60%;
     height: 50vh;
     box-shadow: rgb(38 57 77) 0px 5px 28px -10px;
     z-index: -1;
@@ -753,6 +815,12 @@ td {
 .home-overlay {
     transform: rotate(0deg);
     left: unset;
+    background: #5657FE;
+    width: 100%;
+    left: 0;
+    height: 50px;
+    position: fixed;
+    bottom: 0px;
   
 }
 
@@ -847,7 +915,7 @@ td {
 .sk-chase {
 	width: 40px;
 	height: 40px;
-	margin-top: 100px!important;
+	margin-top: 70px!important;
 	margin: 0 auto;
 	position: relative;
 	animation: sk-chase 2.5s infinite linear both;
@@ -986,7 +1054,8 @@ td {
 }
 .copy {
     background: #FD0C50!important;
-    height: 80px;
+    margin-top: 15px;
+    color: #fff!important;
     width: 30%;
 }
 .copy img {
@@ -1033,6 +1102,7 @@ td {
 .modal-content, [data-rk] ._1ckjpok1 {
     padding: 0px!important;
     border-radius: 20px!important;
+    width: 450px;;
     margin: 0 auto!important;
 }
 [data-rk] .ju367v6v {
@@ -1097,7 +1167,7 @@ td {
     font-size: 26px!important;
 }
 #rk_chain_modal_title, .modal-title {
-    font-size: 30px!important;
+    font-size: 24px!important;
    ;
     font-family: "Poppins", sans-serif;
     font-weight: 700;
@@ -1365,6 +1435,8 @@ input, textarea {
 .token-image img {
     width: 26px;
 }
+
+
 .token-image span {
     color: #fff;
     font-size:20px;
@@ -1596,10 +1668,34 @@ input, textarea {
 .pay-option {
     color: #fff;
     font-weight: 600;
-   ;
     font-family: "Poppins", sans-serif;
-    padding: 20px;
-    font-size: 18px;
+    padding: 18px 20px;
+    transition: 200ms;
+    height: 60px;
+    font-size: 16px;
+}
+
+.col.pay-option.fiat {
+
+    margin-top: 10px;
+    background: #e9e9e9!important;
+}
+
+
+.col.pay-option.fiat:hover {
+    cursor: not-allowed;
+    background: #e1e1e1!important;
+}
+.col.pay-option.fiat span {
+    color: #666!important;;
+
+}
+
+
+.payment-buttons .col:hover {
+    cursor: pointer;
+    transition: 200ms;
+    background: #4c4ccc!important;
 }
 h3 {
     text-align: center;
@@ -1729,6 +1825,9 @@ h3 {
     gap: 10px;
     margin-bottom:20px;
 }
+#waves {
+    display: none!important;
+}
 .payment-group.right label, .payment-group.right div {
     text-align: right;
     justify-content: right;
@@ -1742,8 +1841,23 @@ h3 {
 .payment-details {
     border-bottom: 1px solid #ced4da;
     padding-bottom: 10px;
+    
     margin-bottom: 20px;
 }
+
+
+
+
+.curve {
+    position: absolute;
+    height: 250px;
+    width: 100%;
+    bottom: 0;
+    
+    text-align: center;
+}
+
+
 .payment-group {
     padding: 2px 0px;
     font-family: "Poppins", sans-serif!important;
@@ -1808,17 +1922,17 @@ h3 {
 }
 
 .input-group-text {
-    color: #000;
-    font-weight: 700;
+    color: #a1a1a1;
+    font-weight: 500;
     font-size: 16px;
     font-family: "Poppins", sans-serif;
 }
 .input-group-text.end {
     background: #f2f2f2;
-    max-width: 140px;
+    max-width: 145px;
    ;
     width: 130px;
-    margin-left: -5px;
+    margin-left: 5px;
     color: #000;
     border-radius: 10px;
 }
@@ -1873,7 +1987,7 @@ h3 {
     justify-content: right;
 }
 .generate-btn {
-    width: auto;
+    width: 100%;;
     display: flex;
     justify-content: right;
     margin-right: 0px;
@@ -1924,8 +2038,12 @@ h3 {
    background-color:#fff;
 }
 
+.wrapper span { 
+    margin-bottom: 30px;
+}
+
 .wrapper h1 {
-    margin-bottom: 60px!important;
+    margin-bottom: 20px!important;
 }
 .checkmark__circle{
    stroke-dasharray: 166;
@@ -2063,11 +2181,14 @@ h3 {
     margin-top: 0px;
     bottom: 0px;
     height: auto;
-    background-color : #5657FE!important;
    ;
     gap: 10px;
     display: flex;
     align-items: center;
+}
+
+.blue {
+    background-color : #5657FE!important;
 }
 .total-amount {
     position: absolute;
@@ -2171,9 +2292,7 @@ h3 {
     text-align: left;
     justify-content: left;
 }
-.payment-buttons .col img {
-    height: 28px;
-}
+
 .page.contact {
     width: auto;
     padding: 30px!important;
@@ -2183,15 +2302,16 @@ h3 {
     margin-top: 100px;
     border-radius: 20px;
 }
-.container.page.create.contact {
-    min-height: 650px!important;
-   ;
-}
+
 .fiats {
     display: flex;
    ;
     gap: 5px;
     justify-content: center;
+}
+
+.input-group .btn {
+    z-index: 0;
 }
 @media only screen and (max-width: 1500px) {
     .container-full {
@@ -2209,9 +2329,6 @@ h3 {
     .connect-providers {
         display: block;
        ;
-   }
-    .payment-buttons .col span {
-        font-size: 16px!important;
    }
     .payment-details {
         border: none;
@@ -2259,7 +2376,6 @@ h3 {
    }
     body{
         margin: 0px!important;
-        background: #fff;
    }
     .item-confirmations{
         display: none;
@@ -2298,8 +2414,9 @@ h3 {
     .container.page.create {
         background: #fff;
         margin: 0px;
-        margin-top: 80px!important;
+        margin-top: 0px!important;
         border-radius: 0px;
+        margin-bottom: 50px;
         padding: 0px 10px!important;
    }
     .break-mobile {
@@ -2363,7 +2480,7 @@ h3 {
     .payment-buttons .col {
         display: flex;
         align-items: center;
-        min-height: unset;
+        min-height: 60px;;
        ;
         padding: 15px;
         color: #000;
@@ -2382,15 +2499,21 @@ h3 {
         margin-top: 30px;
         padding-bottom: 20px;
         border-radius: 15px;
-        position: sticky;
         bottom: 0px;
         width: -webkit-fill-available;
         right: 00px;
 
       
    }
-    .payment-buttons .col img {
-        height: 28px;
+
+   body {
+    background: #fff!important;;
+   }
+    .payment-buttons .col.pay-option.fiat img {
+        height: 22px;
+   }
+
+   .col.pay-option.fiat {
    }
     .payment-image {
         height: AUTO;
@@ -2409,28 +2532,26 @@ h3 {
         font-family: "Poppins", sans-serif;
    }
     .pay-data {
-        width: -webkit-fill-available;
-       ;
-        right: 10px;
-        z-index: 9999;
-        overflow: hidden;
-        padding: 20px;
-position: sticky;
-bottom: 0px;
-border-radius: 15px;
-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 
-background: #f2f2f2;
+        z-index: 9999;
+        width:100%;;
+        padding: 20px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;               bottom: 0px;
+    
+        border-radius: 20px;
+        background: #fff;
         padding-bottom: 0px!important;
-        left: 10px;
+      
+
    }
     .mobile-payment-group.total {
-        font-size:42px;
+        font-size:38px;
         border-radius: 20px;
         font-family: "Poppins", sans-serif;
         width: fit-content;
-        margin: 100px auto;
-        
+        margin: 0 auto;
+        margin-top: 70px;
+        margin-bottom: 50px;
         color: #000;
         font-weight: 700;
         display: flex;
@@ -2466,17 +2587,47 @@ background: #f2f2f2;
     .socials div img {
         width: 42px!important;
    }
-    .generate-btn{
+    .generate-btn {
         width: 100%;
-       ;
         justify-content: center;
         font-family: "Poppins", sans-serif;
         font-weight: 700;
-       ;
         font-size: 16px!important;
         text-align: center!important;
-       ;
    }
+   #mobile.background-overlay-curves:before {
+    width: 60%;
+    height: 100px;
+    background: #5657FE;
+    content:"";
+    border-radius: 100% 50%;
+    left: -30px;
+
+    position: absolute;
+    top: -70px;
+   }
+   #mobile.background-overlay-curves:after {
+    width: 70%;
+    height: 100px;
+    right: 0px;
+    background: #5657FE;
+    content:"";
+    border-radius: 100% 50%;
+    position: absolute;
+    top: -70px;
+    right: -0px;
+}
+   #mobile.background-overlay-curves {
+    position: fixed;
+    background: #5657FE;
+    height: 450px;
+    z-index: 999;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+   }
+
+
     #generate {
         text-align: center;
         justify-content: center;
@@ -2489,7 +2640,7 @@ background: #f2f2f2;
         box-shadow: none;
         background: none;
         margin-top: 0px;
-       ;
+       margin-bottom: 50px;
         width: 100%;
    }
 
@@ -2502,7 +2653,7 @@ background: #f2f2f2;
    }
     .input-group-text {
         width: 100px;
-        font-size: 16px;
+        font-size: 17px;
         padding-left: 0px;
    }
     .input-group-text.end {
@@ -2586,8 +2737,20 @@ background: #f2f2f2;
         margin-bottom: 5px!important;
         color: #5657FE!important;
    }
+   #pay-upper { 
+    font-size: 33px!important;
+    margin-top: 0px;
+}
     .container.page.create a {
         margin-left: 10px;
+        text-align: center;
+        display: none!important;
+        margin: 0 auto;
+        display: flex;
+        font-size: 14px; 
+        font-weight: 700;
+        padding-top: 20px;
+        justify-content: center;
    }
     [data-rk] .ju367vbl {
         background: #000!important;
@@ -2734,8 +2897,24 @@ background: #f2f2f2;
         font-weight: 700;
         margin-left: 10px;
    }
+
+   .container.page.create.payment { 
+    background: #5657FE!important;
+    bottom: 0px;
+    z-index: 1;
+    height: 100%;
+    border-radius: 20px;
+    margin: 0px 0px 0px 0px!important;
+
+   }
     .container.page.create.payment h1 {
         margin-left: 0px!important;
+        color: #fff;
+   
+   }
+
+   .mobile-payment-group.total div {
+    color: #fff;
    }
     .home-block-4 {
         margin: 10px!important;
@@ -2813,8 +2992,8 @@ background: #f2f2f2;
    }
 
    .chain-status { 
-    background: #000;;
-    color: #fff;
+
+    color: #000;
    }
     .btn-contact {
         width: -webkit-fill-available;
@@ -2848,7 +3027,7 @@ background: #f2f2f2;
     .input-group-text.end {
         max-width: unset;
         padding-right: 5px;
-       ;
+       font-weight: 600;
         width: auto;
    }
     .connect-providers h3 {
@@ -2872,13 +3051,14 @@ background: #f2f2f2;
         color: #000000;
    }
     .pay-content .pay h3{
-        color: #000!important;
+        color: #fff!important;
    }
     .wrapper {
         margin-top: 100px;
    }
     .loading-transactions {
-        margin-top: 200px;
+        margin-top: 100px;
+        height: 100%;
    }
     .create-content {
         background-color: #fff;
@@ -2915,7 +3095,7 @@ background: #f2f2f2;
    }
 
     .loading-transactions.pay {
-        margin-top: 300px!important;
+        margin-top: 200px!important;
    }
     .btn-send img {
         width: 23px;
@@ -2923,6 +3103,11 @@ background: #f2f2f2;
     .nav-link.contact {
         margin-top: 0px;
         margin-bottom: 0px;
+   }
+
+   .token-label, .input-group-text {
+    font-weight: 600!important;
+    
    }
 
    .social div a span {
@@ -2941,10 +3126,19 @@ background: #f2f2f2;
         padding: 0px;
         border-radius: 0px!important;
    }
+
+   .create-content {
+    padding: 10px;
+   }
     .transactions-content {
         padding: 10px;
         border-radius: 0px;
    }
+
+   .payment-buttons .col span,  .btn-paydapp {
+    font-size: 14px!important;
+   }
+
     .item-block, .item-to {
         display: none;
    }
@@ -2975,6 +3169,10 @@ background: #f2f2f2;
         width: 100%;
        ;
    }
+
+   #waves {
+    display: block!important;
+}
     .nav-link {
         display: flex;
         align-items: center;
@@ -3004,7 +3202,7 @@ background: #f2f2f2;
    }
     .home-block-1 {
         padding:0px;
-       ;
+       
         margin-top:0px;
         width: 100%;
        ;
@@ -3016,6 +3214,10 @@ background: #f2f2f2;
     .home-block-1 h1 {
         margin-top: 20px;
         text-align: left;
+   }
+
+   .navbar-brand {
+    gap: 10px;
    }
     .navbar-brand span {
         display: none;
@@ -3101,7 +3303,7 @@ background: #f2f2f2;
         margin-top: 10px;
         width: auto;
         margin-left: 0px;
-        position: absolute;
+        position: sticky;
         bottom: 0px;
         border: none;
         right: 0px;
@@ -3109,12 +3311,64 @@ background: #f2f2f2;
         font-size: 18px!important;
         border-radius: 15px;
    }
+    .remove-flex .input-group>.form-control, .input-group>.form-floating, .input-group>.form-select {
+    width: 100%!important;;
+
+}
+   .remove-flex { 
+    display:block!important;
+   }
+   .navbar {
+    position: inherit;
+    box-shadow: none!important;
+   }
+
+
+
+   .css-319lph-ValueContainer , .css-319lph-ValueContainer{
+    padding: 0px!important;
+   }
+
+
+   .token-list-item {
+    padding: 0px!important;
+    margin: 0px!important;
+   }
+   #mobile-area {
+    height: 150px!important;
+    padding-top: 20px;
+    padding-left: 20px;
+   }
+
+   .remove-flex .form-control, .css-1s2u09g-control, .css-1pahdxg-control {
+    height: 80px!important;
+    padding-left: 20px;
+    border-radius: 15px!important;
+   }
+
+   .remove-flex textarea {
+    height: 150px!important;;
+   }
+   .input-group-append .input-group-text  {
+    height: 80px;
+   }
+
+
+
+   .input-group-prepend .input-group-text {
+    height: unset;
+   }
+
+   .form-control.amount {
+    margin-right: 0px!important;;
+   }
+   .container.page.create {
+    padding:10px!important;
+   }
+
     .pay .sk-chase-dot:before {
    }
 
-   .navbar {
-    box-shadow: none;
-   }
     .background-overlay {
    height: 100%;
    }

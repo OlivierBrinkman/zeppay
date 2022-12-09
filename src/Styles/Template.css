@@ -45,7 +45,7 @@ body {
     background-color: whitesmoke;
     border: none;
     font-size: 18px!important;
-    font-weight: 400!important;;
+    font-weight: 600!important;;
     border-radius: 10px;
 }
 
@@ -69,7 +69,7 @@ margin-right: 10px!important;
 }
 .input-group-text {
     height: 60px;
-    font-family: 'Poppins', sans-serif;
+    font-family: '';
     font-weight: 600;
     background: none;
     border: none;

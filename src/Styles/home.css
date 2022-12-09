@@ -12,15 +12,26 @@
   }
 
   .background-overlay.overlay-login.home {
+
     box-shadow: none;
   }
 
+
+.btn-dapp { 
+  padding: 20px!important;;
+  background: #5657FE;
+  color: #fff;
+  font-size: 18px!important;
+  min-width: 200px;;
+  font-weight: 600;
+  border-radius: 100px;
+
+}
 
   .home-construction-text {
     margin-top: 100px;
     width: 500px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-
     font-size: 16px;
     font-weight: 400;
     bottom: 50px;
@@ -35,10 +46,23 @@
 
 
 .home-overlay {
-  background: #5657FE;
   width: 100%;
   height: 100%;
+  background: #5657FE;
+  width: 100%;
+  left: 0;
+  height: 50px;
   position: fixed;
+  bottom: 0px;
+  position: fixed;
+  transition: all .3s ease-out;
+
+}
+
+.complete {
+  height: 100%!important;
+  top: 0px!important;
+  bottom: unset!important;
 }
 
 .home-block-1 h1:first-child {

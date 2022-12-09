@@ -12,7 +12,9 @@ function App() {
   document.title = "Zeppay"
 
 
-
+  // document.addEventListener('contextmenu', function(e) {
+  //   e.preventDefault();
+  // });
   return (
     <div class="container-fluid padding-none">
       <BrowserRouter>

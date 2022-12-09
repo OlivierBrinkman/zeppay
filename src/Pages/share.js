@@ -9,9 +9,12 @@ import Slack from "../assets/slack.png";
 import Gmail from "../assets/gmail.png";
 import Pijl from "../assets/pijl.png";
 import "../styles/share.css";
+import { isMobile } from "react-device-detect";
+
 import { Preview, print } from 'react-html2pdf';
 import Bleep from "../assets/bleep.mp3";
 import Toastify from "toastify-js";
+import "../styles/home.css";
 
 
 import Invoice from "../helpers/invoice";
@@ -77,21 +80,20 @@ function Share() {
         <div id="page" class="container page share">
             
             {/* <Invoice request={location.state.request}/> */}
-            <a onClick={() => navigate("/create")}> {"<"} Reset request</a>
-            <h1>Share</h1>
+           {!isMobile? <h1>Share</h1>:<></>}
             <div class="share-content">
                 <div onClick={()=> Copy()} class="qrcode">
                         <QRCode
-                            size="320"
+                            size="290"
                             value={location.state.cdiLink}
                             ecLevel="H"
-                            quietZone=""
+                            quietZone="0"
                             bgColor="transparent"
                             enableCORS="true"
                             fgColor="#000"
                             logoWidth="45"
                             logoImage={Logo}
-                            removeQrCodeBehindLogo="true"
+                            removeQrCosdeBehindLogo="true"
                             eyeRadius={[
                                 { // top/left eye
                                     outer: [10, 10, 10, 10],
@@ -126,17 +128,18 @@ function Share() {
                         </div>
                 </div>
                 <div class="socialshare-content">
-                    <div onClick={()=> OpenWhatsapp()} class="socialshare s1"><div class="social-icon"><img src={Whatsapp} width="32"/></div> <div id="te">Whatsapp</div> <img class="s-img" src={Pijl} width="20"/></div>
-                    <div onClick={()=> OpenTelegram()} class="socialshare s2"><div class="social-icon"><img src={Telegram} width="32"/></div> <div id="te">Telegram</div> <img  class="s-img" src={Pijl} width="20"/></div>
+                    <div onClick={()=> OpenWhatsapp()} class="socialshare s1"><div class="social-icon"><img src={Whatsapp} width="28"/></div> <div id="te">Whatsapp</div> <img class="s-img" src={Pijl} width="20"/></div>
+                    <div onClick={()=> OpenTelegram()} class="socialshare s2"><div class="social-icon"><img src={Telegram} width="28"/></div> <div id="te">Telegram</div> <img  class="s-img" src={Pijl} width="20"/></div>
 
 
-                    <div onClick={()=> OpenSlack()} class="socialshare s3"><div class="social-icon"><img src={Slack} width="32"/></div> <div id="te">Slack</div> <img  class="s-img" src={Pijl} width="20"/></div>
-                    <div onClick={()=> OpenGmail()} class="socialshare s4"><div class="social-icon"><img src={Gmail} width="32"/></div> <div id="te">Gmail</div> <img  class="s-img" src={Pijl} width="20"/></div>
-
+                    <div onClick={()=> OpenSlack()} class="socialshare s3"><div class="social-icon"><img src={Slack} width="28"/></div> <div id="te">Slack</div> <img  class="s-img" src={Pijl} width="20"/></div>
+                    <div onClick={()=> OpenGmail()} class="socialshare s4"><div class="social-icon"><img src={Gmail} width="28"/></div> <div id="te">Gmail</div> <img  class="s-img" src={Pijl} width="20"/></div>
+                    <div onClick={()=> navigate("/create")} class="socialshare copy"><div class="social-icon"></div><div id="te">New request</div><img  class="s-img" src={Pijl} width="20"/></div>
+ 
                 </div>
             </div>
                
-        <div class="background-overlay "></div>
+            <div class="home-overlay w3-animate-opacity"></div>
         </div>
 
     

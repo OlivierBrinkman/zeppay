@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { toast, Toaster, ToastBar } from "react-hot-toast";
 import Send from "../assets/send.png";
+import "../styles/home.css";
 
 
 function Contact(props) {
@@ -46,6 +47,7 @@ function Contact(props) {
       e.target[1].value !== "" &&
       e.target[3].value !== ""
     ) {
+      
       const SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICEID;
       const TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATEID;
       const PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLICKEY;
@@ -161,7 +163,7 @@ function Contact(props) {
           </form>
         </>
       )}
-      <div class="background-overlay w3-animate-bottom"></div>
+ <div class="home-overlay w3-animate-opacity"></div>
     </div>
   );
 }

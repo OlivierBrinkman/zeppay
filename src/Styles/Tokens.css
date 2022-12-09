@@ -1,23 +1,30 @@
 #tokens {
     min-height: unset;
-    height: 60px;;
-    border-radius: 10px;
+    border-radius: 20px!important;;
+    height: 60px;
 }
+
+
 
 .css-1s2u09g-control {
     min-height: unset;
     height: 60px;
+
     border-radius: 10px!important;
     background: whitesmoke!important;
     border: none!important;
 }
 
 .token-label {
-    font-weight: 700;
+    font-weight: 500;
     font-family: "Poppins", sans-serif;
-color: #000;
+color: #a1a1a1;
 font-size: 16px;
 margin-bottom: 3px;
+}
+
+.css-2613qy-menu {
+    border-radius: 20px;
 }
 .css-14el2xx-placeholder{ 
     color: #000!important;
@@ -35,6 +42,7 @@ font-size: 16px;
 #react-select-3-listbox {
     border: none;
     z-index: 999;
+    border-radius: 15px!important;
 }
 
 #react-select-3-input {
@@ -42,24 +50,32 @@ font-size: 16px;
 }
 
 .token-list-item {
-    padding: 5px 5px;
+    padding: 10px 5px!important;
     display: flex;
-    font-size: 18px!important;
-    font-family: 'Poppins', sans-serif;
-font-weight: 600;
+    font-size: 16px!important;
+    font-family: 'Poppins';
+    font-weight: 500;
+    gap: 10px;
     align-items: center;
-    gaP: 10px;
+    border-bottom: 1px solid #ced4da;
+    margin: 0px!important;
 }
 
+.token-list-item span {
+    font-weight: 700!important;
+}
 .token-list-header {
     font-weight: 700;
-    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    margin: 0px;
+    padding: 10px 5px;
     color: #000;
+    font-family: 'Poppins';
 }
 
 .css-1pahdxg-control {
     min-height: unset;
-    height:60px;;
+
     border-radius: 10px!important;
     background: whitesmoke!important;
 
@@ -75,8 +91,32 @@ font-weight: 600;
     box-shadow: none!important;;
 }
 
+#react-select-3-listbox > option:hover {
+    background: red!important;;
+}
 
 
 @media only screen and (max-width: 1000px) {
+  .token-label {
+    font-size: 17px;;
+  }
+
+
+
+  .token-list-item {
+    font-size: 16px;
+  }
+
+  #react-select-3-listbox {
+    margin-top: 15px;
+    border-radius: 20px!important;
+    border: none!important;
+    box-shadow: none;
+    padding: 5px;
+    
+  }
   
+
+  .css-1s2u09g-control {
+  }
 }

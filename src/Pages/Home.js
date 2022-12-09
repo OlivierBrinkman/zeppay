@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Toastify from "toastify-js";
 import { useConnectModal, useAccountModal, useChainModal } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
+import { isMobile } from "react-device-detect";
 
 
 import "../styles/home.css";
@@ -33,7 +34,9 @@ function Home() {
   }
 
 
-
+function openInNewTab(url) {
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
 
   return (
     <div class="home w3-animate-opacity">
@@ -42,6 +45,9 @@ function Home() {
           <div>
             <h1>Crypto payment infrastructure,</h1>
             <h1>Empowering freelancers and creators.</h1>
+            {isMobile?      <button type="button" onClick={() => openInNewTab('https://metamask.app.link/dapp/zeppay.app/')} class="btn-dapp">
+                Use beta
+              </button> :<></>}
           </div>
         </div>
         <div class="home-construction-text w3-animate-left">
@@ -53,10 +59,10 @@ function Home() {
             <button class="btn-contact" onClick={() => navigate("/contact")}>
               Leave a message
             </button>{" "}
-            {isConnected ? (
-              <button type="button" onClick={() => navigate("/create")} class="btn-beta">
+            {isConnected ? (<>
+              {!isMobile?      <button type="button" onClick={() => navigate("/create")} class="btn-beta">
                 Use beta
-              </button>
+              </button> :<></>}</>
             ) : (
               <button type="button" onClick={() => openConnectModal()} class="btn-beta">
                 Connect Wallet

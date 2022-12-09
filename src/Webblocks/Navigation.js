@@ -31,7 +31,7 @@ function Navigation(props) {
           <Link to="/">
             <a class="navbar-brand" href="#">
               <img src={Logo} width="35" />
-              <span>Zeppay</span> {isMobile && activePage.includes("/pay") ? "Pay" : <></>}{" "}
+              <span>Zeppay</span> {isMobile && activePage.includes("/pay") ? <div id="pay-upper">Pay </div> : <></>}{isMobile && activePage.includes("/create") ? <div id="pay-upper">Create </div> : <></>}{isMobile && activePage.includes("/share") ? <div id="pay-upper">Share </div> : <></>}{isMobile && activePage == "/" ? <div id="pay-upper">Zeppay </div> : <></>}{""}
             </a>
           </Link>
           <div class="desktop">
@@ -66,7 +66,7 @@ function Navigation(props) {
                   <Link to="/create">
                     <li class="nav-item last-create">
                       <a id={activePage == "/create" ? "active-page" : ""} class="nav-link create" aria-current="page" href="#">
-                        <span>Create payment request</span>
+                        <span>Create</span>
                         <img src={Arrow} width="14" />
                       </a>
                     </li>

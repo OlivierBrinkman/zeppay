@@ -6,10 +6,14 @@
     visibility: hidden;
     position: absolute;
 }
+
+.table-row {
+    width: 400px;
+}
 .invoice{
     font-family: 'Roboto Mono', monospace!important;
     background: White;
-
+width: 400px;
 }
 
 .btn-download {

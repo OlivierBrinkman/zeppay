@@ -11,7 +11,7 @@ function getUUID() {
   let uuid = short.generate().substring(0, 20);
   return uuid.toUpperCase();
 }
-export async function logRequest(signature, request) {
+export async function logRequest(signature, messageToSign, request) {
   const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
   const supabaseKey = process.env.REACT_APP_ANON_KEY;
   const supabase = createClient(supabaseUrl, supabaseKey);
@@ -28,7 +28,7 @@ export async function logRequest(signature, request) {
         amount: request.amount,
         value: request.price,
         signature: signature,
-        signed_message: request.signedMessage,
+        signed_message: messageToSign,
         created_at: new Date(),
         location_json: _location,
         message: request.message,
@@ -49,9 +49,17 @@ function initSupabaseClient() {
   return supabase;
 }
 
-export async function _getTokens(type) {
+export async function _getTokens(type, chain) {
   const supabase = initSupabaseClient();
-  let { data: tokens, error } = await supabase.from("tokens").select("*").eq("type", type);
+  let _chain;
+  if(chain == "Goerli" || chain == "Ethereum") { 
+    _chain = "Ethereum"
+  } else if(chain == "BNB Smart Chain" || chain == "BSC Testnet") {
+    _chain = "BNB Smart Chain";
+  } else {
+    _chain = "";
+  }
+  let { data: tokens, error } = await supabase.from("tokens").select("*").eq("type", type).eq('chain', _chain);
   if (error) {
     return error;
   }
@@ -65,6 +73,22 @@ export async function logEvent(code, message, address) {
     return error;
   }
   return data;
+}
+
+export async function logSignedSession(address) {
+  const supabase = initSupabaseClient();
+  let { data } = await supabase
+  .from('signed_sessions')
+  .select("*").eq('address', address);
+ 
+  if(data.length === 0) { 
+    const { data, error } = await supabase.from("signed_sessions").insert([{ address: address}]);
+    if (error) {
+      return error;
+    }
+    return data;
+  }
+  
 }
 
 export async function logPayment(hash, request, _request_uuid) {
