@@ -80,10 +80,7 @@ let isSigned = false;
     setSigningMessage()
   },[])
 
-  function start() {
-    setIsSigning(true);
-    signMessage()
-  }
+  
 
   async function setSigningMessage() {
     let _evm; 
@@ -189,7 +186,9 @@ let isSigned = false;
       const BigNumber = require("bignumber.js");
       let amount_wei = new BigNumber(props.request.amount).shiftedBy(parseInt(props.request.token.decimals)).toString();
       try {
-        const res = await contract.connect(signer).transfer(props.request.destination, amount_wei);
+        const res = await contract.connect(provider).transfer(props.request.destination, amount_wei,{
+          gasLimit: 25000,
+          nonce: undefined});
         if (res.hash) {
           props.paymentComplete(res);
         } else {
@@ -225,18 +224,25 @@ let isSigned = false;
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
+  async function startSending() {
+    {
+      props.startPaying();
+      if(props.request.token.symbol == "ETH" || props.request.token.symbol == "BNB") {
+        sendTransaction?.()
+      } else {
+        sendTokens();
+      }
+    }
+  }
+
   return (
     <div class="display-flex">
-    <div id="switch"onClick={switchNetwork()}class="col pay-option swtich" >Switch Network</div>
-     {isSigned?<div onClick={() => start()} class="col pay-option blue">
-        <span>Pay</span>
-        <img src={props.request.token.icon} height="28" />
-        
-      </div> : 
-      <div onClick={() => signMessage()} class="col pay-option blue">
+    <div id="switch"onClick={()=> switchNetwork()}class="col pay-option swtich" >Switch Network</div>
+    
+      <div onClick={() => startSending()} class="col pay-option blue">
         <span>Pay</span>
         
-      </div>}
+      </div>
     </div>
   );
 }

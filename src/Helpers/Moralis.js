@@ -1,5 +1,4 @@
 import Moralis from "moralis";
-
 import jwt from "jsonwebtoken";
 import { createClient } from "@supabase/supabase-js";
 import { EvmChain } from "@moralisweb3/evm-utils";

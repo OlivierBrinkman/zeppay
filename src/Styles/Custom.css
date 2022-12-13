@@ -2899,7 +2899,7 @@ h3 {
    }
 
    .container.page.create.payment { 
-    background: #5657FE!important;
+    background: #fff!important;
     bottom: 0px;
     z-index: 1;
     height: 100%;
@@ -2914,7 +2914,7 @@ h3 {
    }
 
    .mobile-payment-group.total div {
-    color: #fff;
+    color: #000;
    }
     .home-block-4 {
         margin: 10px!important;

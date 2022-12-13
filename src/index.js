@@ -3,10 +3,15 @@ import ReactDOM from "react-dom/client";
 import "./styles/template.css";
 import App from "./pages/main";
 import {getDefaultWallets,RainbowKitProvider,darkTheme} from "@rainbow-me/rainbowkit";
-import { chain, configureChains, WagmiConfig, createClient } from "wagmi";
-import { infuraProvider } from "wagmi/providers/infura";
+import {chain,configureChains, WagmiConfig,createClient,createStorage} from "wagmi";
+
+
+
+import { alchemyProvider } from "wagmi/providers/alchemy";
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { publicProvider } from "wagmi/providers/public";
+import { InjectedConnector } from 'wagmi/connectors/injected'
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 require('dotenv').config()
 
 const BinanceChain = {
@@ -50,35 +55,41 @@ const BinanceChainTestnet = {
   testnet: true,
 };
 
-const { chains, provider } = configureChains(
-  [BinanceChain,chain.mainnet, BinanceChainTestnet, chain.goerli],
-  [jsonRpcProvider({ rpc: chain => ({ http: chain.rpcUrls.default }) })],
-  [infuraProvider({ apiKey: "a7a5842cf26343fb99eef41781524c81" })],
-  [publicProvider()]
+
+const {chains, provider, webSocketProvider} = configureChains(
+  [chain.mainnet, chain.goerli],
+  [
+    alchemyProvider({ apiKey: process.env.REACT_APP_ALCHEMY_KEY }),
+    publicProvider()
+  ]
 );
 
 const { connectors } = getDefaultWallets({ appName: "Zeppay", chains });
-const wagmiClient = createClient({ autoConnect: true, connectors, provider });
+const wagmiClient = createClient({ 
+  autoConnect: true, 
+  connectors,
+  storage: createStorage({ storage: window.localStorage },),
+  provider,
+  webSocketProvider });
+   
 const root = ReactDOM.createRoot(document.getElementById("root"))
-
 root.render(
   <React.StrictMode>
     {/* <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}> */}
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider
-        theme={darkTheme({
-          accentColor: "#5657FE",
-          accentColorForeground: "#fff",
-          borderRadius: "large",
-          fontStack: "system",
-          overlayBlur: "small",
-        })}
-        modalSize="compact" 
-        showRecentTransactions={false}
-        chains={chains}
-      >
-        <App />
-      </RainbowKitProvider>
+        <RainbowKitProvider
+          theme={darkTheme({
+            accentColor: "#5657FE",
+            accentColorForeground: "#fff",
+            borderRadius: "large",
+            fontStack: "system",
+            overlayBlur: "small",
+          })}
+          modalSize="compact" 
+          showRecentTransactions={false}
+          chains={chains}>
+          <App />
+        </RainbowKitProvider>
     </WagmiConfig>
 
     {/* </MoralisProvider>  */}

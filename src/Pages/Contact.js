@@ -47,7 +47,6 @@ function Contact(props) {
       e.target[1].value !== "" &&
       e.target[3].value !== ""
     ) {
-      
       const SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICEID;
       const TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATEID;
       const PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLICKEY;

@@ -163,11 +163,10 @@ function openInNewTab(url) {
 
   async function paymentComplete(data) {   
     if (data.hash) {
-      notification("Verifying signature...", "prime", 4000);
+      notification("Verifying signature...", "prime", 3000);
       setTimeout(function () {
-        _logPayment(data.hash);
+        //_logPayment(data.hash);
         setIsSuccess(true);
-        document.getElementById("slideup").classList.add("complete")
       }, 3000);
     }
   }
@@ -177,7 +176,7 @@ function openInNewTab(url) {
     setIsPaying(true);
     setTimeout(function () {
       setShowCancel(true);
-    }, 8000);
+    }, 15000);
   }
 
   

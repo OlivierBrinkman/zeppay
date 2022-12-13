@@ -45,9 +45,7 @@ function openInNewTab(url) {
           <div>
             <h1>Crypto payment infrastructure,</h1>
             <h1>Empowering freelancers and creators.</h1>
-            {isMobile?      <button type="button" onClick={() => openInNewTab('https://metamask.app.link/dapp/zeppay.app/')} class="btn-dapp">
-                Use beta
-              </button> :<></>}
+       
           </div>
         </div>
         <div class="home-construction-text w3-animate-left">

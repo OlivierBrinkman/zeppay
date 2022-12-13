@@ -31,6 +31,7 @@
     "jsonwebtoken": "^8.5.1",
     "magic-sdk": "^10.0.0",
     "moralis": "^2.7.1",
+    "next-auth": "^4.18.5",
     "node-fetch": "^3.2.10",
     "notenv": "^2.0.3",
     "react": "^18.2.0",
